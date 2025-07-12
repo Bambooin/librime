@@ -13,6 +13,7 @@ for %%I in ("%BOOST_ROOT%\.") do set src_dir=%%~dpI
 rem download boost source
 aria2c https://archives.boost.io/release/%boost_version%/source/%boost_tarball%.7z -d %src_dir%
 pushd %src_dir%
+certutil -hashfile "%boost_tarball%.7z" SHA256 | findstr /v "e84a33716a31c1c8cb00783a411630d41c008e9364002dc0fe55aea4f54f4726"
 7z x %boost_tarball%.7z
 ren %boost_tarball% boost-%boost_version%
 cd boost-%boost_version%
