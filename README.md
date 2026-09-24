@@ -60,6 +60,14 @@ Runtime dependencies
 Build and install on Linux
 ---
 ```
+sudo apt update
+sudo apt install -y \
+  libboost-all-dev \
+  libgoogle-glog-dev \
+  libleveldb-dev \
+  libmarisa-dev \
+  libopencc-dev \
+  libyaml-cpp-dev
 make
 sudo make install
 ```
