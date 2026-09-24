@@ -60,6 +60,8 @@ Runtime dependencies
 Build and install on Linux
 ---
 ```
+./action-install-linux.sh
+./install-boost.sh
 make
 sudo make install
 ```
