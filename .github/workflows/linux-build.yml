@@ -22,6 +22,9 @@ jobs:
     env:
       CC: ${{ matrix.compiler }}
       CXX: ${{ matrix.cxx_compiler }}
+      boost_version: 1.89.0
+      BOOST_ROOT: ${{ github.workspace }}/deps/boost-1.89.0
+      boost_libs: regex
     
     steps:
       - name: Checkout last commit
@@ -31,6 +34,9 @@ jobs:
 
       - name: Install dependency
         run: ./action-install-linux.sh
+
+      - name: Install Boost
+        run: ./install-boost.sh
 
       - name: Build and test
         run: make test

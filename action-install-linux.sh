@@ -1,8 +1,6 @@
 #!/bin/bash
 
 dep_packages=(
-    libboost-locale-dev
-    libboost-regex-dev
     libgoogle-glog-dev
     libleveldb-dev
     libmarisa-dev
