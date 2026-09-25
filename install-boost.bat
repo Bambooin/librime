@@ -14,11 +14,6 @@ if not defined boost_version (
   echo Error: could not read boost_version from %RIME_ROOT%\boost-version.
   exit /b 1
 )
-if not defined boost_sha256 for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_sha256=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_sha256" if not defined boost_sha256 set "boost_sha256=%%B"
-if not defined boost_sha256 (
-  echo Error: could not read boost_sha256 from %RIME_ROOT%\boost-version.
-  exit /b 1
-)
 
 if not defined boost_tarball set boost_tarball=boost_%boost_version:.=_%
 
