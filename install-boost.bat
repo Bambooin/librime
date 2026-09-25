@@ -19,11 +19,13 @@ if not exist "%BOOST_VERSION_ROOT%\boost-version" (
 set "RIME_ROOT=%BOOST_VERSION_ROOT%"
 
 if not defined boost_version for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_version=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_version" if not defined boost_version set "boost_version=%%B"
+if defined boost_version for /f %%I in ("%boost_version%") do set "boost_version=%%~I"
 if not defined boost_version (
   echo Error: could not read boost_version from %RIME_ROOT%\boost-version.
   exit /b 1
 )
 if not defined boost_sha256 for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_sha256=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_sha256" if not defined boost_sha256 set "boost_sha256=%%B"
+if defined boost_sha256 for /f %%I in ("%boost_sha256%") do set "boost_sha256=%%~I"
 if not defined boost_sha256 (
   echo Error: could not read boost_sha256 from %RIME_ROOT%\boost-version.
   exit /b 1
