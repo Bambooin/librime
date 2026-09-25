@@ -84,15 +84,19 @@ if /i not "!archive_sha256!"=="!boost_sha256!" (
   exit /b 1
 )
 if exist "%boost_tarball%" rmdir /s /q "%boost_tarball%"
-where tar >nul 2>nul || (
-  echo Error: tar not found.
-  popd
-  exit /b 1
-)
-tar -xzf "%boost_archive%"
+where tar >nul 2>nul
 if errorlevel 1 (
-  popd
-  exit /b %errorlevel%
+  7z x "%boost_archive%" -so | 7z x -aoa -si -ttar >nul
+  if errorlevel 1 (
+    popd
+    exit /b %errorlevel%
+  )
+) else (
+  tar -xzf "%boost_archive%"
+  if errorlevel 1 (
+    popd
+    exit /b %errorlevel%
+  )
 )
 if not exist "%boost_tarball%" (
   echo Error: could not extract %boost_tarball% from %boost_archive%.
@@ -105,6 +109,7 @@ if /i "%BOOST_ROOT%"=="%managed_boost_root%" (
 ) else (
   for %%I in ("%BOOST_ROOT%\..") do set "boost_root_parent=%%~fI"
   if not exist "!boost_root_parent!" mkdir "!boost_root_parent!"
+  if exist "%BOOST_ROOT%" rmdir /s /q "%BOOST_ROOT%"
   move "%boost_tarball%" "%BOOST_ROOT%" >nul
 )
 cd "%BOOST_ROOT%"
