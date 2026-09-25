@@ -15,6 +15,10 @@ rem REQUIRED: path to Boost source directory
 if not defined BOOST_ROOT (
   for /f "usebackq tokens=1,* delims==" %%A in (`findstr /b /c:"version=" "%BOOST_DATA_FILE%"`) do if not defined BOOST_VERSION set BOOST_VERSION=%%B
   if defined BOOST_VERSION for /f %%I in ("%BOOST_VERSION%") do set BOOST_VERSION=%%~I
+  if not defined BOOST_VERSION (
+    echo Error: missing version in %BOOST_DATA_FILE%.
+    exit /b 1
+  )
   if defined BOOST_VERSION set BOOST_ROOT=%RIME_ROOT%\deps\boost-%BOOST_VERSION%
 )
 
