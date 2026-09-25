@@ -18,18 +18,26 @@ if not exist "%BOOST_VERSION_ROOT%\boost-version" (
 :boost_version_found
 set "RIME_ROOT=%BOOST_VERSION_ROOT%"
 
-if not defined boost_version for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_version=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_version" if not defined boost_version set "boost_version=%%B"
-if defined boost_version for /f %%I in ("%boost_version%") do set "boost_version=%%~I"
-if not defined boost_version (
+for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_version=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_version" if not defined boost_version_from_file set "boost_version_from_file=%%B"
+if defined boost_version_from_file for /f %%I in ("%boost_version_from_file%") do set "boost_version_from_file=%%~I"
+if not defined boost_version_from_file (
   echo Error: could not read boost_version from %RIME_ROOT%\boost-version.
   exit /b 1
 )
-if not defined boost_sha256 for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_sha256=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_sha256" if not defined boost_sha256 set "boost_sha256=%%B"
-if defined boost_sha256 for /f %%I in ("%boost_sha256%") do set "boost_sha256=%%~I"
-if not defined boost_sha256 (
+for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_sha256=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_sha256" if not defined boost_sha256_from_file set "boost_sha256_from_file=%%B"
+if defined boost_sha256_from_file for /f %%I in ("%boost_sha256_from_file%") do set "boost_sha256_from_file=%%~I"
+if not defined boost_sha256_from_file (
   echo Error: could not read boost_sha256 from %RIME_ROOT%\boost-version.
   exit /b 1
 )
+if not defined boost_version set "boost_version=%boost_version_from_file%"
+if defined boost_version for /f %%I in ("%boost_version%") do set "boost_version=%%~I"
+if /i not "%boost_version%"=="%boost_version_from_file%" if not defined boost_sha256 (
+  echo Error: boost_sha256 must be set when boost_version differs from %RIME_ROOT%\boost-version.
+  exit /b 1
+)
+if not defined boost_sha256 set "boost_sha256=%boost_sha256_from_file%"
+if defined boost_sha256 for /f %%I in ("%boost_sha256%") do set "boost_sha256=%%~I"
 
 if not defined boost_tarball set "boost_tarball=boost_%boost_version:.=_%"
 if not defined boost_archive set "boost_archive=%boost_tarball%.tar.gz"
@@ -52,6 +60,7 @@ if not defined archive_sha256 (
   exit /b 1
 )
 if /i not "%archive_sha256%"=="%boost_sha256%" (
+  del /f /q "%src_dir%%boost_archive%"
   echo Error: SHA-256 mismatch for %boost_archive%.
   exit /b 1
 )

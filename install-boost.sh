@@ -51,14 +51,17 @@ export boost_version BOOST_ROOT
 boost_tarball="boost_${boost_version//./_}.tar.gz"
 download_url="https://archives.boost.io/release/${boost_version}/source/${boost_tarball}"
 
-download_boost_source() {
-    local extracted_boost_dir="boost_${boost_version//./_}"
-    local managed_boost_root="${RIME_ROOT}/deps/boost-${boost_version}"
-    local boost_root_parent=
+validate_boost_overrides() {
     if [[ "${boost_version}" != "${boost_version_from_file}" && -z "${boost_sha256:-}" ]]; then
         echo "boost_sha256 must be set when boost_version differs from ${BOOST_VERSION_FILE}" >&2
         exit 1
     fi
+}
+
+download_boost_source() {
+    local extracted_boost_dir="boost_${boost_version//./_}"
+    local managed_boost_root="${RIME_ROOT}/deps/boost-${boost_version}"
+    local boost_root_parent=
     if [[ "${BOOST_ROOT}" != "${managed_boost_root}" && -e "${BOOST_ROOT}" ]]; then
         echo "could not repair existing external BOOST_ROOT at ${BOOST_ROOT}" >&2
         exit 1
@@ -111,6 +114,8 @@ build_boost_linux() {
     fi
     ./b2 -q -a link=shared stage
 }
+
+validate_boost_overrides
 
 if [[ $# -eq 0 || " $* " =~ ' --download ' ]]; then
     if [[ ! -f "${BOOST_ROOT}/bootstrap.sh" ]]; then
