@@ -38,8 +38,9 @@ if exist "%BOOST_ROOT%\libs" goto boost_found
 for %%I in ("%BOOST_ROOT%\.") do set src_dir=%%~dpI
 rem download boost source
 aria2c https://archives.boost.io/release/%boost_version%/source/%boost_archive% -d "%src_dir%"
+if errorlevel 1 exit /b %errorlevel%
 pushd "%src_dir%"
-for /f %%I in ('powershell -NoProfile -Command "(Get-FileHash -Algorithm SHA256 ''%boost_archive%'').Hash.ToLower()"') do set archive_sha256=%%I
+for /f %%I in ('powershell -NoProfile -Command "(Get-FileHash -Algorithm SHA256 ''%src_dir%%boost_archive%'').Hash.ToLower()"') do set archive_sha256=%%I
 if /i not "%archive_sha256%"=="%boost_sha256%" (
   echo Error: SHA-256 mismatch for %boost_archive%.
   exit /b 1
