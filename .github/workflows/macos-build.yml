@@ -39,8 +39,9 @@ jobs:
 
       - name: Set Boost environment
         run: |
-          echo "boost_version=$(head -n 1 boost-version)" >> $GITHUB_ENV
-          echo "BOOST_ROOT=${{ github.workspace }}/deps/boost-$(head -n 1 boost-version)" >> $GITHUB_ENV
+          boost_version="$(awk -F= '$1=="version"{print $2; exit}' boost_data.txt)"
+          echo "boost_version=$boost_version" >> $GITHUB_ENV
+          echo "BOOST_ROOT=${{ github.workspace }}/deps/boost-$boost_version" >> $GITHUB_ENV
 
       - name: Configure build variant
         if: matrix.build_variant == 'universal'

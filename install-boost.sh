@@ -5,22 +5,22 @@ SCRIPT_DIR="$(cd "$(dirname "$0")"; pwd)"
 if [[ -z "${RIME_ROOT:-}" ]]; then
     RIME_ROOT="$(git -C "${SCRIPT_DIR}" rev-parse --show-toplevel 2>/dev/null || true)"
     if [[ -z "${RIME_ROOT}" ]]; then
-        if [[ -f "${PWD}/boost-version" ]]; then
+        if [[ -f "${PWD}/boost_data.txt" ]]; then
             RIME_ROOT="${PWD}"
         else
             RIME_ROOT="${SCRIPT_DIR}"
         fi
     fi
 fi
-BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
+BOOST_VERSION_FILE="${RIME_ROOT}/boost_data.txt"
 
 [[ -f "${BOOST_VERSION_FILE}" ]] || {
     echo "could not find ${BOOST_VERSION_FILE}" >&2
     exit 1
 }
 
-boost_version="${boost_version:-$(sed -n '1{s/\r$//;p;q;}' "${BOOST_VERSION_FILE}")}"
-boost_sha256sum="${boost_sha256sum:-$(sed -n '2{s/\r$//;p;q;}' "${BOOST_VERSION_FILE}")}"
+boost_version="${boost_version:-$(awk -F= '$1=="version"{sub(/\r$/,"",$2); print $2; exit}' "${BOOST_VERSION_FILE}")}"
+boost_sha256sum="${boost_sha256sum:-$(awk -F= '$1=="sha256sum"{sub(/\r$/,"",$2); print $2; exit}' "${BOOST_VERSION_FILE}")}"
 
 if [[ -z "${boost_version}" ]]; then
     echo "missing boost version in ${BOOST_VERSION_FILE}" >&2

@@ -14,15 +14,17 @@ path
 echo.
 
 if not defined RIME_ROOT set RIME_ROOT=%CD%
-if not exist "%RIME_ROOT%\boost-version" (
-  if exist "%~dp0boost-version" for %%I in ("%~dp0.") do set RIME_ROOT=%%~fI
+set BOOST_DATA_FILE=%RIME_ROOT%\boost_data.txt
+if not exist "%BOOST_DATA_FILE%" (
+  if exist "%~dp0boost_data.txt" for %%I in ("%~dp0.") do set RIME_ROOT=%%~fI
 )
-if not exist "%RIME_ROOT%\boost-version" (
-  echo Error: boost-version not found in %RIME_ROOT%.
+set BOOST_DATA_FILE=%RIME_ROOT%\boost_data.txt
+if not exist "%BOOST_DATA_FILE%" (
+  echo Error: boost_data.txt not found in %RIME_ROOT%.
   exit /b 1
 )
 if not defined BOOST_ROOT (
-  for /f "usebackq delims=" %%I in ("%RIME_ROOT%\boost-version") do if not defined BOOST_VERSION set BOOST_VERSION=%%I
+  for /f "usebackq tokens=1,* delims==" %%A in (`findstr /b /c:"version=" "%BOOST_DATA_FILE%"`) do if not defined BOOST_VERSION set BOOST_VERSION=%%B
   if defined BOOST_VERSION set BOOST_ROOT=%RIME_ROOT%\deps\boost-%BOOST_VERSION%
 )
 echo RIME_ROOT=%RIME_ROOT%
