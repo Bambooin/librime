@@ -43,7 +43,8 @@ if not exist "%src_dir%%boost_archive%" (
 )
 pushd "%src_dir%"
 set "archive_sha256="
-for /f %%I in ('powershell -NoProfile -Command "(Get-FileHash -Algorithm SHA256 ''%src_dir%%boost_archive%'').Hash.ToLower()"') do set archive_sha256=%%I
+for /f "tokens=* delims= " %%I in ('certutil -hashfile "%src_dir%%boost_archive%" SHA256 ^| findstr /r "^[0-9A-Fa-f][0-9A-Fa-f]"') do set "archive_sha256=%%I"
+set "archive_sha256=%archive_sha256: =%"
 if not defined archive_sha256 (
   echo Error: could not compute SHA-256 for %src_dir%%boost_archive%.
   exit /b 1

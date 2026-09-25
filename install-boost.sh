@@ -54,12 +54,13 @@ download_url="https://archives.boost.io/release/${boost_version}/source/${boost_
 download_boost_source() {
     local extracted_boost_dir="boost_${boost_version//./_}"
     local managed_boost_root="${RIME_ROOT}/deps/boost-${boost_version}"
+    local boost_root_parent=
     if [[ "${boost_version}" != "${boost_version_from_file}" && -z "${boost_sha256:-}" ]]; then
         echo "boost_sha256 must be set when boost_version differs from ${BOOST_VERSION_FILE}" >&2
         exit 1
     fi
-    if [[ "${BOOST_ROOT}" != "${managed_boost_root}" ]]; then
-        echo "could not repair external BOOST_ROOT at ${BOOST_ROOT}; expected ${managed_boost_root}" >&2
+    if [[ "${BOOST_ROOT}" != "${managed_boost_root}" && -e "${BOOST_ROOT}" ]]; then
+        echo "could not repair existing external BOOST_ROOT at ${BOOST_ROOT}" >&2
         exit 1
     fi
     cd "${RIME_ROOT}/deps"
@@ -73,8 +74,14 @@ download_boost_source() {
         echo "could not extract ${extracted_boost_dir} from ${boost_tarball}" >&2
         exit 1
     fi
-    rm -rf "${BOOST_ROOT}"
-    mv "${extracted_boost_dir}" "boost-${boost_version}"
+    if [[ "${BOOST_ROOT}" == "${managed_boost_root}" ]]; then
+        rm -rf "${BOOST_ROOT}"
+        mv "${extracted_boost_dir}" "boost-${boost_version}"
+    else
+        boost_root_parent="$(dirname "${BOOST_ROOT}")"
+        mkdir -p "${boost_root_parent}"
+        mv "${extracted_boost_dir}" "${BOOST_ROOT}"
+    fi
     [[ -f "${BOOST_ROOT}/bootstrap.sh" ]]
 }
 
