@@ -10,6 +10,10 @@ if not exist "%RIME_ROOT%\boost-version" (
 )
 
 if not defined boost_version for /f "usebackq tokens=1,* delims==" %%A in ("%RIME_ROOT%\boost-version") do if /i "%%A"=="boost_version" if not defined boost_version set boost_version=%%B
+if not defined boost_version (
+  echo Error: could not read boost_version from %RIME_ROOT%\boost-version.
+  exit /b 1
+)
 
 if not defined boost_tarball set boost_tarball=boost_%boost_version:.=_%
 

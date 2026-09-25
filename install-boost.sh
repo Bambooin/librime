@@ -53,8 +53,8 @@ download_boost_source() {
         curl -LO "${download_url}"
     fi
     printf '%s  %s\n' "${boost_tarball_sha256}" "${boost_tarball}" | shasum -a 256 -c
-    rm -rf "${extracted_boost_dir}"
     if ! [[ -d "${BOOST_ROOT}" ]]; then
+        rm -rf "${extracted_boost_dir}"
         tar -xzf "${boost_tarball}"
         mv "${extracted_boost_dir}" "boost-${boost_version}"
     fi
@@ -92,7 +92,10 @@ if [[ $# -eq 0 || " $* " =~ ' --download ' ]]; then
     if [[ ! -f "${BOOST_ROOT}/bootstrap.sh" ]]; then
         download_boost_source
     else
-        rm -rf "${RIME_ROOT}/deps/boost_${boost_version//./_}"
+        if [[ -d "${RIME_ROOT}/deps/boost_${boost_version//./_}" ]] && \
+            [[ "$(cd "${RIME_ROOT}/deps/boost_${boost_version//./_}" && pwd -P)" != "$(cd "${BOOST_ROOT}" && pwd -P)" ]]; then
+            rm -rf "${RIME_ROOT}/deps/boost_${boost_version//./_}"
+        fi
         echo "found boost at ${BOOST_ROOT}"
     fi
     cd "${BOOST_ROOT}"
