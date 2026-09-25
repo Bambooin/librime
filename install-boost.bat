@@ -1,4 +1,4 @@
-setlocal
+setlocal EnableDelayedExpansion
 
 if not defined RIME_ROOT set RIME_ROOT=%CD%
 for %%I in ("%RIME_ROOT%\.") do set "RIME_ROOT=%%~fI"
@@ -38,12 +38,12 @@ if /i not "%boost_version%"=="%boost_version_from_file%" if not defined boost_sh
 )
 if not defined boost_sha256 set "boost_sha256=%boost_sha256_from_file%"
 if defined boost_sha256 for /f %%I in ("%boost_sha256%") do set "boost_sha256=%%~I"
-set "boost_sha256=%boost_sha256:a=A%"
-set "boost_sha256=%boost_sha256:b=B%"
-set "boost_sha256=%boost_sha256:c=C%"
-set "boost_sha256=%boost_sha256:d=D%"
-set "boost_sha256=%boost_sha256:e=E%"
-set "boost_sha256=%boost_sha256:f=F%"
+set "boost_sha256=!boost_sha256:a=A!"
+set "boost_sha256=!boost_sha256:b=B!"
+set "boost_sha256=!boost_sha256:c=C!"
+set "boost_sha256=!boost_sha256:d=D!"
+set "boost_sha256=!boost_sha256:e=E!"
+set "boost_sha256=!boost_sha256:f=F!"
 
 if not defined boost_tarball set "boost_tarball=boost_%boost_version:.=_%"
 if not defined boost_archive set "boost_archive=%boost_tarball%.tar.gz"
@@ -60,18 +60,18 @@ if not exist "%src_dir%%boost_archive%" (
 pushd "%src_dir%"
 set "archive_sha256="
 for /f "tokens=* delims= " %%I in ('certutil -hashfile "%src_dir%%boost_archive%" SHA256 ^| findstr /r "^[0-9A-Fa-f][0-9A-Fa-f]"') do set "archive_sha256=%%I"
-set "archive_sha256=%archive_sha256: =%"
-set "archive_sha256=%archive_sha256:a=A%"
-set "archive_sha256=%archive_sha256:b=B%"
-set "archive_sha256=%archive_sha256:c=C%"
-set "archive_sha256=%archive_sha256:d=D%"
-set "archive_sha256=%archive_sha256:e=E%"
-set "archive_sha256=%archive_sha256:f=F%"
+set "archive_sha256=!archive_sha256: =!"
+set "archive_sha256=!archive_sha256:a=A!"
+set "archive_sha256=!archive_sha256:b=B!"
+set "archive_sha256=!archive_sha256:c=C!"
+set "archive_sha256=!archive_sha256:d=D!"
+set "archive_sha256=!archive_sha256:e=E!"
+set "archive_sha256=!archive_sha256:f=F!"
 if not defined archive_sha256 (
   echo Error: could not compute SHA-256 for %src_dir%%boost_archive%.
   exit /b 1
 )
-if /i not "%archive_sha256%"=="%boost_sha256%" (
+if /i not "!archive_sha256!"=="!boost_sha256!" (
   del /f /q "%src_dir%%boost_archive%"
   echo Error: SHA-256 mismatch for %boost_archive%.
   exit /b 1
