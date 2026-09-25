@@ -1,13 +1,22 @@
 setlocal
 
 if not defined RIME_ROOT set RIME_ROOT=%CD%
-if not exist "%RIME_ROOT%\boost-version" (
-  if exist "%~dp0boost-version" for %%I in ("%~dp0.") do set RIME_ROOT=%%~fI
-)
-if not exist "%RIME_ROOT%\boost-version" (
+for %%I in ("%RIME_ROOT%\.") do set "RIME_ROOT=%%~fI"
+set "BOOST_VERSION_ROOT=%RIME_ROOT%"
+:find_boost_version
+if exist "%BOOST_VERSION_ROOT%\boost-version" goto boost_version_found
+for %%I in ("%BOOST_VERSION_ROOT%\..") do set "BOOST_VERSION_PARENT=%%~fI"
+if /i "%BOOST_VERSION_PARENT%"=="%BOOST_VERSION_ROOT%" goto try_script_dir
+set "BOOST_VERSION_ROOT=%BOOST_VERSION_PARENT%"
+goto find_boost_version
+:try_script_dir
+if exist "%~dp0boost-version" for %%I in ("%~dp0.") do set "BOOST_VERSION_ROOT=%%~fI"
+if not exist "%BOOST_VERSION_ROOT%\boost-version" (
   echo Error: boost-version not found in %RIME_ROOT%.
   exit /b 1
 )
+:boost_version_found
+set "RIME_ROOT=%BOOST_VERSION_ROOT%"
 
 if not defined boost_version for /f "tokens=1,* delims==" %%A in ('findstr /b "boost_version=" "%RIME_ROOT%\boost-version"') do if /i "%%A"=="boost_version" if not defined boost_version set "boost_version=%%B"
 if not defined boost_version (

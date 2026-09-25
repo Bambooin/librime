@@ -19,10 +19,19 @@ BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
     exit 1
 }
 
-boost_version_from_file="$(sed -n 's/^boost_version=//p' "${BOOST_VERSION_FILE}")"
-boost_version_from_file="${boost_version_from_file%$'\r'}"
-boost_sha256_from_file="$(sed -n 's/^boost_sha256=//p' "${BOOST_VERSION_FILE}")"
-boost_sha256_from_file="${boost_sha256_from_file%$'\r'}"
+boost_version_from_file=
+boost_sha256_from_file=
+while IFS='=' read -r key value; do
+    value="${value%$'\r'}"
+    case "${key}" in
+        boost_version)
+            boost_version_from_file="${value}"
+            ;;
+        boost_sha256)
+            boost_sha256_from_file="${value}"
+            ;;
+    esac
+done < "${BOOST_VERSION_FILE}"
 
 [[ -n "${boost_version_from_file}" ]] || {
     echo "could not read boost_version from ${BOOST_VERSION_FILE}" >&2
@@ -55,7 +64,10 @@ download_boost_source() {
     printf '%s  %s\n' "${boost_tarball_sha256}" "${boost_tarball}" | shasum -a 256 -c
     rm -rf "${extracted_boost_dir}"
     tar -xzf "${boost_tarball}"
-    [[ -d "${extracted_boost_dir}" ]]
+    if ! [[ -d "${extracted_boost_dir}" ]]; then
+        echo "could not extract ${extracted_boost_dir} from ${boost_tarball}" >&2
+        exit 1
+    fi
     rm -rf "${BOOST_ROOT}"
     mv "${extracted_boost_dir}" "boost-${boost_version}"
     [[ -f "${BOOST_ROOT}/bootstrap.sh" ]]
