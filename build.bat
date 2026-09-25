@@ -24,7 +24,8 @@ if not exist "%BOOST_DATA_FILE%" (
   exit /b 1
 )
 if not defined BOOST_ROOT (
-  for /f "usebackq tokens=1,* delims==" %%A in ("%BOOST_DATA_FILE%") do if /i "%%A"=="version" if not defined BOOST_VERSION set "BOOST_VERSION=%%B"
+  rem Requires PowerShell to parse boost_data.txt.
+  for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "$data = Get-Content -Raw -Path '%BOOST_DATA_FILE%' ^| ConvertFrom-StringData; if ($data.ContainsKey('version')) { $data.version.Trim() }"`) do if not defined BOOST_VERSION set "BOOST_VERSION=%%I"
   if not defined BOOST_VERSION (
     echo Error: missing version in %BOOST_DATA_FILE%.
     exit /b 1
