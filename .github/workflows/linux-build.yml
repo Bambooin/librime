@@ -32,8 +32,8 @@ jobs:
 
       - name: Set Boost environment
         run: |
-          echo "boost_version=$(cat boost-version)" >> $GITHUB_ENV
-          echo "BOOST_ROOT=${{ github.workspace }}/deps/boost-$(cat boost-version)" >> $GITHUB_ENV
+          echo "boost_version=$(head -n 1 boost-version)" >> $GITHUB_ENV
+          echo "BOOST_ROOT=${{ github.workspace }}/deps/boost-$(head -n 1 boost-version)" >> $GITHUB_ENV
 
       - name: Install dependency
         run: ./action-install-linux.sh

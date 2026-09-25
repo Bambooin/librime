@@ -19,18 +19,18 @@ BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
     exit 1
 }
 
-boost_version="${boost_version:-$(tr -d '\r\n' < "${BOOST_VERSION_FILE}")}"
-if [[ -z "${boost_sha256sum:-}" ]]; then
-    case "${boost_version}" in
-        1.92.0)
-            boost_sha256sum="c4a3b310ddd2472416e091067166b0713be97c63f38c212c484ada022fd296ce"
-            ;;
-        *)
-            echo "missing SHA256 checksum for boost version: ${boost_version}" >&2
-            echo "set boost_sha256sum in environment to override" >&2
-            exit 1
-            ;;
-    esac
+boost_version="${boost_version:-$(sed -n '1{s/\r$//;p;q;}' "${BOOST_VERSION_FILE}")}"
+boost_sha256sum="${boost_sha256sum:-$(sed -n '2{s/\r$//;p;q;}' "${BOOST_VERSION_FILE}")}"
+
+if [[ -z "${boost_version}" ]]; then
+    echo "missing boost version in ${BOOST_VERSION_FILE}" >&2
+    exit 1
+fi
+
+if [[ -z "${boost_sha256sum}" ]]; then
+    echo "missing SHA256 checksum in ${BOOST_VERSION_FILE}" >&2
+    echo "set boost_sha256sum in environment to override" >&2
+    exit 1
 fi
 
 BOOST_ROOT="${BOOST_ROOT=${RIME_ROOT}/deps/boost-${boost_version}}"
