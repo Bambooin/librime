@@ -20,15 +20,18 @@ BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
 }
 
 boost_version="${boost_version:-$(tr -d '\r\n' < "${BOOST_VERSION_FILE}")}"
-case "${boost_version}" in
-    1.92.0)
-        boost_sha256sum="c4a3b310ddd2472416e091067166b0713be97c63f38c212c484ada022fd296ce"
-        ;;
-    *)
-        echo "missing SHA256 checksum for boost version: ${boost_version}" >&2
-        exit 1
-        ;;
-esac
+if [[ -z "${boost_sha256sum:-}" ]]; then
+    case "${boost_version}" in
+        1.92.0)
+            boost_sha256sum="c4a3b310ddd2472416e091067166b0713be97c63f38c212c484ada022fd296ce"
+            ;;
+        *)
+            echo "missing SHA256 checksum for boost version: ${boost_version}" >&2
+            echo "set boost_sha256sum in environment to override" >&2
+            exit 1
+            ;;
+    esac
+fi
 
 BOOST_ROOT="${BOOST_ROOT=${RIME_ROOT}/deps/boost-${boost_version}}"
 export boost_version BOOST_ROOT

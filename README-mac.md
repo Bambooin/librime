@@ -47,7 +47,7 @@ Set shell variable `BOOST_ROOT` to the path to `boost-<version>` directory prior
 to building librime.
 
 ``` sh
-export RIME_ROOT="$(git rev-parse --show-toplevel)"
+export RIME_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 export BOOST_ROOT="${RIME_ROOT}/deps/boost-$(cat "${RIME_ROOT}/boost-version")"
 ```
 
