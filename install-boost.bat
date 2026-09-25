@@ -11,8 +11,10 @@ if not exist "%BOOST_DATA_FILE%" (
   exit /b 1
 )
 
-if not defined boost_version for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "$data = Get-Content -Raw -Path '%BOOST_DATA_FILE%' ^| ConvertFrom-StringData; if ($data.ContainsKey('version')) { $data.version.Trim() }"`) do if not defined boost_version set "boost_version=%%I"
-if not defined boost_sha256sum for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "$data = Get-Content -Raw -Path '%BOOST_DATA_FILE%' ^| ConvertFrom-StringData; if ($data.ContainsKey('sha256sum')) { $data.sha256sum.Trim() }"`) do if not defined boost_sha256sum set "boost_sha256sum=%%I"
+for /f "usebackq tokens=1,* delims==" %%A in ("%BOOST_DATA_FILE%") do (
+  if /i "%%A"=="version" if not defined boost_version set "boost_version=%%B"
+  if /i "%%A"=="sha256sum" if not defined boost_sha256sum set "boost_sha256sum=%%B"
+)
 if not defined boost_version (
   echo Error: missing version in %BOOST_DATA_FILE%.
   exit /b 1
