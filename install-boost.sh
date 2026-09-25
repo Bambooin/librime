@@ -43,6 +43,7 @@ boost_tarball="boost_${boost_version//./_}.tar.gz"
 download_url="https://archives.boost.io/release/${boost_version}/source/${boost_tarball}"
 
 download_boost_source() {
+    local extracted_boost_dir="boost_${boost_version//./_}"
     if [[ "${boost_version}" != "${boost_version_from_file}" && -z "${boost_sha256:-}" ]]; then
         echo "boost_sha256 must be set when boost_version differs from ${BOOST_VERSION_FILE}" >&2
         exit 1
@@ -53,10 +54,12 @@ download_boost_source() {
     fi
     printf '%s  %s\n' "${boost_tarball_sha256}" "${boost_tarball}" | shasum -a 256 -c
     if ! [[ -d "${BOOST_ROOT}" ]]; then
-        if ! [[ -d "boost_${boost_version//./_}" ]]; then
+        if ! [[ -d "${extracted_boost_dir}" ]]; then
             tar -xzf "${boost_tarball}"
         fi
-        mv "boost_${boost_version//./_}" "boost-${boost_version}"
+        if [[ -d "${extracted_boost_dir}" ]]; then
+            mv "${extracted_boost_dir}" "boost-${boost_version}"
+        fi
     fi
     [[ -f "${BOOST_ROOT}/bootstrap.sh" ]]
 }
