@@ -65,7 +65,11 @@ jobs:
 
       - name: Set Boost environment
         run: |
-          $boost_version = ((Get-Content -Path .\boost_data.txt | Where-Object { $_ -like 'version=*' } | Select-Object -First 1) -split '=', 2)[1].Trim()
+          $boost_version_line = Get-Content -Path .\boost_data.txt | Where-Object { $_ -like 'version=*' } | Select-Object -First 1
+          if (-not $boost_version_line) {
+            throw 'Missing version= entry in boost_data.txt'
+          }
+          $boost_version = ($boost_version_line -split '=', 2)[1].Trim()
           echo "boost_version=$boost_version" >> $env:GITHUB_ENV
           echo "BOOST_ROOT=${{ github.workspace }}\deps\boost-$boost_version" >> $env:GITHUB_ENV
 

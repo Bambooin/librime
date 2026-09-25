@@ -39,7 +39,7 @@ jobs:
 
       - name: Set Boost environment
         run: |
-          boost_version="$(awk -F= '$1=="version"{print $2; exit}' boost_data.txt)"
+          boost_version="$(awk -F= '$1=="version"{sub(/\r$/,"",$2); print $2; exit}' boost_data.txt)"
           echo "boost_version=$boost_version" >> $GITHUB_ENV
           echo "BOOST_ROOT=${{ github.workspace }}/deps/boost-$boost_version" >> $GITHUB_ENV
 

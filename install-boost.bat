@@ -12,6 +12,7 @@ if not exist "%BOOST_DATA_FILE%" (
 )
 
 if not defined boost_version for /f "usebackq tokens=1,* delims==" %%A in (`findstr /b /c:"version=" "%BOOST_DATA_FILE%"`) do if not defined boost_version set boost_version=%%B
+if not defined boost_sha256sum for /f "usebackq tokens=1,* delims==" %%A in (`findstr /b /c:"sha256sum=" "%BOOST_DATA_FILE%"`) do if not defined boost_sha256sum set boost_sha256sum=%%B
 
 if not defined boost_tarball set boost_tarball=boost_%boost_version:.=_%
 

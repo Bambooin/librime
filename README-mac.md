@@ -48,7 +48,7 @@ to building librime.
 
 ``` sh
 export RIME_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-export BOOST_ROOT="${RIME_ROOT}/deps/boost-$(awk -F= '$1==\"version\"{print $2; exit}' "${RIME_ROOT}/boost_data.txt")"
+export BOOST_ROOT="${RIME_ROOT}/deps/boost-$(awk -F= '$1==\"version\"{sub(/\r$/, \"\", $2); print $2; exit}' "${RIME_ROOT}/boost_data.txt")"
 ```
 
 **Option 2:** Install Boost libraries from Homebrew.
