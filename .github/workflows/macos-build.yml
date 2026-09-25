@@ -40,6 +40,10 @@ jobs:
       - name: Set Boost environment
         run: |
           boost_version="$(awk -F= '$1=="version"{sub(/\r$/,"",$2); print $2; exit}' boost_data.txt)"
+          if [[ -z "$boost_version" ]]; then
+            echo "missing version= entry in boost_data.txt" >&2
+            exit 1
+          fi
           echo "boost_version=$boost_version" >> $GITHUB_ENV
           echo "BOOST_ROOT=${{ github.workspace }}/deps/boost-$boost_version" >> $GITHUB_ENV
 
