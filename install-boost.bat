@@ -74,22 +74,29 @@ set "archive_sha256=!archive_sha256:e=E!"
 set "archive_sha256=!archive_sha256:f=F!"
 if not defined archive_sha256 (
   echo Error: could not compute SHA-256 for %src_dir%%boost_archive%.
+  popd
   exit /b 1
 )
 if /i not "!archive_sha256!"=="!boost_sha256!" (
   del /f /q "%src_dir%%boost_archive%"
   echo Error: SHA-256 mismatch for %boost_archive%.
+  popd
   exit /b 1
 )
 if exist "%boost_tarball%" rmdir /s /q "%boost_tarball%"
 where tar >nul 2>nul || (
   echo Error: tar not found.
+  popd
   exit /b 1
 )
 tar -xzf "%boost_archive%"
-if errorlevel 1 exit /b %errorlevel%
+if errorlevel 1 (
+  popd
+  exit /b %errorlevel%
+)
 if not exist "%boost_tarball%" (
   echo Error: could not extract %boost_tarball% from %boost_archive%.
+  popd
   exit /b 1
 )
 if /i "%BOOST_ROOT%"=="%managed_boost_root%" (
