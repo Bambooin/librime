@@ -1,22 +1,57 @@
 #!/bin/bash
 set -ex
 
-RIME_ROOT="$(cd "$(dirname "$0")"; pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")"; pwd)"
+if [[ -z "${RIME_ROOT:-}" ]]; then
+    RIME_ROOT="$(git -C "${SCRIPT_DIR}" rev-parse --show-toplevel 2>/dev/null || true)"
+    if [[ -z "${RIME_ROOT}" ]]; then
+        if [[ -f "${PWD}/boost-version" ]]; then
+            RIME_ROOT="${PWD}"
+        else
+            RIME_ROOT="${SCRIPT_DIR}"
+        fi
+    fi
+fi
+BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
 
-boost_version="${boost_version=1.92.0}"
+[[ -f "${BOOST_VERSION_FILE}" ]] || {
+    echo "could not find ${BOOST_VERSION_FILE}" >&2
+    exit 1
+}
+
+boost_version_from_file="$(sed -n 's/^boost_version=//p' "${BOOST_VERSION_FILE}")"
+boost_version_from_file="${boost_version_from_file%$'\r'}"
+boost_sha256_from_file="$(sed -n 's/^boost_sha256=//p' "${BOOST_VERSION_FILE}")"
+boost_sha256_from_file="${boost_sha256_from_file%$'\r'}"
+
+[[ -n "${boost_version_from_file}" ]] || {
+    echo "could not read boost_version from ${BOOST_VERSION_FILE}" >&2
+    exit 1
+}
+[[ -n "${boost_sha256_from_file}" ]] || {
+    echo "could not read boost_sha256 from ${BOOST_VERSION_FILE}" >&2
+    exit 1
+}
+
+boost_version="${boost_version:-${boost_version_from_file}}"
+boost_tarball_sha256="${boost_sha256:-${boost_sha256_from_file}}"
 
 BOOST_ROOT="${BOOST_ROOT=${RIME_ROOT}/deps/boost-${boost_version}}"
+export boost_version BOOST_ROOT
 
 boost_tarball="boost_${boost_version//./_}.tar.gz"
 download_url="https://archives.boost.io/release/${boost_version}/source/${boost_tarball}"
-boost_tarball_sha256sum="c4a3b310ddd2472416e091067166b0713be97c63f38c212c484ada022fd296ce  ${boost_tarball}"
 
 download_boost_source() {
+    if [[ "${boost_version}" != "${boost_version_from_file}" && -z "${boost_sha256:-}" ]]; then
+        echo "boost_sha256 must be set when boost_version differs from ${BOOST_VERSION_FILE}" >&2
+        exit 1
+    fi
     cd "${RIME_ROOT}/deps"
     if ! [[ -f "${boost_tarball}" ]]; then
         curl -LO "${download_url}"
     fi
-    echo "${boost_tarball_sha256sum}" | shasum -a 256 -c
+    printf '%s  %s\n' "${boost_tarball_sha256}" "${boost_tarball}" | shasum -a 256 -c
     tar -xzf "${boost_tarball}"
     mv "boost_${boost_version//./_}" "boost-${boost_version}"
     [[ -f "${BOOST_ROOT}/bootstrap.sh" ]]
