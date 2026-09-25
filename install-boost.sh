@@ -19,8 +19,17 @@ BOOST_VERSION_FILE="${RIME_ROOT}/boost_data.txt"
     exit 1
 }
 
-boost_version="${boost_version:-$(awk -F= '$1=="version"{sub(/\r$/,"",$2); print $2; exit}' "${BOOST_VERSION_FILE}")}"
-boost_sha256sum="${boost_sha256sum:-$(awk -F= '$1=="sha256sum"{sub(/\r$/,"",$2); print $2; exit}' "${BOOST_VERSION_FILE}")}"
+if [[ -z "${boost_version:-}" || -z "${boost_sha256sum:-}" ]]; then
+    IFS=$'\t' read -r boost_data_version boost_data_sha256sum < <(
+        awk -F= '
+            $1=="version"{sub(/\r$/,"",$2); version=$2}
+            $1=="sha256sum"{sub(/\r$/,"",$2); sha256sum=$2}
+            END{print version "\t" sha256sum}
+        ' "${BOOST_VERSION_FILE}"
+    )
+    boost_version="${boost_version:-${boost_data_version}}"
+    boost_sha256sum="${boost_sha256sum:-${boost_data_sha256sum}}"
+fi
 
 if [[ -z "${boost_version}" ]]; then
     echo "missing boost version in ${BOOST_VERSION_FILE}" >&2
