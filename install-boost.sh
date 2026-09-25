@@ -53,8 +53,13 @@ download_url="https://archives.boost.io/release/${boost_version}/source/${boost_
 
 download_boost_source() {
     local extracted_boost_dir="boost_${boost_version//./_}"
+    local managed_boost_root="${RIME_ROOT}/deps/boost-${boost_version}"
     if [[ "${boost_version}" != "${boost_version_from_file}" && -z "${boost_sha256:-}" ]]; then
         echo "boost_sha256 must be set when boost_version differs from ${BOOST_VERSION_FILE}" >&2
+        exit 1
+    fi
+    if [[ "${BOOST_ROOT}" != "${managed_boost_root}" ]]; then
+        echo "could not repair external BOOST_ROOT at ${BOOST_ROOT}; expected ${managed_boost_root}" >&2
         exit 1
     fi
     cd "${RIME_ROOT}/deps"
