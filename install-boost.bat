@@ -54,7 +54,7 @@ if exist "%BOOST_ROOT%\libs" goto boost_found
 for %%I in ("%BOOST_ROOT%\.") do set src_dir=%%~dpI
 rem download boost source
 if not exist "%src_dir%%boost_archive%" (
-  aria2c https://archives.boost.io/release/%boost_version%/source/%boost_archive% -d "%src_dir%"
+  aria2c https://archives.boost.io/release/%boost_version%/source/%boost_archive% -d "%src_dir%" -o "%boost_archive%"
   if errorlevel 1 exit /b %errorlevel%
 )
 pushd "%src_dir%"
@@ -82,6 +82,7 @@ where tar >nul 2>nul || (
   exit /b 1
 )
 tar -xzf "%boost_archive%"
+if errorlevel 1 exit /b %errorlevel%
 if not exist "%boost_tarball%" (
   echo Error: could not extract %boost_tarball% from %boost_archive%.
   exit /b 1
