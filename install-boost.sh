@@ -52,8 +52,12 @@ download_boost_source() {
         curl -LO "${download_url}"
     fi
     printf '%s  %s\n' "${boost_tarball_sha256}" "${boost_tarball}" | shasum -a 256 -c
-    tar -xzf "${boost_tarball}"
-    mv "boost_${boost_version//./_}" "boost-${boost_version}"
+    if ! [[ -d "${BOOST_ROOT}" ]]; then
+        if ! [[ -d "boost_${boost_version//./_}" ]]; then
+            tar -xzf "${boost_tarball}"
+        fi
+        mv "boost_${boost_version//./_}" "boost-${boost_version}"
+    fi
     [[ -f "${BOOST_ROOT}/bootstrap.sh" ]]
 }
 
