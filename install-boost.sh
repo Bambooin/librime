@@ -20,13 +20,22 @@ BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
 }
 
 boost_version="${boost_version:-$(tr -d '\r\n' < "${BOOST_VERSION_FILE}")}"
+case "${boost_version}" in
+    1.92.0)
+        boost_sha256sum="c4a3b310ddd2472416e091067166b0713be97c63f38c212c484ada022fd296ce"
+        ;;
+    *)
+        echo "missing SHA256 checksum for boost version: ${boost_version}" >&2
+        exit 1
+        ;;
+esac
 
 BOOST_ROOT="${BOOST_ROOT=${RIME_ROOT}/deps/boost-${boost_version}}"
 export boost_version BOOST_ROOT
 
 boost_tarball="boost_${boost_version//./_}.tar.gz"
 download_url="https://archives.boost.io/release/${boost_version}/source/${boost_tarball}"
-boost_tarball_sha256sum="c4a3b310ddd2472416e091067166b0713be97c63f38c212c484ada022fd296ce  ${boost_tarball}"
+boost_tarball_sha256sum="${boost_sha256sum}  ${boost_tarball}"
 
 download_boost_source() {
     cd "${RIME_ROOT}/deps"
