@@ -1,11 +1,28 @@
 #!/bin/bash
 set -ex
 
-RIME_ROOT="$(cd "$(dirname "$0")"; pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")"; pwd)"
+if [[ -z "${RIME_ROOT:-}" ]]; then
+    RIME_ROOT="$(git -C "${SCRIPT_DIR}" rev-parse --show-toplevel 2>/dev/null || true)"
+    if [[ -z "${RIME_ROOT}" ]]; then
+        if [[ -f "${PWD}/boost-version" ]]; then
+            RIME_ROOT="${PWD}"
+        else
+            RIME_ROOT="${SCRIPT_DIR}"
+        fi
+    fi
+fi
+BOOST_VERSION_FILE="${RIME_ROOT}/boost-version"
 
-boost_version="${boost_version=1.92.0}"
+[[ -f "${BOOST_VERSION_FILE}" ]] || {
+    echo "could not find ${BOOST_VERSION_FILE}" >&2
+    exit 1
+}
+
+boost_version="${boost_version:-$(tr -d '\r\n' < "${BOOST_VERSION_FILE}")}"
 
 BOOST_ROOT="${BOOST_ROOT=${RIME_ROOT}/deps/boost-${boost_version}}"
+export boost_version BOOST_ROOT
 
 boost_tarball="boost_${boost_version//./_}.tar.gz"
 download_url="https://archives.boost.io/release/${boost_version}/source/${boost_tarball}"
