@@ -49,8 +49,13 @@ if not defined boost_tarball set "boost_tarball=boost_%boost_version:.=_%"
 if not defined boost_archive set "boost_archive=%boost_tarball%.tar.gz"
 
 if not defined BOOST_ROOT set BOOST_ROOT=%RIME_ROOT%\deps\boost-%boost_version%
+set "managed_boost_root=%RIME_ROOT%\deps\boost-%boost_version%"
 
 if exist "%BOOST_ROOT%\libs" goto boost_found
+if /i not "%BOOST_ROOT%"=="%managed_boost_root%" if exist "%BOOST_ROOT%" (
+  echo Error: could not repair existing external BOOST_ROOT at %BOOST_ROOT%.
+  exit /b 1
+)
 for %%I in ("%BOOST_ROOT%\.") do set src_dir=%%~dpI
 rem download boost source
 if not exist "%src_dir%%boost_archive%" (
@@ -87,9 +92,15 @@ if not exist "%boost_tarball%" (
   echo Error: could not extract %boost_tarball% from %boost_archive%.
   exit /b 1
 )
-if exist "boost-%boost_version%" rmdir /s /q "boost-%boost_version%"
-ren "%boost_tarball%" "boost-%boost_version%"
-cd "boost-%boost_version%"
+if /i "%BOOST_ROOT%"=="%managed_boost_root%" (
+  if exist "boost-%boost_version%" rmdir /s /q "boost-%boost_version%"
+  ren "%boost_tarball%" "boost-%boost_version%"
+) else (
+  for %%I in ("%BOOST_ROOT%\..") do set "boost_root_parent=%%~fI"
+  if not exist "!boost_root_parent!" mkdir "!boost_root_parent!"
+  move "%boost_tarball%" "%BOOST_ROOT%" >nul
+)
+cd "%BOOST_ROOT%"
 call .\bootstrap.bat
 .\b2 headers
 popd
