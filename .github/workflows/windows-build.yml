@@ -12,16 +12,20 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [windows-latest, windows-11-arm]
         compiler: [msvc, clang]
-        arch: [x64]
+        arch: [x64, arm64]
+        exclude:
+          - { os: windows-latest, arch: arm64 }
+          - { os: windows-11-arm, arch: x64 }
         include:
           - { compiler: msvc, cc: cl, cxx: cl }
           - { compiler: clang, cc: clang, cxx: clang++ }
-          - { compiler: msvc, arch: x86, cross_arch: x64_x86 }
+          - { os: windows-latest, compiler: msvc, arch: x86, cross_arch: x64_x86 }
     env:
       BOOST_ROOT: ${{ github.workspace }}\deps\boost
       RIME_PLUGINS: ${{ inputs.rime_plugins }}
@@ -45,8 +49,9 @@ jobs:
           Set-Content -Path $envfile -Value $envcontent
           cat $envfile
           
-      - name: Configure MSVC
-        if: ${{ matrix.compiler == 'msvc' }}
+      - name: Configure MSVC toolchain
+        # Native Clang on Arm64 still needs the MSVC linker and libraries.
+        if: ${{ matrix.compiler == 'msvc' || matrix.arch == 'arm64' }}
         uses: TheMrMilchmann/setup-msvc-dev@v4
         with:
           arch: ${{ matrix.cross_arch || matrix.arch }}
