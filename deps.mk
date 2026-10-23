@@ -10,7 +10,7 @@ endif
 build ?= build
 prefix ?= $(rime_root)
 
-rime_deps = glog googletest leveldb marisa-trie opencc yaml-cpp
+rime_deps = spdlog googletest leveldb marisa-trie opencc yaml-cpp
 
 .PHONY: all clean clean-dist clean-src $(rime_deps)
 
@@ -31,12 +31,16 @@ clean-src:
 		rm -r $(src_dir)/$${dep}/$(build) || true; \
 	done
 
-glog:
-	cd $(src_dir)/glog; \
+spdlog:
+	cd $(src_dir)/spdlog; \
 	cmake . -B$(build) \
 	-DBUILD_SHARED_LIBS:BOOL=OFF \
-	-DBUILD_TESTING:BOOL=OFF \
-	-DWITH_GFLAGS:BOOL=OFF \
+	-DSPDLOG_BUILD_SHARED:BOOL=OFF \
+	-DSPDLOG_BUILD_PIC:BOOL=ON \
+	-DSPDLOG_BUILD_EXAMPLE:BOOL=OFF \
+	-DSPDLOG_BUILD_TESTS:BOOL=OFF \
+	-DSPDLOG_FMT_EXTERNAL:BOOL=OFF \
+	-DSPDLOG_INSTALL:BOOL=ON \
 	-DCMAKE_BUILD_TYPE:STRING="Release" \
 	-DCMAKE_INSTALL_PREFIX:PATH="$(prefix)" \
 	&& cmake --build $(build) --target install

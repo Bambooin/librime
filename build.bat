@@ -81,7 +81,7 @@ if not defined rime_install_prefix set rime_install_prefix=%RIME_ROOT%\dist
 
 if %clean% == 1 (
  rmdir /s /q %build_dir%
-  rmdir /s /q deps\glog\%build_dir%
+  rmdir /s /q deps\spdlog\%build_dir%
   rmdir /s /q deps\googletest\%build_dir%
   rmdir /s /q deps\leveldb\%build_dir%
   rmdir /s /q deps\marisa-trie\%build_dir%
@@ -112,11 +112,15 @@ set deps_cmake_flags=%common_cmake_flags%^
   -DCMAKE_INSTALL_PREFIX:PATH="%deps_install_prefix%"
 
 if %build_deps% == 1 (
-  echo building glog.
-  pushd deps\glog
+  echo building spdlog.
+  pushd deps\spdlog
   cmake . -B%build_dir% %deps_cmake_flags%^
-  -DBUILD_TESTING:BOOL=OFF^
-  -DWITH_GFLAGS:BOOL=OFF
+  -DSPDLOG_BUILD_SHARED:BOOL=OFF^
+  -DSPDLOG_BUILD_PIC:BOOL=ON^
+  -DSPDLOG_BUILD_EXAMPLE:BOOL=OFF^
+  -DSPDLOG_BUILD_TESTS:BOOL=OFF^
+  -DSPDLOG_FMT_EXTERNAL:BOOL=OFF^
+  -DSPDLOG_INSTALL:BOOL=ON
   if errorlevel 1 goto error
   cmake --build %build_dir% --config %build_config% --target install
   if errorlevel 1 goto error
