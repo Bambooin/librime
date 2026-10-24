@@ -61,7 +61,22 @@ jobs:
 
       - name: Configure clang
         if: ${{ matrix.compiler == 'clang' }}
-        run: choco upgrade -y llvm
+        shell: pwsh
+        run: |
+          if ('${{ matrix.arch }}' -eq 'arm64') {
+            # Chocolatey's LLVM package is an x64 native toolchain that targets
+            # x64 by default. Use the native Arm64 LLVM bundled with Visual
+            # Studio instead, and put it ahead of any x64 LLVM on PATH.
+            if (-not $env:llvmArm64) {
+              throw "llvmArm64 is not set; cannot find the native Arm64 LLVM toolchain"
+            }
+            Get-ChildItem "$env:llvmArm64\clang*.exe" | Select-Object -ExpandProperty Name
+            & "$env:llvmArm64\clang.exe" --version
+            & "$env:llvmArm64\clang.exe" -dumpmachine
+            Add-Content -Path $env:GITHUB_PATH -Value $env:llvmArm64
+          } else {
+            choco upgrade -y llvm
+          }
 
       - name: Configure build environment
         run: |
