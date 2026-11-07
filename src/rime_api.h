@@ -555,7 +555,7 @@ RIME_API RIME_FLAVORED(RimeApi) * RIME_FLAVORED(rime_get_api)(void);
 #define RIME_REGISTER_MODULE(name)                       \
   void rime_require_module_##name() {}                   \
   RIME_MODULE_INITIALIZER(rime_register_module_##name) { \
-    static RimeModule module = {0};                      \
+    static RimeModule module;                            \
     if (!module.data_size) {                             \
       RIME_STRUCT_INIT(RimeModule, module);              \
       module.module_name = #name;                        \
@@ -572,7 +572,7 @@ RIME_API RIME_FLAVORED(RimeApi) * RIME_FLAVORED(rime_get_api)(void);
   void rime_require_module_##name() {}                          \
   static void rime_customize_module_##name(RimeModule* module); \
   RIME_MODULE_INITIALIZER(rime_register_module_##name) {        \
-    static RimeModule module = {0};                             \
+    static RimeModule module;                                   \
     if (!module.data_size) {                                    \
       RIME_STRUCT_INIT(RimeModule, module);                     \
       module.module_name = #name;                               \

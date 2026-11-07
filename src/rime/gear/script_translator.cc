@@ -125,9 +125,9 @@ class ScriptTranslation : public Translation {
         end_of_input_(end_of_input),
         syllabifier_(
             New<ScriptSyllabifier>(translator, corrector, input, start)),
-        enable_correction_(corrector),
         max_sentences_(max_sentences),
-        sentence_cutoff_threshold_(sentence_cutoff_threshold) {
+        sentence_cutoff_threshold_(sentence_cutoff_threshold),
+        enable_correction_(corrector) {
     set_exhausted(true);
   }
   bool Evaluate(Dictionary* dict, UserDictionary* user_dict);

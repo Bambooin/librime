@@ -217,7 +217,7 @@ an<Sentence> Poet::MakeSentenceWithStrategy(const WordGraph& graph,
           double weight = candidate.weight +
                           Grammar::Evaluate(context, entry->text, entry->weight,
                                             is_rear, grammar_.get());
-          Line new_line{&candidate, entry.get(), end_pos, weight};
+          Line new_line{&candidate, entry.get(), end_pos, weight, 0};
           Line& best = Strategy::BestLineToUpdate(target_state, new_line);
           if (best.empty() || compare_(best, new_line)) {
             DLOG(INFO) << "updated line ending at " << end_pos

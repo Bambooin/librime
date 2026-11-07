@@ -88,6 +88,11 @@ RIME_DEPRECATED Bool RimeStartMaintenance(Bool full_check) {
   return True;
 }
 
+#ifdef RIME_API_STDBOOL_H_
+// Only the stdbool flavor gives this function internal linkage, where it is
+// not referenced by the deprecated API table.
+[[maybe_unused]]
+#endif
 RIME_DEPRECATED Bool RimeStartMaintenanceOnWorkspaceChange() {
   return RimeStartMaintenance(False);
 }
@@ -1175,7 +1180,7 @@ void RimeGetSyncDirSecure(char* dir, size_t buffer_size);
 const char* RimeGetVersion();
 
 RIME_API RIME_FLAVORED(RimeApi) * RIME_FLAVORED(rime_get_api)() {
-  static RIME_FLAVORED(RimeApi) s_api = {0};
+  static RIME_FLAVORED(RimeApi) s_api;
   if (!s_api.data_size) {
     RIME_STRUCT_INIT(RIME_FLAVORED(RimeApi), s_api);
     s_api.setup = &RimeSetup;
