@@ -692,7 +692,8 @@ void ScriptTranslation::EnrollEntries(
   if (query_result) {
     for (auto& y : *query_result) {
       DictEntryList& homophones = entries_by_end_pos[y.first];
-      while (homophones.size() < translator_->max_homophones() &&
+      while (homophones.size() <
+                 static_cast<size_t>(translator_->max_homophones()) &&
              !y.second.exhausted()) {
         homophones.push_back(y.second.Peek());
         if (!y.second.Next())

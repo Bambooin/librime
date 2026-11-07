@@ -244,7 +244,7 @@ PunctSegmentor::PunctSegmentor(const Ticket& ticket) : Segmentor(ticket) {
 
 bool PunctSegmentor::Proceed(Segmentation* segmentation) {
   const string& input = segmentation->input();
-  int k = segmentation->GetCurrentStartPosition();
+  size_t k = segmentation->GetCurrentStartPosition();
   if (k == input.length())
     return false;  // no chance for others too
   char ch = input[k];
