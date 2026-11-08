@@ -287,6 +287,8 @@ if(NOT WIN32)
   add_compile_options(
     -Wall
     -Wextra
+    # Keep parameter names for API readability; silence the resulting noise.
+    -Wno-unused-parameter
     -Wundef
     -Wnon-virtual-dtor
     -Woverloaded-virtual
