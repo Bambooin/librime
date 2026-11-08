@@ -289,7 +289,6 @@ if(NOT WIN32)
     -Wextra
     # Keep parameter names for API readability; silence the resulting noise.
     -Wno-unused-parameter
-    -Wundef
     -Wnon-virtual-dtor
     -Woverloaded-virtual
     -Werror=return-type
