@@ -5,7 +5,7 @@
 // 2011-08-09 GONG Chen <chen.sst@gmail.com>
 //
 
-#include "rime_api_impl.cc"
+#include "rime_api_impl.cc"  // NOLINT(bugprone-suspicious-include): intentional amalgamation
 
 #include <cstring>
 #include <sstream>
@@ -28,7 +28,7 @@ void rime_declare_module_dependencies() {}
 #include <boost/preprocessor/tuple/eat.hpp>
 #include <boost/vmd/is_empty.hpp>
 
-#define _RIME_SEQ_FOR_EACH(macro, data, seq)                   \
+#define RIME_SEQ_FOR_EACH(macro, data, seq)                    \
   BOOST_PP_IIF(BOOST_VMD_IS_EMPTY(seq), BOOST_PP_TUPLE_EAT(3), \
                BOOST_PP_SEQ_FOR_EACH)                          \
   (macro, data, seq)
@@ -38,12 +38,12 @@ extern void rime_require_module_dict();
 extern void rime_require_module_gears();
 extern void rime_require_module_levers();
 
-#define _RIME_PLUGIN_DECL(r, data, elem) \
+#define RIME_PLUGIN_DECL(r, data, elem) \
   extern void BOOST_PP_CAT(rime_require_module_, elem)();
-#define _RIME_PLUGIN_CALL(r, data, elem) \
+#define RIME_PLUGIN_CALL(r, data, elem) \
   BOOST_PP_CAT(rime_require_module_, elem)();
 
-_RIME_SEQ_FOR_EACH(_RIME_PLUGIN_DECL, ~, RIME_EXTRA_MODULES)
+RIME_SEQ_FOR_EACH(RIME_PLUGIN_DECL, ~, RIME_EXTRA_MODULES)
 
 // link to default modules explicitly when building static library.
 void rime_declare_module_dependencies() {
@@ -51,12 +51,12 @@ void rime_declare_module_dependencies() {
   rime_require_module_dict();
   rime_require_module_gears();
   rime_require_module_levers();
-  _RIME_SEQ_FOR_EACH(_RIME_PLUGIN_CALL, ~, RIME_EXTRA_MODULES)
+  RIME_SEQ_FOR_EACH(RIME_PLUGIN_CALL, ~, RIME_EXTRA_MODULES)
 }
 
-#undef _RIME_PLUGIN_DECL
-#undef _RIME_PLUGIN_CALL
-#undef _RIME_SEQ_FOR_EACH
+#undef RIME_PLUGIN_DECL
+#undef RIME_PLUGIN_CALL
+#undef RIME_SEQ_FOR_EACH
 #undef RIME_EXTRA_MODULES
 #endif
 

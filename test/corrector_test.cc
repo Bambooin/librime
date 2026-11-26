@@ -24,13 +24,13 @@ class RimeCorrectorSearchTest : public ::testing::Test {
     }
 
     rime::path file_path("corrector_simple_test.prism.bin");
-    prism_.reset(new rime::Prism(file_path));
+    prism_ = std::make_unique<rime::Prism>(file_path);
     rime::set<rime::string> keyset;
     std::copy(syllables.begin(), syllables.end(),
               std::inserter(keyset, keyset.begin()));
     prism_->Build(keyset);
 
-    corrector_.reset(new rime::NearSearchCorrector);
+    corrector_ = std::make_unique<rime::NearSearchCorrector>();
   }
   void TearDown() override {}
 
@@ -56,13 +56,13 @@ class RimeCorrectorTest : public ::testing::Test {
     }
 
     rime::path file_path("corrector_test.prism.bin");
-    prism_.reset(new rime::Prism(file_path));
+    prism_ = std::make_unique<rime::Prism>(file_path);
     rime::set<rime::string> keyset;
     std::copy(syllables.begin(), syllables.end(),
               std::inserter(keyset, keyset.begin()));
     prism_->Build(keyset);
 
-    corrector_.reset(new rime::NearSearchCorrector);
+    corrector_ = std::make_unique<rime::NearSearchCorrector>();
   }
 
   void TearDown() override {}

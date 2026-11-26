@@ -25,6 +25,6 @@ TEST(RimeKeyTableTest, ModifierLookup) {
   EXPECT_EQ(XK_VoidSymbol, RimeGetKeycodeByName("Control+c"));
   EXPECT_STREQ("a", RimeGetKeyName(XK_a));
   EXPECT_STREQ("space", RimeGetKeyName(XK_space));
-  EXPECT_STREQ(NULL, RimeGetKeyName(0xfffe));
-  EXPECT_STREQ(NULL, RimeGetKeyName(0xfffffe));
+  EXPECT_STREQ(nullptr, RimeGetKeyName(0xfffe));
+  EXPECT_STREQ(nullptr, RimeGetKeyName(0xfffffe));
 }

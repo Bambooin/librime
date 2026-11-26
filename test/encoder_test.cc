@@ -60,7 +60,8 @@ TEST(RimeEncoderTest, ExcludePatterns) {
 TEST(RimeEncoderTest, Encode) {
   rime::TableEncoder encoder;
   rime::Config config;
-  rime::RawCode c0, c1;
+  rime::RawCode c0;
+  rime::RawCode c1;
   c0.FromString("abc def");
   c1.FromString("abc def ghi");
   rime::string result;

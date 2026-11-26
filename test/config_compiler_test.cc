@@ -3,6 +3,7 @@
 // Distributed under the BSD License
 //
 
+#include <memory>
 #include <sstream>
 #include <gtest/gtest.h>
 #include <rime/component.h>
@@ -16,8 +17,8 @@ class RimeConfigCompilerTestBase : public ::testing::Test {
 
   virtual string test_config_id() const = 0;
 
-  virtual void SetUp() {
-    component_.reset(new ConfigComponent<ConfigBuilder>);
+  void SetUp() override {
+    component_ = std::make_unique<ConfigComponent<ConfigBuilder>>();
     config_.reset(component_->Create(test_config_id()));
   }
 

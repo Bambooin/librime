@@ -9,18 +9,20 @@
 #include <rime/component.h>
 #include <rime/config.h>
 
+#include <memory>
+
 using namespace rime;
 
 class RimeConfigTest : public ::testing::Test {
  protected:
   RimeConfigTest() = default;
 
-  virtual void SetUp() {
-    component_.reset(new ConfigComponent<ConfigLoader>);
+  void SetUp() override {
+    component_ = std::make_unique<ConfigComponent<ConfigLoader>>();
     config_.reset(component_->Create("config_test"));
   }
 
-  virtual void TearDown() {}
+  void TearDown() override {}
 
   the<Config::Component> component_;
   the<Config> config_;
@@ -34,7 +36,7 @@ TEST(RimeConfigComponentTest, RoundTrip) {
                  [](ConfigLoader* loader) { loader->set_auto_save(true); }));
   // find component
   Config::Component* cc = Config::Require("test_config");
-  ASSERT_TRUE(cc != NULL);
+  ASSERT_TRUE(cc != nullptr);
   // create config and write modifications to file
   {
     the<Config> config(cc->Create("config_round_trip_test"));
@@ -66,7 +68,8 @@ TEST_F(RimeConfigTest, Config_IsNull) {
 }
 
 TEST_F(RimeConfigTest, Config_GetBool) {
-  bool ret, value;
+  bool ret;
+  bool value;
   ret = config_->GetBool("terrans/tank/seiged", &value);
   EXPECT_TRUE(ret);
   EXPECT_FALSE(value);
@@ -154,7 +157,7 @@ TEST_F(RimeConfigTest, Config_GetMap) {
 }
 
 TEST(RimeConfigWriterTest, Greetings) {
-  the<Config> config(new Config);
+  the<Config> config = std::make_unique<Config>();
   ASSERT_TRUE(bool(config));
   // creating contents
   EXPECT_TRUE(config->SetItem("/", New<ConfigMap>()));
@@ -171,7 +174,7 @@ TEST(RimeConfigWriterTest, Greetings) {
   // saving
   EXPECT_TRUE(config->SaveToFile(path{"config_writer_test.yaml"}));
   // verify
-  the<Config> config2(new Config);
+  the<Config> config2 = std::make_unique<Config>();
   ASSERT_TRUE(bool(config2));
   EXPECT_TRUE(config2->LoadFromFile(path{"config_writer_test.yaml"}));
   string the_greetings;
@@ -192,7 +195,7 @@ TEST(RimeConfigWriterTest, Greetings) {
   EXPECT_TRUE(config2->SetItem("zergs/overmind", nullptr));
   EXPECT_TRUE(config2->SaveToFile(path{"config_rewriter_test.yaml"}));
   // verify
-  the<Config> config3(new Config);
+  the<Config> config3 = std::make_unique<Config>();
   ASSERT_TRUE(bool(config3));
   EXPECT_TRUE(config3->LoadFromFile(path{"config_rewriter_test.yaml"}));
   EXPECT_TRUE(config3->GetInt("zergs/statistics/population", &population));
@@ -244,7 +247,7 @@ TEST(RimeConfigxxTest, Operations) {
 TEST(RimeConfigListKeyPathTest, Greetings) {
   int id = 0;
   int value = 0;
-  the<Config> config(new Config);
+  the<Config> config = std::make_unique<Config>();
   ASSERT_TRUE(bool(config));
   // append items
   EXPECT_TRUE(config->SetInt("list/@next/id", 1));

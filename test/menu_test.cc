@@ -15,13 +15,13 @@ using namespace rime;
 
 class TranslationAlpha : public Translation {
  public:
-  bool Next() {
+  bool Next() override {
     if (exhausted())
       return false;
     set_exhausted(true);
     return true;
   }
-  an<Candidate> Peek() {
+  an<Candidate> Peek() override {
     if (exhausted())
       return nullptr;
     return New<SimpleCandidate>("alpha", 0, 5, "Alpha");
@@ -36,7 +36,7 @@ class TranslationBeta : public Translation {
     candies_.push_back(New<SimpleCandidate>("beta", 0, 4, "Beta-3"));
   }
 
-  bool Next() {
+  bool Next() override {
     if (exhausted())
       return false;
     if (++cursor_ >= candies_.size())
@@ -44,7 +44,7 @@ class TranslationBeta : public Translation {
     return true;
   }
 
-  an<Candidate> Peek() {
+  an<Candidate> Peek() override {
     if (exhausted())
       return nullptr;
     return candies_[cursor_];

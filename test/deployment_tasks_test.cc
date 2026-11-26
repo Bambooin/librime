@@ -24,8 +24,8 @@ class RimeDeploymentTasksTest : public ::testing::Test {
     std::error_code ec;
     fs::remove("installation.yaml", ec);
   }
-  virtual void SetUp() { CleanUp(); }
-  virtual void TearDown() { CleanUp(); }
+  void SetUp() override { CleanUp(); }
+  void TearDown() override { CleanUp(); }
 };
 
 TEST_F(RimeDeploymentTasksTest, InstallationUpdate) {

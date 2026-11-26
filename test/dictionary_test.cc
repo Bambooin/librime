@@ -5,6 +5,7 @@
 // 2011-07-05 GONG Chen <chen.sst@gmail.com>
 //
 #include <gtest/gtest.h>
+#include <memory>
 #include <rime/common.h>
 #include <rime/algo/encoder.h>
 #include <rime/algo/syllabifier.h>
@@ -13,8 +14,10 @@
 
 class RimeDictionaryTest : public ::testing::Test {
  public:
-  virtual void SetUp() {
+  void SetUp() override {
     if (!dict_) {
+      // The braced {} argument cannot be deduced by make_unique.
+      // NOLINTNEXTLINE(modernize-make-unique)
       dict_.reset(new rime::Dictionary(
           "dictionary_test", {},
           {rime::New<rime::Table>(rime::path{"dictionary_test.table.bin"})},
@@ -28,7 +31,7 @@ class RimeDictionaryTest : public ::testing::Test {
     }
     dict_->Load();
   }
-  virtual void TearDown() { dict_.reset(); }
+  void TearDown() override { dict_.reset(); }
 
  protected:
   static rime::the<rime::Dictionary> dict_;
@@ -194,7 +197,8 @@ TEST_F(RimeDictionaryTest, SkipDropsCachedEntry) {
   ASSERT_TRUE(a && b);
   EXPECT_EQ(b->text, a->text);
   // compare spellings; rime::Code::operator== is not exported from rime.dll
-  rime::RawCode code_a, code_b;
+  rime::RawCode code_a;
+  rime::RawCode code_b;
   ASSERT_TRUE(dict_->Decode(a->code, &code_a));
   ASSERT_TRUE(dict_->Decode(b->code, &code_b));
   EXPECT_EQ(code_b.ToString(), code_a.ToString());

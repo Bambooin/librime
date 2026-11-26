@@ -65,7 +65,7 @@ TEST(RimeStringTableTest, AllocateBytesAtEightByteBoundary) {
   ASSERT_TRUE(file.Create(4096));
   for (size_t prefix = 1; prefix <= 8; ++prefix) {
     ASSERT_NE(nullptr, file.Allocate<char>(prefix));
-    auto image = file.AllocateAlignedBytes(17, 8);
+    auto* image = file.AllocateAlignedBytes(17, 8);
     ASSERT_NE(nullptr, image);
     EXPECT_EQ(0U, reinterpret_cast<std::uintptr_t>(image) % 8);
   }
@@ -85,7 +85,7 @@ TEST(RimeStringTableTest, NewTableImageIsAligned) {
   ASSERT_TRUE(table.Build(syllabary, vocabulary, 1));
   ASSERT_TRUE(table.Save());
   ASSERT_TRUE(table.Load());
-  auto metadata = table.Find<rime::table::Metadata>(0);
+  auto* metadata = table.Find<rime::table::Metadata>(0);
   ASSERT_NE(nullptr, metadata);
   EXPECT_EQ(0U,
             reinterpret_cast<std::uintptr_t>(metadata->string_table.get()) % 8);
@@ -106,7 +106,7 @@ TEST(RimeStringTableTest, NewReverseImagesAreAligned) {
   ASSERT_TRUE(reverse.Build(nullptr, syllabary, vocabulary, {}, 0));
   ASSERT_TRUE(reverse.Save());
   ASSERT_TRUE(reverse.Load());
-  auto metadata = reverse.metadata();
+  auto* metadata = reverse.metadata();
   ASSERT_NE(nullptr, metadata);
   EXPECT_EQ(0U, reinterpret_cast<std::uintptr_t>(metadata->key_trie.get()) % 8);
   EXPECT_EQ(0U,

@@ -21,7 +21,8 @@ int main(int argc, char* argv[]) {
   SetupLogging("rime.tools");
 
   string option;
-  string arg1, arg2;
+  string arg1;
+  string arg2;
   if (argc >= 2)
     option = argv[1];
   if (argc >= 3)

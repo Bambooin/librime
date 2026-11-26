@@ -7,14 +7,15 @@
 #include <gtest/gtest.h>
 #include <fstream>
 #include <iterator>
+#include <memory>
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/table.h>
 
 class RimeTableTest : public ::testing::Test {
  public:
-  virtual void SetUp() {
+  void SetUp() override {
     if (!table_) {
-      table_.reset(new rime::Table(rime::path{"table_test.bin"}));
+      table_ = std::make_unique<rime::Table>(rime::path{"table_test.bin"});
       table_->Remove();
       rime::Syllabary syll;
       rime::Vocabulary voc;
@@ -24,7 +25,7 @@ class RimeTableTest : public ::testing::Test {
     }
     table_->Load();
   }
-  virtual void TearDown() { table_->Close(); }
+  void TearDown() override { table_->Close(); }
 
  protected:
   static const int total_num_entries = 8;
@@ -148,7 +149,7 @@ void RimeTableTest::PrepareSampleVocabulary(rime::Syllabary& syll,
 }
 
 TEST_F(RimeTableTest, IntegrityTest) {
-  table_.reset(new rime::Table(rime::path{"table_test.bin"}));
+  table_ = std::make_unique<rime::Table>(rime::path{"table_test.bin"});
   ASSERT_TRUE(bool(table_));
   ASSERT_TRUE(table_->Load());
 }
@@ -192,7 +193,7 @@ TEST_F(RimeTableTest, SimpleQuery) {
   rime::TableAccessor v = table_->QueryWords(1);
   ASSERT_FALSE(v.exhausted());
   ASSERT_EQ(1, v.remaining());
-  ASSERT_TRUE(v.entry() != NULL);
+  ASSERT_TRUE(v.entry() != nullptr);
   EXPECT_STREQ("yi", Text(v).c_str());
   EXPECT_EQ(1.0, v.entry()->weight);
   EXPECT_FALSE(v.Next());
@@ -218,24 +219,24 @@ TEST_F(RimeTableTest, SimpleQuery) {
   v = table_->QueryPhrases(code);
   ASSERT_FALSE(v.exhausted());
   ASSERT_EQ(1, v.remaining());
-  ASSERT_TRUE(v.entry() != NULL);
+  ASSERT_TRUE(v.entry() != nullptr);
   EXPECT_STREQ("yi-er-san", Text(v).c_str());
-  ASSERT_TRUE(v.extra_code() == NULL);
+  ASSERT_TRUE(v.extra_code() == nullptr);
   EXPECT_FALSE(v.Next());
 
   code.push_back(4);
   v = table_->QueryPhrases(code);
   EXPECT_FALSE(v.exhausted());
   EXPECT_EQ(2, v.remaining());
-  ASSERT_TRUE(v.entry() != NULL);
+  ASSERT_TRUE(v.entry() != nullptr);
   EXPECT_STREQ("yi-er-san-si", Text(v).c_str());
-  ASSERT_TRUE(v.extra_code() != NULL);
+  ASSERT_TRUE(v.extra_code() != nullptr);
   ASSERT_EQ(1, v.extra_code()->size);
   EXPECT_EQ(4, *v.extra_code()->at);
   EXPECT_TRUE(v.Next());
-  ASSERT_TRUE(v.entry() != NULL);
+  ASSERT_TRUE(v.entry() != nullptr);
   EXPECT_STREQ("yi-er-san-er-yi", Text(v).c_str());
-  ASSERT_TRUE(v.extra_code() != NULL);
+  ASSERT_TRUE(v.extra_code() != nullptr);
   ASSERT_EQ(2, v.extra_code()->size);
   EXPECT_EQ(2, v.extra_code()->at[0]);
   EXPECT_EQ(1, v.extra_code()->at[1]);

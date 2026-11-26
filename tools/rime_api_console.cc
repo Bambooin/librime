@@ -4,9 +4,9 @@
  *
  * 2011-08-29 GONG Chen <chen.sst@gmail.com>
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <rime_api.h>
 #include <string>
 #include <vector>
@@ -86,7 +86,7 @@ void AddOptionCompletion(const std::string& option,
 void AppendOptionCompletions(RimeApi* rime,
                              const char* schema_id,
                              std::vector<LineCompletion>* completions) {
-  RimeConfig config = {0};
+  RimeConfig config = {nullptr};
   if (!rime->schema_open(schema_id, &config))
     return;
 
@@ -237,12 +237,15 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   const char* kSelectCandidateCommand = "select candidate ";
   command_length = strlen(kSelectCandidateCommand);
   if (!strncmp(line, kSelectCandidateCommand, command_length)) {
+    // CLI input.
+    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     int index = atoi(line + command_length);
+    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     if (index > 0 &&
         rime->select_candidate_on_current_page(session_id, index - 1)) {
       print(session_id);
     } else {
-      fprintf(stderr, "cannot select candidate at index %d.\n", index);
+      (void)fprintf(stderr, "cannot select candidate at index %d.\n", index);
     }
     return true;
   }
@@ -281,9 +284,12 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   command_length = strlen(kDeleteCandidateOnCurrentPage);
   if (!strncmp(line, kDeleteCandidateOnCurrentPage, command_length)) {
     const char* index_str = line + command_length;
+    // CLI input.
+    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     int index = atoi(index_str);
+    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     if (!rime->delete_candidate_on_current_page(session_id, index)) {
-      fprintf(stderr, "failed to delete\n");
+      (void)fprintf(stderr, "failed to delete\n");
     }
     return true;
   }
@@ -291,9 +297,12 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   command_length = strlen(kDeleteCandidate);
   if (!strncmp(line, kDeleteCandidate, command_length)) {
     const char* index_str = line + command_length;
+    // CLI input.
+    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     int index = atoi(index_str);
+    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     if (!rime->delete_candidate(session_id, index)) {
-      fprintf(stderr, "failed to delete\n");
+      (void)fprintf(stderr, "failed to delete\n");
     }
     return true;
   }
@@ -322,7 +331,7 @@ void on_message(void*,
 RimeSessionId ensure_session(RimeApi* rime) {
   RimeSessionId id = rime->create_session();
   if (!id) {
-    fprintf(stderr, "Error creating rime session.\n");
+    (void)fprintf(stderr, "Error creating rime session.\n");
   }
   return id;
 }
@@ -335,15 +344,15 @@ int main(int, char*[]) {
   traits.app_name = "rime.console";
   rime->setup(&traits);
 
-  rime->set_notification_handler(&on_message, NULL);
+  rime->set_notification_handler(&on_message, nullptr);
 
-  fprintf(stderr, "initializing...\n");
+  (void)fprintf(stderr, "initializing...\n");
 reload:
-  rime->initialize(NULL);
+  rime->initialize(nullptr);
   Bool full_check = True;
   if (rime->start_maintenance(full_check))
     rime->join_maintenance_thread();
-  fprintf(stderr, "ready.\n");
+  (void)fprintf(stderr, "ready.\n");
 
   RimeSessionId session_id = 0;
   const int kMaxLength = 99;
@@ -373,7 +382,8 @@ reload:
     if (rime->simulate_key_sequence(session_id, line.c_str())) {
       print(session_id);
     } else {
-      fprintf(stderr, "Error processing key sequence: %s\n", line.c_str());
+      (void)fprintf(stderr, "Error processing key sequence: %s\n",
+                    line.c_str());
     }
   }
 

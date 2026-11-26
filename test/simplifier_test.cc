@@ -3,6 +3,7 @@
 // Distributed under the BSD License
 //
 #include <algorithm>
+#include <memory>
 #include <gtest/gtest.h>
 #include <rime/candidate.h>
 #include <rime/common.h>
@@ -198,7 +199,7 @@ class SimplifierConvertTest : public ::testing::Test {
     fake_ = New<FakeOpencc>();
     Ticket ticket;
     ticket.name_space = "simplifier";
-    simplifier_.reset(new Simplifier(ticket, fake_));
+    simplifier_ = std::make_unique<Simplifier>(ticket, fake_);
   }
 
   an<FakeOpencc> fake_;

@@ -30,7 +30,7 @@ int apply_patch(const string& config_id,
 
   int ret = 1;
 
-  RimeConfig value = {0};  // should be zero-initialized
+  RimeConfig value = {nullptr};  // should be zero-initialized
   if (rime->config_load_string(&value, yaml.c_str())) {
     RimeCustomSettings* settings =
         levers->custom_settings_init(config_id.c_str(), "rime_patch");

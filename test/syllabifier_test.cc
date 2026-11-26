@@ -6,6 +6,7 @@
 //
 #include <algorithm>
 #include <filesystem>
+#include <memory>
 #include <gtest/gtest.h>
 #include <rime/dict/prism.h>
 #include <rime/algo/algebra.h>
@@ -15,7 +16,7 @@ using namespace rime;
 
 class RimeSyllabifierTest : public ::testing::Test {
  public:
-  virtual void SetUp() {
+  void SetUp() override {
     vector<string> syllables;
     syllables.push_back("a");      // 0 == id
     syllables.push_back("an");     // 1
@@ -34,14 +35,14 @@ class RimeSyllabifierTest : public ::testing::Test {
     }
 
     path file_path("syllabifier_test.bin");
-    prism_.reset(new Prism(file_path));
+    prism_ = std::make_unique<Prism>(file_path);
     set<string> keyset;
     std::copy(syllables.begin(), syllables.end(),
               std::inserter(keyset, keyset.begin()));
     prism_->Build(keyset);
   }
 
-  virtual void TearDown() {}
+  void TearDown() override {}
 
  protected:
   map<string, SyllableId> syllable_id_;
@@ -160,7 +161,7 @@ TEST_F(RimeSyllabifierTest, TransposedSyllableGraph) {
   EXPECT_FALSE(g.indices[0].end() == g.indices[0].find(syllable_id_["chan"]));
   EXPECT_FALSE(g.indices[0].end() == g.indices[0].find(syllable_id_["chang"]));
   ASSERT_EQ(1, g.indices[0][syllable_id_["chan"]].size());
-  ASSERT_FALSE(NULL == g.indices[0][syllable_id_["chan"]][0]);
+  ASSERT_FALSE(nullptr == g.indices[0][syllable_id_["chan"]][0]);
   EXPECT_EQ(4, g.indices[0][syllable_id_["chan"]][0]->end_pos);
 }
 

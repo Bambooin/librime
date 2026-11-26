@@ -34,8 +34,8 @@ TEST(RimeAlgebraTest, SpellingManipulation) {
 
 TEST(RimeAlgebraTest, Projection) {
   auto c = rime::New<rime::ConfigList>();
-  for (int i = 0; i < kNumOfInstructions; ++i) {
-    c->Append(rime::New<rime::ConfigValue>(kInstructions[i]));
+  for (auto& kInstruction : kInstructions) {
+    c->Append(rime::New<rime::ConfigValue>(kInstruction));
   }
   rime::Projection p;
   ASSERT_TRUE(p.Load(c));

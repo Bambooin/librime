@@ -21,7 +21,7 @@ using HelloMessage = pair<string, string>;
 class Hello : public Greeting {
  public:
   Hello(const HelloMessage& msg) : word_(msg.first), name_(msg.second) {}
-  string Say() { return word_ + ", " + name_ + "!"; }
+  string Say() override { return word_ + ", " + name_ + "!"; }
 
  private:
   string word_;
@@ -33,7 +33,7 @@ class HelloComponent : public Hello::Component {
  public:
   HelloComponent(const string& word) : word_(word) {}
   // define a custom creator to provide an additional argument
-  Hello* Create(const string& name) {
+  Hello* Create(const string& name) override {
     return new Hello(make_pair(word_, name));
   }
 
@@ -47,9 +47,9 @@ TEST(RimeComponentTest, UsingComponent) {
   r.Register("test_morning", new HelloComponent("good morning"));
 
   Greeting::Component* h = Greeting::Require("test_hello");
-  EXPECT_TRUE(h != NULL);
+  EXPECT_TRUE(h != nullptr);
   Greeting::Component* gm = Greeting::Require("test_morning");
-  EXPECT_TRUE(gm != NULL);
+  EXPECT_TRUE(gm != nullptr);
 
   the<Greeting> g(gm->Create("michael"));
   EXPECT_STREQ("good morning, michael!", g->Say().c_str());

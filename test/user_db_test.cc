@@ -57,7 +57,8 @@ TEST(RimeUserDbTest, Query) {
     an<DbAccessor> accessor = db.Query("abc");
     ASSERT_TRUE(bool(accessor));
     EXPECT_FALSE(accessor->exhausted());
-    string key, value;
+    string key;
+    string value;
     EXPECT_TRUE(accessor->GetNextRecord(&key, &value));
     EXPECT_EQ("abc", key);
     EXPECT_EQ("ZYX", value);
@@ -77,14 +78,16 @@ TEST(RimeUserDbTest, Query) {
     an<DbAccessor> accessor = db.Query("wvu\tt");
     ASSERT_TRUE(bool(accessor));
     EXPECT_TRUE(accessor->exhausted());
-    string key, value;
+    string key;
+    string value;
     EXPECT_FALSE(accessor->GetNextRecord(&key, &value));
   }
   {
     an<DbAccessor> accessor = db.Query("z");
     ASSERT_TRUE(bool(accessor));
     EXPECT_FALSE(accessor->exhausted());
-    string key, value;
+    string key;
+    string value;
     EXPECT_TRUE(accessor->GetNextRecord(&key, &value));
     EXPECT_EQ("zyx", key);
     EXPECT_EQ("ABC", value);

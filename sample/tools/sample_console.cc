@@ -4,8 +4,8 @@
  *
  * 2014-01-04 GONG Chen <chen.sst@gmail.com>
  */
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <rime_api.h>
 
 void print_status(RimeStatus* status) {
@@ -119,7 +119,7 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   return false;
 }
 
-void on_message(void* context_object,
+void on_message(void* /*context_object*/,
                 RimeSessionId session_id,
                 const char* message_type,
                 const char* message_value) {
@@ -128,7 +128,7 @@ void on_message(void* context_object,
 
 static RIME_MODULE_LIST(sample_modules, "default", "sample");
 
-int main(int argc, char* argv[]) {
+int main(int /*argc*/, char* /*argv*/[]) {
   RimeApi* rime = rime_get_api();
 
   RIME_STRUCT(RimeTraits, traits);
@@ -136,24 +136,24 @@ int main(int argc, char* argv[]) {
   traits.modules = sample_modules;
   rime->setup(&traits);
 
-  rime->set_notification_handler(&on_message, NULL);
+  rime->set_notification_handler(&on_message, nullptr);
 
-  fprintf(stderr, "initializing...\n");
+  (void)fprintf(stderr, "initializing...\n");
   rime->initialize(&traits);
   Bool full_check = True;
   if (rime->start_maintenance(full_check))
     rime->join_maintenance_thread();
-  fprintf(stderr, "ready.\n");
+  (void)fprintf(stderr, "ready.\n");
 
   RimeSessionId session_id = rime->create_session();
   if (!session_id) {
-    fprintf(stderr, "Error creating rime session.\n");
+    (void)fprintf(stderr, "Error creating rime session.\n");
     return 1;
   }
 
   const int kMaxLength = 99;
   char line[kMaxLength + 1] = {0};
-  while (fgets(line, kMaxLength, stdin) != NULL) {
+  while (fgets(line, kMaxLength, stdin) != nullptr) {
     for (char* p = line; *p; ++p) {
       if (*p == '\r' || *p == '\n') {
         *p = '\0';
@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
     if (execute_special_command(line, session_id))
       continue;
     if (!rime->simulate_key_sequence(session_id, line)) {
-      fprintf(stderr, "Error processing key sequence: %s\n", line);
+      (void)fprintf(stderr, "Error processing key sequence: %s\n", line);
     } else {
       print(session_id);
     }

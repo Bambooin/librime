@@ -30,7 +30,7 @@ class RimeConsole {
   }
   ~RimeConsole() { conn_.disconnect(); }
 
-  void OnCommit(const string& commit_text) {
+  void OnCommit(const string& commit_text) const {
     if (interactive_) {
       std::cout << "commit : [" << commit_text << "]" << std::endl;
     } else {

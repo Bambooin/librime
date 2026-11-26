@@ -26,7 +26,6 @@ void outCode(rime::Table* table, const rime::Code code, std::ofstream& fout) {
     fout << " ";
     fout << table->GetSyllableById(*item);
   }
-  return;
 }
 
 void access(rime::Table* table,
@@ -66,7 +65,7 @@ void recursion(rime::Table* table,
 }
 
 void traversal(rime::Table* table, std::ofstream& fout) {
-  auto metadata = table->metadata();
+  auto* metadata = table->metadata();
   std::cout << "num_syllables: " << metadata->num_syllables << std::endl;
   std::cout << "num_entries: " << metadata->num_entries << std::endl;
 

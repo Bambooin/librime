@@ -17,8 +17,8 @@
 #include <io.h>
 #include <windows.h>
 #else
-#include <errno.h>
-#include <signal.h>
+#include <cerrno>
+#include <csignal>
 #include <sys/ioctl.h>
 #include <sys/select.h>
 #include <termios.h>
@@ -358,7 +358,7 @@ bool LineEditor::ReadLine(const char* prompt,
     const int ch = ReadChar();
     if (ch == kReadInterrupted) {
       if (vt_supported_) {
-        fputs("\r\x1b[J", stdout);
+        (void)fputs("\r\x1b[J", stdout);
         last_cursor_row_ = 0;
       }
       RefreshLine(line, cursor);
@@ -366,7 +366,7 @@ bool LineEditor::ReadLine(const char* prompt,
     }
     if (ch == -1) {
       putchar('\n');
-      fflush(stdout);
+      (void)fflush(stdout);
       return false;
     }
     if (ch == '\r' || ch == '\n') {
@@ -379,7 +379,7 @@ bool LineEditor::ReadLine(const char* prompt,
       suggestion_.clear();
       RefreshLine(line, line.size());
       putchar('\n');
-      fflush(stdout);
+      (void)fflush(stdout);
       *out = line;
       if (!out->empty()) {
         bool whitespace_only = true;
@@ -403,12 +403,12 @@ bool LineEditor::ReadLine(const char* prompt,
     }
     if ((ch == 4 || ch == 26) && line.empty()) {  // Ctrl-D / Ctrl-Z
       putchar('\n');
-      fflush(stdout);
+      (void)fflush(stdout);
       return false;
     }
     if (ch == 3) {  // Ctrl-C
       putchar('\n');
-      fflush(stdout);
+      (void)fflush(stdout);
       return false;
     }
     if (ch == 14 || ch == 16) {  // Ctrl-N / Ctrl-P
@@ -603,7 +603,10 @@ size_t LineEditor::TerminalWidth() const {
 #endif
   const char* cols = std::getenv("COLUMNS");
   if (cols) {
+    // Environment variable.
+    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     const int value = std::atoi(cols);
+    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     if (value > 0)
       return static_cast<size_t>(value);
   }
@@ -628,7 +631,10 @@ size_t LineEditor::TerminalHeight() const {
 #endif
   const char* lines = std::getenv("LINES");
   if (lines) {
+    // Environment variable.
+    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     const int value = std::atoi(lines);
+    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
     if (value > 0)
       return static_cast<size_t>(value);
   }
@@ -649,8 +655,7 @@ size_t LineEditor::RenderMenu(size_t width) {
     return 0;
   const size_t n = menu_items_.size();
   const size_t visible = MenuRows();
-  if (menu_selected_ < menu_scroll_)
-    menu_scroll_ = menu_selected_;
+  menu_scroll_ = std::min(menu_selected_, menu_scroll_);
   if (menu_selected_ >= menu_scroll_ + visible)
     menu_scroll_ = menu_selected_ - visible + 1;
   if (menu_scroll_ + visible > n)
@@ -689,13 +694,13 @@ size_t LineEditor::RenderMenu(size_t width) {
       }
     }
 
-    fputs("\r\n", stdout);
+    (void)fputs("\r\n", stdout);
     if (selected) {
-      fputs("\x1b[7m", stdout);
-      fputs(line.c_str(), stdout);
-      fputs("\x1b[0m", stdout);
+      (void)fputs("\x1b[7m", stdout);
+      (void)fputs(line.c_str(), stdout);
+      (void)fputs("\x1b[0m", stdout);
     } else {
-      fputs(line.c_str(), stdout);
+      (void)fputs(line.c_str(), stdout);
     }
   }
   return visible;
@@ -711,18 +716,18 @@ void LineEditor::RefreshLine(const std::string& line, size_t cursor) {
     if (last_cursor_row_ > 0)
       printf("\x1b[%zuA", last_cursor_row_);
     putchar('\r');
-    fputs("\x1b[0m", stdout);
-    fputs("\x1b[J", stdout);
+    (void)fputs("\x1b[0m", stdout);
+    (void)fputs("\x1b[J", stdout);
 
     if (!header_visual_.empty())
-      fputs(header_visual_.c_str(), stdout);
+      (void)fputs(header_visual_.c_str(), stdout);
 
     const std::string content = prompt_ + visual_line;
-    fputs(content.c_str(), stdout);
+    (void)fputs(content.c_str(), stdout);
     if (!visual_suggestion.empty()) {
-      fputs("\x1b[90m", stdout);
-      fputs(visual_suggestion.c_str(), stdout);
-      fputs("\x1b[0m", stdout);
+      (void)fputs("\x1b[90m", stdout);
+      (void)fputs(visual_suggestion.c_str(), stdout);
+      (void)fputs("\x1b[0m", stdout);
     }
 
     const Measure end = MeasureText(content + visual_suggestion, 0, width);
@@ -745,12 +750,12 @@ void LineEditor::RefreshLine(const std::string& line, size_t cursor) {
     putchar('\r');
     if (target.col > 0)
       printf("\x1b[%zuC", target.col);
-    fflush(stdout);
+    (void)fflush(stdout);
 
     last_cursor_row_ = target_row;
   } else {
     if (!fallback_header_printed_ && !header_visual_.empty()) {
-      fputs(header_visual_.c_str(), stdout);
+      (void)fputs(header_visual_.c_str(), stdout);
       fallback_header_printed_ = true;
     }
     putchar('\r');
@@ -760,8 +765,8 @@ void LineEditor::RefreshLine(const std::string& line, size_t cursor) {
         putchar(' ');
       putchar('\r');
     }
-    fputs(prompt_.c_str(), stdout);
-    fputs(visual_line.c_str(), stdout);
+    (void)fputs(prompt_.c_str(), stdout);
+    (void)fputs(visual_line.c_str(), stdout);
     if (!visual_suggestion.empty()) {
 #ifdef _WIN32
       if (win_console_output_) {
@@ -778,11 +783,11 @@ void LineEditor::RefreshLine(const std::string& line, size_t cursor) {
         fputs(visual_suggestion.c_str(), stdout);
       }
 #else
-      fputs(visual_suggestion.c_str(), stdout);
+      (void)fputs(visual_suggestion.c_str(), stdout);
 #endif
     }
     last_line_render_ = prompt_ + visual_line + visual_suggestion;
-    fflush(stdout);
+    (void)fflush(stdout);
   }
 }
 
@@ -1264,5 +1269,5 @@ bool LineEditor::IsPrintable(int ch) const {
 
 void LineEditor::EmitBell() const {
   putchar('\a');
-  fflush(stdout);
+  (void)fflush(stdout);
 }

@@ -17,8 +17,8 @@ using namespace rime;
 
 TEST(/*DISABLED_*/ TrivialTranslatorTest, Query) {
   // make sure the component has been registered
-  auto component = Translator::Require("trivial_translator");
-  ASSERT_TRUE(component != NULL);
+  auto* component = Translator::Require("trivial_translator");
+  ASSERT_TRUE(component != nullptr);
   Ticket ticket;
   the<Translator> translator(component->Create(ticket));
   // make sure the dict object has been created

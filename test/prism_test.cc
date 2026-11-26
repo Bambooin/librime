@@ -5,6 +5,7 @@
 // 2011-05-17 Zou xu <zouivex@gmail.com>
 //
 #include <algorithm>
+#include <memory>
 #include <string_view>
 #include <gtest/gtest.h>
 #include <rime/dict/prism.h>
@@ -15,8 +16,8 @@ class RimePrismTest : public ::testing::Test {
  protected:
   RimePrismTest() {}
 
-  virtual void SetUp() {
-    prism_.reset(new Prism(path{"prism_test.bin"}));
+  void SetUp() override {
+    prism_ = std::make_unique<Prism>(path{"prism_test.bin"});
     prism_->Remove();
     set<string> keyset;
     keyset.insert("google");   // 4
@@ -31,7 +32,7 @@ class RimePrismTest : public ::testing::Test {
     prism_->Build(keyset);
   }
 
-  virtual void TearDown() {}
+  void TearDown() override {}
 
   the<Prism> prism_;
 };
