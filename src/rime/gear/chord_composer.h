@@ -42,9 +42,9 @@ class ChordComposer : public Processor,
                       public KeyBindingProcessor<ChordComposer> {
  public:
   ChordComposer(const Ticket& ticket);
-  ~ChordComposer();
+  ~ChordComposer() override;
 
-  virtual ProcessResult ProcessKeyEvent(const KeyEvent& key_event);
+  ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
   Handler CommitRawInput;
 
@@ -84,7 +84,7 @@ class ChordComposer : public Processor,
 class ChordComposerComponent : public Processor::Component {
  public:
   using ChordComposerLegacy = ChordComposer;
-  ChordComposerComponent() {}
+  ChordComposerComponent() = default;
   Processor* Create(const Ticket& ticket) override;
 };
 

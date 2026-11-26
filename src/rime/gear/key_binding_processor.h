@@ -16,7 +16,7 @@ namespace rime {
 template <class T, int N = 1>
 class KeyBindingProcessor {
  public:
-  typedef bool Handler(Context* ctx);
+  using Handler = bool(Context* ctx);
   using HandlerPtr = bool (T::*)(Context* ctx);
 
   enum FallbackOptions {

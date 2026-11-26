@@ -83,8 +83,8 @@ void KeyBindingProcessor<T, N>::LoadConfig(Config* config,
                                            int keymap_selector) {
   auto& keymap = get_keymap(keymap_selector);
   if (auto bindings = config->GetMap(section + "/bindings")) {
-    for (auto it = bindings->begin(); it != bindings->end(); ++it) {
-      auto value = As<ConfigValue>(it->second);
+    for (auto& it : *bindings) {
+      auto value = As<ConfigValue>(it.second);
       if (!value) {
         continue;
       }
@@ -97,8 +97,8 @@ void KeyBindingProcessor<T, N>::LoadConfig(Config* config,
         continue;
       }
       KeyEvent ke;
-      if (!ke.Parse(it->first)) {
-        LOG(WARNING) << "[" << section << "] invalid key: " << it->first;
+      if (!ke.Parse(it.first)) {
+        LOG(WARNING) << "[" << section << "] invalid key: " << it.first;
         continue;
       }
       keymap.Bind(ke, p->action);

@@ -19,7 +19,7 @@ class KeyBindings;
 class KeyBinder : public Processor {
  public:
   KeyBinder(const Ticket& ticket);
-  virtual ProcessResult ProcessKeyEvent(const KeyEvent& key_event);
+  ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
  protected:
   void LoadConfig();

@@ -25,7 +25,7 @@ struct CommitEntry : DictEntry {
   vector<const DictEntry*> elements;
   Memory* memory;
 
-  CommitEntry(Memory* a_memory = NULL) : memory(a_memory) {}
+  CommitEntry(Memory* a_memory = nullptr) : memory(a_memory) {}
   bool empty() const { return text.empty(); }
   void Clear();
   void AppendPhrase(const an<Phrase>& phrase);

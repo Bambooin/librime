@@ -20,10 +20,12 @@ class ReverseLookupFilter : public Filter, TagMatching {
  public:
   explicit ReverseLookupFilter(const Ticket& ticket);
 
-  virtual an<Translation> Apply(an<Translation> translation,
-                                CandidateList* candidates);
+  an<Translation> Apply(an<Translation> translation,
+                        CandidateList* candidates) override;
 
-  virtual bool AppliesToSegment(Segment* segment) { return TagsMatch(segment); }
+  bool AppliesToSegment(Segment* segment) override {
+    return TagsMatch(segment);
+  }
 
   void Process(const an<Candidate>& cand);
 

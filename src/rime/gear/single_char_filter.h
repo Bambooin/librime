@@ -15,8 +15,8 @@ class SingleCharFilter : public Filter {
  public:
   explicit SingleCharFilter(const Ticket& ticket);
 
-  virtual an<Translation> Apply(an<Translation> translation,
-                                CandidateList* candidates);
+  an<Translation> Apply(an<Translation> translation,
+                        CandidateList* candidates) override;
 };
 
 }  // namespace rime

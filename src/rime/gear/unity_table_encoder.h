@@ -19,20 +19,20 @@ class UserDictionary;
 class UnityTableEncoder : public TableEncoder, public PhraseCollector {
  public:
   UnityTableEncoder(UserDictionary* user_dict);
-  ~UnityTableEncoder();
+  ~UnityTableEncoder() override;
 
   bool Load(const Ticket& ticket);
 
   void CreateEntry(const string& word,
                    const string& code_str,
-                   const string& weight_str);
-  bool TranslateWord(const string& word, vector<string>* code);
+                   const string& weight_str) override;
+  bool TranslateWord(const string& word, vector<string>* code) override;
 
   size_t LookupPhrases(UserDictEntryIterator* result,
                        const string& input,
                        bool predictive,
                        size_t limit = 0,
-                       string* resume_key = NULL);
+                       string* resume_key = nullptr);
 
   static bool HasPrefix(const string& key);
   static bool AddPrefix(string* key);

@@ -16,7 +16,7 @@ class Matcher : public Segmentor {
  public:
   explicit Matcher(const Ticket& ticket);
 
-  virtual bool Proceed(Segmentation* segmentation);
+  bool Proceed(Segmentation* segmentation) override;
 
  protected:
   RecognizerPatterns patterns_;

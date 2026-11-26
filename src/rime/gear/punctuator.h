@@ -22,7 +22,7 @@ class Engine;
 class PunctConfig {
  public:
   void LoadConfig(Engine* engine, bool load_symbols = false);
-  an<ConfigItem> GetPunctDefinition(const string key);
+  an<ConfigItem> GetPunctDefinition(string key);
 
   bool has_digit_separators() const { return !digit_separators_.empty(); }
   bool is_digit_separator(char ch) const {
@@ -42,7 +42,7 @@ class PunctConfig {
 class Punctuator : public Processor {
  public:
   Punctuator(const Ticket& ticket);
-  virtual ProcessResult ProcessKeyEvent(const KeyEvent& key_event);
+  ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
  protected:
   bool ConvertDigitSeparator(char ch);
@@ -60,7 +60,7 @@ class Punctuator : public Processor {
 class PunctSegmentor : public Segmentor {
  public:
   PunctSegmentor(const Ticket& ticket);
-  virtual bool Proceed(Segmentation* segmentation);
+  bool Proceed(Segmentation* segmentation) override;
 
  protected:
   PunctConfig config_;
@@ -69,7 +69,7 @@ class PunctSegmentor : public Segmentor {
 class PunctTranslator : public Translator {
  public:
   PunctTranslator(const Ticket& ticket);
-  virtual an<Translation> Query(const string& input, const Segment& segment);
+  an<Translation> Query(const string& input, const Segment& segment) override;
 
  protected:
   an<Translation> TranslateUniquePunct(const string& key,

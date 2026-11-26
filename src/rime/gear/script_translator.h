@@ -30,11 +30,10 @@ class ScriptTranslator : public Translator,
  public:
   ScriptTranslator(const Ticket& ticket);
 
-  virtual an<Translation> Query(const string& input,
-                                const Segment& segment) override;
-  virtual bool Memorize(const CommitEntry& commit_entry) override;
-  virtual bool ProcessSegmentOnCommit(CommitEntry& commit_entry,
-                                      const Segment& seg) override;
+  an<Translation> Query(const string& input, const Segment& segment) override;
+  bool Memorize(const CommitEntry& commit_entry) override;
+  bool ProcessSegmentOnCommit(CommitEntry& commit_entry,
+                              const Segment& seg) override;
 
   string FormatPreedit(const string& preedit);
   string Spell(const Code& code);

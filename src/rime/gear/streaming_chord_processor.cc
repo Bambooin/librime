@@ -6,6 +6,7 @@
 #include "streaming_chord_processor.h"
 #include <cctype>
 #include <boost/algorithm/string.hpp>
+#include <memory>
 #include <utf8.h>
 #include <rime/context.h>
 #include <rime/engine.h>
@@ -54,9 +55,9 @@ StreamingChordProcessor::StreamingChordProcessor(const Ticket& ticket)
 
   // 2. 載入鍵位映射配置 (物理鍵碼 -> 宮保字母)
   if (an<ConfigMap> key_map = config->GetMap("streaming_chord/key_map")) {
-    for (auto it = key_map->begin(); it != key_map->end(); ++it) {
-      string key_str = it->first;
-      auto val = As<ConfigValue>(it->second);
+    for (auto& it : *key_map) {
+      string key_str = it.first;
+      auto val = As<ConfigValue>(it.second);
       if (!val)
         continue;
       string target_str = val->str();
@@ -101,7 +102,7 @@ StreamingChordProcessor::StreamingChordProcessor(const Ticket& ticket)
 
   // 4. 並擊和弦標準化運算
   if (an<ConfigList> rules = config->GetList("streaming_chord/canonicalize")) {
-    the<Projection> canonicalizer(new Projection());
+    the<Projection> canonicalizer = std::make_unique<Projection>();
     if (canonicalizer->Load(rules)) {
       canonicalizer_ = std::move(canonicalizer);
     }
@@ -109,9 +110,9 @@ StreamingChordProcessor::StreamingChordProcessor(const Ticket& ticket)
 
   // 5. 載入動作和弦後綴
   if (an<ConfigMap> action_map = config->GetMap("streaming_chord/actions")) {
-    for (auto it = action_map->begin(); it != action_map->end(); ++it) {
-      string suffix_str = it->first;
-      auto val = As<ConfigValue>(it->second);
+    for (auto& it : *action_map) {
+      string suffix_str = it.first;
+      auto val = As<ConfigValue>(it.second);
       if (!val || suffix_str.empty())
         continue;
 

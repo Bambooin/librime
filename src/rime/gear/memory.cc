@@ -59,13 +59,13 @@ Memory::Memory(const Ticket& ticket) {
   if (!ticket.engine)
     return;
 
-  if (auto dictionary = Dictionary::Require("dictionary")) {
+  if (auto* dictionary = Dictionary::Require("dictionary")) {
     dict_.reset(dictionary->Create(ticket));
     if (dict_)
       dict_->Load();
   }
 
-  if (auto user_dictionary = UserDictionary::Require("user_dictionary")) {
+  if (auto* user_dictionary = UserDictionary::Require("user_dictionary")) {
     user_dict_.reset(user_dictionary->Create(ticket));
     if (user_dict_) {
       user_dict_->Load();

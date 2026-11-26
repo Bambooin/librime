@@ -29,9 +29,9 @@ class AsciiComposer : public Processor,
                       public KeyBindingProcessor<AsciiComposer> {
  public:
   AsciiComposer(const Ticket& ticket);
-  virtual ~AsciiComposer();
+  ~AsciiComposer() override;
 
-  virtual ProcessResult ProcessKeyEvent(const KeyEvent& key_event);
+  ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
   // 開放給 bindings 的動作處理函數
   bool CommitRawInput(Context* ctx);

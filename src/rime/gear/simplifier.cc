@@ -5,7 +5,7 @@
 // 2011-12-12 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
-#include <stdint.h>
+#include <cstdint>
 #include <utf8.h>
 #include <utility>
 #include <rime/candidate.h>
@@ -46,8 +46,8 @@ Simplifier::Simplifier(const Ticket& ticket, an<Opencc> opencc)
     config->GetBool(name_space_ + "/random", &random_);
     config->GetString(name_space_ + "/option_name", &option_name_);
     if (auto types = config->GetList(name_space_ + "/excluded_types")) {
-      for (auto it = types->begin(); it != types->end(); ++it) {
-        if (auto value = As<ConfigValue>(*it)) {
+      for (auto& it : *types) {
+        if (auto value = As<ConfigValue>(it)) {
           excluded_types_.insert(value->str());
         }
       }
@@ -57,7 +57,10 @@ Simplifier::Simplifier(const Ticket& ticket, an<Opencc> opencc)
     option_name_ = "simplification";  // default switcher option
   }
   if (random_) {
-    srand((unsigned)time(NULL));
+    // Non-cryptographic RNG.
+    // NOLINTBEGIN(bugprone-random-generator-seed,cert-msc32-c,cert-msc51-cpp)
+    srand((unsigned)time(nullptr));
+    // NOLINTEND(bugprone-random-generator-seed,cert-msc32-c,cert-msc51-cpp)
   }
 }
 
@@ -67,7 +70,7 @@ class SimplifiedTranslation : public PrefetchTranslation {
       : PrefetchTranslation(translation), simplifier_(simplifier) {}
 
  protected:
-  virtual bool Replenish();
+  bool Replenish() override;
 
   Simplifier* simplifier_;
 };
@@ -137,11 +140,11 @@ bool Simplifier::Convert(const an<Candidate>& original,
     vector<string> forms;
     success = opencc_->ConvertWord(original->text(), &forms);
     if (success) {
-      for (size_t i = 0; i < forms.size(); ++i) {
-        if (forms[i] == original->text()) {
+      for (const auto& form : forms) {
+        if (form == original->text()) {
           result->push_back(original);
         } else {
-          PushBack(original, result, forms[i]);
+          PushBack(original, result, form);
         }
       }
     } else {
@@ -155,7 +158,7 @@ bool Simplifier::Convert(const an<Candidate>& original,
   return success;
 }
 
-SimplifierComponent::SimplifierComponent() {}
+SimplifierComponent::SimplifierComponent() = default;
 
 Simplifier* SimplifierComponent::Create(const Ticket& ticket) {
   string name_space = ticket.name_space;

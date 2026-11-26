@@ -17,7 +17,7 @@ class EchoTranslation : public UniqueTranslation {
  public:
   EchoTranslation(const an<Candidate>& candidate)
       : UniqueTranslation(candidate) {}
-  virtual int Compare(an<Translation> other, const CandidateList& candidates) {
+  int Compare(an<Translation> other, const CandidateList& candidates) override {
     if (!candidates.empty() || (other && !other->exhausted())) {
       set_exhausted(true);
     }

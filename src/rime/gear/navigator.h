@@ -27,7 +27,7 @@ class Navigator : public Processor, public KeyBindingProcessor<Navigator, 2> {
   };
 
   explicit Navigator(const Ticket& ticket);
-  virtual ~Navigator();
+  ~Navigator() override;
 
   ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
@@ -59,7 +59,6 @@ class Navigator : public Processor, public KeyBindingProcessor<Navigator, 2> {
 
   connection select_connection_;
 
- private:
   string delimiters_;
   SyllableJumpPosition syllable_jump_position_ = AfterDelimiter;
   size_t ToSpanStart(size_t pos);

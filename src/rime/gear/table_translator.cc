@@ -7,6 +7,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/range/adaptor/reversed.hpp>
 #include <cmath>
+#include <memory>
 #include <utf8.h>
 #include <rime/candidate.h>
 #include <rime/common.h>
@@ -80,9 +81,9 @@ an<Candidate> TableTranslation::Peek() {
     options_->comment_formatter().Apply(&comment);
   }
   bool incomplete = e->remaining_code_length != 0;
-  auto type = incomplete       ? "completion"
-              : is_user_phrase ? "user_table"
-                               : "table";
+  const auto* type = incomplete       ? "completion"
+                     : is_user_phrase ? "user_table"
+                                      : "table";
   auto phrase = New<Phrase>(language_, type, start_, end_, e);
   if (phrase) {
     phrase->set_comment(comment);
@@ -126,8 +127,8 @@ class LazyTableTranslation : public TableTranslation {
                        const string& preedit,
                        bool enable_user_dict);
   bool FetchUserPhrases(TableTranslator* translator);
-  virtual bool FetchMoreUserPhrases();
-  virtual bool FetchMoreTableEntries();
+  bool FetchMoreUserPhrases() override;
+  bool FetchMoreTableEntries() override;
 
  private:
   Dictionary* dict_;
@@ -152,7 +153,7 @@ LazyTableTranslation::LazyTableTranslation(TableTranslator* translator,
                        preedit),
       dict_(translator->dict()),
       blacklist_(&translator->blacklist()),
-      user_dict_(enable_user_dict ? translator->user_dict() : NULL),
+      user_dict_(enable_user_dict ? translator->user_dict() : nullptr),
       limit_(kInitialSearchLimit),
       user_dict_limit_(kInitialSearchLimit) {
   FetchUserPhrases(translator) || FetchMoreUserPhrases();
@@ -165,7 +166,7 @@ bool LazyTableTranslation::FetchUserPhrases(TableTranslator* translator) {
     return false;
   // fetch all exact match entries
   user_dict_->LookupWords(&uter_, input_, false, 0, &user_dict_key_);
-  auto encoder = translator->encoder();
+  auto* encoder = translator->encoder();
   if (encoder && encoder->loaded()) {
     encoder->LookupPhrases(&uter_, input_, false);
   }
@@ -225,11 +226,12 @@ TableTranslator::TableTranslator(const Ticket& ticket)
     config->GetInt(name_space_ + "/max_homographs", &max_homographs_);
     if (enable_sentence_ || sentence_over_completion_ ||
         contextual_suggestions_) {
-      poet_.reset(new Poet(language(), config, Poet::LeftAssociateCompare));
+      poet_ = std::make_unique<Poet>(language(), config,
+                                     Poet::LeftAssociateCompare);
     }
   }
   if (enable_encoder_ && user_dict_) {
-    encoder_.reset(new UnityTableEncoder(user_dict_.get()));
+    encoder_ = std::make_unique<UnityTableEncoder>(user_dict_.get());
     encoder_->Load(ticket);
   }
 }
@@ -365,12 +367,12 @@ string TableTranslator::GetPrecedingText(size_t start) const {
 
 class SentenceSyllabifier : public PhraseSyllabifier {
  public:
-  virtual Spans Syllabify(const Phrase* phrase);
+  Spans Syllabify(const Phrase* phrase) override;
 };
 
 Spans SentenceSyllabifier::Syllabify(const Phrase* phrase) {
   Spans result;
-  if (auto sentence = dynamic_cast<const Sentence*>(phrase)) {
+  if (const auto* sentence = dynamic_cast<const Sentence*>(phrase)) {
     size_t stop = sentence->start();
     result.AddVertex(stop);
     for (size_t len : sentence->word_lengths()) {
@@ -391,8 +393,8 @@ class SentenceTranslation : public Translation {
                       UserDictEntryCollector&& ucollector,
                       const string& input,
                       size_t start);
-  virtual bool Next();
-  virtual an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   void PrepareSentence();
@@ -460,7 +462,7 @@ an<Candidate> SentenceTranslation::Peek() {
     code_length = r->first;
     entry = r->second.Peek();
   }
-  auto result = New<Phrase>(translator_ ? translator_->language() : NULL,
+  auto result = New<Phrase>(translator_ ? translator_->language() : nullptr,
                             is_user_phrase ? "user_table" : "table", start_,
                             start_ + code_length, entry);
   if (translator_) {
@@ -551,7 +553,7 @@ an<Translation> TableTranslator::MakeSentence(const string& input,
   hash_set<int> vertices = {0};
   for (size_t start_pos = 0; start_pos < input.length(); ++start_pos) {
     // find next reachable vertex in word graph
-    if (vertices.find(start_pos) == vertices.end())
+    if (!vertices.contains(start_pos))
       continue;
     string active_input = input.substr(start_pos);
     string active_key = active_input + ' ';

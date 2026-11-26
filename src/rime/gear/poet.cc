@@ -83,7 +83,7 @@ Poet::Poet(const Language* language, Config* config, Compare compare)
       grammar_(create_grammar(config)),
       compare_(compare) {}
 
-Poet::~Poet() {}
+Poet::~Poet() = default;
 
 bool Poet::CompareWeight(const Line& one, const Line& other) {
   return one.weight < other.weight;
@@ -181,7 +181,8 @@ struct DynamicProgramming {
 
   static const Line& BestLineInState(const State& final_state,
                                      const Poet::Compare&) {
-    return final_state;
+    return final_state;  // NOLINT(bugprone-return-const-ref-from-parameter):
+                         // caller-owned state
   }
 };
 

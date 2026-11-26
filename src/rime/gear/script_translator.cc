@@ -7,6 +7,7 @@
 // 2011-07-10 GONG Chen <chen.sst@gmail.com>
 //
 #include <algorithm>
+#include <memory>
 #include <stack>
 #include <cmath>
 #include <boost/algorithm/string/join.hpp>
@@ -47,9 +48,7 @@ struct SyllabifyTask {
   function<void(SyllabifyTask* task, size_t depth)> pop;
 };
 
-static bool syllabify_dfs(SyllabifyTask* task,
-                          size_t depth,
-                          size_t current_pos) {
+bool syllabify_dfs(SyllabifyTask* task, size_t depth, size_t current_pos) {
   if (depth == task->code.size()) {
     return current_pos == task->target_pos;
   }
@@ -93,7 +92,7 @@ class ScriptSyllabifier : public PhraseSyllabifier {
     }
   }
 
-  virtual Spans Syllabify(const Phrase* phrase);
+  Spans Syllabify(const Phrase* phrase) override;
   size_t BuildSyllableGraph(Prism& prism);
   string GetPreeditString(const Phrase& cand) const;
   string GetOriginalSpelling(const Phrase& cand) const;
@@ -131,8 +130,8 @@ class ScriptTranslation : public Translation {
     set_exhausted(true);
   }
   bool Evaluate(Dictionary* dict, UserDictionary* user_dict);
-  virtual bool Next();
-  virtual an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   bool CheckEmpty();
@@ -196,9 +195,9 @@ ScriptTranslator::ScriptTranslator(const Ticket& ticket)
       enable_word_completion_ = enable_completion_;
     }
     config->GetInt(name_space_ + "/max_homophones", &max_homophones_);
-    poet_.reset(new Poet(language(), config));
+    poet_ = std::make_unique<Poet>(language(), config);
     if (an<ConfigList> rules = config->GetList(name_space_ + "/canonicalize")) {
-      the<Projection> canonicalizer(new Projection());
+      the<Projection> canonicalizer = std::make_unique<Projection>();
       if (canonicalizer->Load(rules)) {
         canonicalizer_ = std::move(canonicalizer);
       }
@@ -230,8 +229,9 @@ an<Translation> ScriptTranslator::Query(const string& input,
   auto result = New<ScriptTranslation>(
       this, corrector_.get(), poet_.get(), input, segment.start, end_of_input,
       max_sentences_, sentence_cutoff_threshold_);
-  if (!result || !result->Evaluate(
-                     dict_.get(), enable_user_dict ? user_dict_.get() : NULL)) {
+  if (!result ||
+      !result->Evaluate(dict_.get(),
+                        enable_user_dict ? user_dict_.get() : nullptr)) {
     return nullptr;
   }
   auto deduped = New<DistinctTranslation>(result);

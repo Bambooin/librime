@@ -21,7 +21,7 @@ class SchemaSelection : public SimpleCandidate, public SwitcherCommand {
   SchemaSelection(Schema* schema)
       : SimpleCandidate("schema", 0, 0, schema->schema_name()),
         SwitcherCommand(schema->schema_id()) {}
-  virtual void Apply(Switcher* switcher);
+  void Apply(Switcher* switcher) override;
 };
 
 void SchemaSelection::Apply(Switcher* switcher) {
@@ -40,7 +40,7 @@ class SchemaAction : public ShadowCandidate, public SwitcherCommand {
       : ShadowCandidate(schema, command->type()),
         SwitcherCommand(As<SwitcherCommand>(schema)->keyword()),
         command_(As<SwitcherCommand>(command)) {}
-  virtual void Apply(Switcher* switcher);
+  void Apply(Switcher* switcher) override;
 
  private:
   an<SwitcherCommand> command_;
@@ -55,7 +55,7 @@ void SchemaAction::Apply(Switcher* switcher) {
 class SchemaListTranslation : public FifoTranslation {
  public:
   SchemaListTranslation(Switcher* switcher) { LoadSchemaList(switcher); }
-  virtual int Compare(an<Translation> other, const CandidateList& candidates);
+  int Compare(an<Translation> other, const CandidateList& candidates) override;
 
  protected:
   void LoadSchemaList(Switcher* switcher);
@@ -96,7 +96,7 @@ void SchemaListTranslation::LoadSchemaList(Switcher* switcher) {
   }
   Config* user_config = switcher->user_config();
   size_t fixed = candies_.size();
-  time_t now = time(NULL);
+  time_t now = time(nullptr);
   // load the rest schema list
   Switcher::ForEachSchemaListEntry(config, [this, current_schema, user_config,
                                             now](const string& schema_id) {
@@ -129,7 +129,7 @@ SchemaListTranslator::SchemaListTranslator(const Ticket& ticket)
     : Translator(ticket) {}
 
 an<Translation> SchemaListTranslator::Query(const string&, const Segment&) {
-  auto switcher = dynamic_cast<Switcher*>(engine_);
+  auto* switcher = dynamic_cast<Switcher*>(engine_);
   if (!switcher) {
     return nullptr;
   }

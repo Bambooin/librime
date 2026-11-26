@@ -19,7 +19,7 @@ class ReverseLookupFilterTranslation : public CacheTranslation {
   ReverseLookupFilterTranslation(an<Translation> translation,
                                  ReverseLookupFilter* filter)
       : CacheTranslation(translation), filter_(filter) {}
-  virtual an<Candidate> Peek();
+  an<Candidate> Peek() override;
 
  protected:
   ReverseLookupFilter* filter_;
@@ -45,7 +45,7 @@ void ReverseLookupFilter::Initialize() {
   if (!engine_)
     return;
   Ticket ticket(engine_, name_space_);
-  if (auto c = ReverseLookupDictionary::Require("reverse_lookup_dictionary")) {
+  if (auto* c = ReverseLookupDictionary::Require("reverse_lookup_dictionary")) {
     rev_dict_.reset(c->Create(ticket));
     if (rev_dict_ && !rev_dict_->Load()) {
       rev_dict_.reset();

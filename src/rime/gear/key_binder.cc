@@ -36,7 +36,7 @@ static struct KeyBindingConditionDef {
                              {kWhenHasMenu, "has_menu"},
                              {kWhenComposing, "composing"},
                              {kAlways, "always"},
-                             {kNever, NULL}};
+                             {kNever, nullptr}};
 
 static KeyBindingCondition translate_condition(const string& str) {
   for (auto* d = condition_definitions; d->name; ++d) {
@@ -81,7 +81,9 @@ static Switches::SwitchOption switch_by_index(Switches& switches,
   try {
     size_t index = std::stoul(option.substr(1));
     return switches.ByIndex(index);
+    // NOLINTNEXTLINE(bugprone-empty-catch): non-numeric index, return empty
   } catch (...) {
+    // Not a numeric index; fall through to an empty result.
   }
   return {};
 }
@@ -94,7 +96,7 @@ static void toggle_option(Engine* engine, const string& option) {
   auto the_option = is_switch_index(option) ? switch_by_index(switches, option)
                                             : switches.OptionByName(option);
   if (the_option.found() && the_option.type == Switches::kRadioGroup) {
-    auto selected_option = switches.FindRadioGroupOption(
+    auto selected_option = rime::Switches::FindRadioGroupOption(
         the_option.the_switch, [ctx](Switches::SwitchOption option) {
           return ctx->get_option(option.option_name) ? Switches::kFound
                                                      : Switches::kContinue;
@@ -126,7 +128,7 @@ static void set_option(Engine* engine, const string& option) {
   if (the_option.found() && the_option.type == Switches::kRadioGroup) {
     radio_select_option(ctx, the_option);
   } else {
-    ctx->set_option(option, 1);
+    ctx->set_option(option, true);
   }
 }
 
@@ -144,7 +146,7 @@ static void unset_option(Engine* engine, const string& option) {
       }
     }
   } else {
-    ctx->set_option(option, 0);
+    ctx->set_option(option, false);
   }
 }
 

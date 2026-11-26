@@ -38,7 +38,7 @@ class Recognizer : public Processor {
  public:
   Recognizer(const Ticket& ticket);
 
-  virtual ProcessResult ProcessKeyEvent(const KeyEvent& key_event);
+  ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
  protected:
   RecognizerPatterns patterns_;

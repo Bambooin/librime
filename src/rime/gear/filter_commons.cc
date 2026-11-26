@@ -16,9 +16,9 @@ TagMatching::TagMatching(const Ticket& ticket) {
     return;
   Config* config = ticket.schema->config();
   if (auto tags = config->GetList(ticket.name_space + "/tags")) {
-    for (auto it = tags->begin(); it != tags->end(); ++it) {
-      if (Is<ConfigValue>(*it)) {
-        tags_.push_back(As<ConfigValue>(*it)->str());
+    for (auto& it : *tags) {
+      if (Is<ConfigValue>(it)) {
+        tags_.push_back(As<ConfigValue>(it)->str());
       }
     }
   }

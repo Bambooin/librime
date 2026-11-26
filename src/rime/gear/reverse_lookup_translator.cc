@@ -5,6 +5,7 @@
 // 2012-01-03 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+#include <memory>
 #include <rime/candidate.h>
 #include <rime/engine.h>
 #include <rime/schema.h>
@@ -35,7 +36,7 @@ class ReverseLookupTranslation : public TableTranslation {
                            DictEntryIterator&& iter,
                            bool quality)
       : TableTranslation(options,
-                         NULL,
+                         nullptr,
                          input,
                          start,
                          end,
@@ -44,8 +45,8 @@ class ReverseLookupTranslation : public TableTranslation {
         dict_(dict),
         options_(options),
         quality_(quality) {}
-  virtual an<Candidate> Peek();
-  virtual int Compare(an<Translation> other, const CandidateList& candidates);
+  an<Candidate> Peek() override;
+  int Compare(an<Translation> other, const CandidateList& candidates) override;
 
  protected:
   ReverseLookupDictionary* dict_;
@@ -105,7 +106,7 @@ void ReverseLookupTranslator::Initialize() {
   if (!engine_)
     return;
   Ticket ticket(engine_, name_space_);
-  options_.reset(new TranslatorOptions(ticket));
+  options_ = std::make_unique<TranslatorOptions>(ticket);
   Config* config = engine_->schema()->config();
   if (!config)
     return;
@@ -118,7 +119,7 @@ void ReverseLookupTranslator::Initialize() {
       options_->set_enable_completion(false);  // overridden default
   }
 
-  if (auto component = Dictionary::Require("dictionary")) {
+  if (auto* component = Dictionary::Require("dictionary")) {
     dict_.reset(component->Create(ticket));
   }
   if (dict_) {
@@ -126,7 +127,7 @@ void ReverseLookupTranslator::Initialize() {
   } else {
     return;
   }
-  auto rev_component =
+  auto* rev_component =
       ReverseLookupDictionary::Require("reverse_lookup_dictionary");
   if (!rev_component)
     return;

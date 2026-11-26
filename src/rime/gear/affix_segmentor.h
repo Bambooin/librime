@@ -15,7 +15,7 @@ class AffixSegmentor : public Segmentor {
  public:
   explicit AffixSegmentor(const Ticket& ticket);
 
-  virtual bool Proceed(Segmentation* segmentation);
+  bool Proceed(Segmentation* segmentation) override;
 
  protected:
   string tag_;

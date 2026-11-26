@@ -19,14 +19,14 @@ static struct AsciiModeSwitchStyleDefinition {
                                 {"clear", kAsciiModeSwitchClear},
                                 {"set_ascii_mode", kAsciiModeSet},
                                 {"unset_ascii_mode", kAsciiModeUnset},
-                                {NULL, kAsciiModeSwitchNoop}};
+                                {nullptr, kAsciiModeSwitchNoop}};
 
 static bool load_bindings(const an<ConfigMap>& src,
                           AsciiModeSwitchKeyBindings* dest) {
   if (!src || !dest)
     return false;
-  for (auto it = src->begin(); it != src->end(); ++it) {
-    auto value = As<ConfigValue>(it->second);
+  for (auto& it : *src) {
+    auto value = As<ConfigValue>(it.second);
     if (!value)
       continue;
     auto* p = ascii_mode_switch_styles;
@@ -35,8 +35,8 @@ static bool load_bindings(const an<ConfigMap>& src,
     if (p->style == kAsciiModeSwitchNoop)
       continue;
     KeyEvent ke;
-    if (!ke.Parse(it->first) || ke.modifier() != 0) {
-      LOG(WARNING) << "invalid ascii mode switch key: " << it->first;
+    if (!ke.Parse(it.first) || ke.modifier() != 0) {
+      LOG(WARNING) << "invalid ascii mode switch key: " << it.first;
       continue;
     }
     // save binding

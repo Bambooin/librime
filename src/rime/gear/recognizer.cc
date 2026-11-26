@@ -18,13 +18,13 @@ namespace rime {
 static void load_patterns(RecognizerPatterns* patterns, an<ConfigMap> map) {
   if (!patterns || !map)
     return;
-  for (auto it = map->begin(); it != map->end(); ++it) {
-    auto value = As<ConfigValue>(it->second);
+  for (auto& it : *map) {
+    auto value = As<ConfigValue>(it.second);
     if (!value)
       continue;
     try {
       boost::regex pattern(value->str());
-      (*patterns)[it->first] = pattern;
+      (*patterns)[it.first] = pattern;
     } catch (boost::regex_error& e) {
       LOG(ERROR) << "error parsing pattern /" << value->str()
                  << "/: " << e.what();
@@ -91,7 +91,7 @@ ProcessResult Recognizer::ProcessKeyEvent(const KeyEvent& key_event) {
     // pattern matching against the input string plus the incoming character
     Context* ctx = engine_->context();
     string input = ctx->input();
-    input += ch;
+    input += static_cast<char>(ch);
     auto match = patterns_.GetMatch(input, ctx->composition());
     if (match.found()) {
       ctx->PushInput(ch);

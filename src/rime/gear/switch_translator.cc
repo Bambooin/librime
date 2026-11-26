@@ -122,10 +122,10 @@ void RadioGroup::SelectOption(RadioOption* option) {
   if (!option)
     return;
   Config* user_config = switcher_->user_config();
-  for (auto it = options_.begin(); it != options_.end(); ++it) {
-    bool selected = (*it == option);
-    (*it)->UpdateState(selected);
-    const string& option_name((*it)->keyword());
+  for (auto& it : options_) {
+    bool selected = (it == option);
+    it->UpdateState(selected);
+    const string& option_name(it->keyword());
     if (context_->get_option(option_name) != selected) {
       context_->set_option(option_name, selected);
       if (user_config && switcher_->IsAutoSave(option_name)) {
@@ -137,10 +137,10 @@ void RadioGroup::SelectOption(RadioOption* option) {
 
 RadioOption* RadioGroup::GetSelectedOption() const {
   if (options_.empty())
-    return NULL;
-  for (auto it = options_.begin(); it != options_.end(); ++it) {
-    if (context_->get_option((*it)->keyword()))
-      return *it;
+    return nullptr;
+  for (auto* option : options_) {
+    if (context_->get_option(option->keyword()))
+      return option;
   }
   return options_[0];
 }
@@ -264,7 +264,7 @@ void SwitchTranslation::LoadSwitches(Switcher* switcher) {
 SwitchTranslator::SwitchTranslator(const Ticket& ticket) : Translator(ticket) {}
 
 an<Translation> SwitchTranslator::Query(const string&, const Segment&) {
-  auto switcher = dynamic_cast<Switcher*>(engine_);
+  auto* switcher = dynamic_cast<Switcher*>(engine_);
   if (!switcher) {
     return nullptr;
   }

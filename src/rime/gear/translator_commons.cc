@@ -20,8 +20,8 @@ bool Patterns::Load(an<ConfigList> patterns) {
   clear();
   if (!patterns)
     return false;
-  for (auto it = patterns->begin(); it != patterns->end(); ++it) {
-    if (auto value = As<ConfigValue>(*it)) {
+  for (auto& it : *patterns) {
+    if (auto value = As<ConfigValue>(it)) {
       push_back(boost::regex(value->str()));
     }
   }
@@ -155,8 +155,8 @@ TranslatorOptions::TranslatorOptions(const Ticket& ticket) {
     // blacklist
     if (auto blacklist =
             config->GetList(ticket.name_space + "/dictionary_exclude")) {
-      for (auto it = blacklist->begin(); it != blacklist->end(); ++it) {
-        if (auto blackword = As<ConfigValue>(*it)) {
+      for (auto& it : *blacklist) {
+        if (auto blackword = As<ConfigValue>(it)) {
           blacklist_.insert(blackword->str());
         }
       }

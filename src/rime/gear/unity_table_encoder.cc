@@ -17,14 +17,14 @@ static const char* kEncodedPrefix =
     "enc\x1f";
 
 UnityTableEncoder::UnityTableEncoder(UserDictionary* user_dict)
-    : TableEncoder(NULL), user_dict_(user_dict) {
+    : TableEncoder(nullptr), user_dict_(user_dict) {
   set_collector(this);
 }
 
-UnityTableEncoder::~UnityTableEncoder() {}
+UnityTableEncoder::~UnityTableEncoder() = default;
 
 bool UnityTableEncoder::Load(const Ticket& ticket) {
-  auto c = ReverseLookupDictionary::Require("reverse_lookup_dictionary");
+  auto* c = ReverseLookupDictionary::Require("reverse_lookup_dictionary");
   if (!c) {
     LOG(ERROR) << "component not available: reverse_lookup_dictionary";
     return false;

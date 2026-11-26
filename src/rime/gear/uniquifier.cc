@@ -17,7 +17,7 @@ class UniquifiedTranslation : public CacheTranslation {
       : CacheTranslation(translation), candidates_(candidates) {
     Uniquify();
   }
-  virtual bool Next();
+  bool Next() override;
 
  protected:
   bool Uniquify();

@@ -10,7 +10,7 @@ class Config;
 
 class Grammar : public Class<Grammar, Config*> {
  public:
-  virtual ~Grammar() {}
+  virtual ~Grammar() = default;
   virtual double Query(const string& context,
                        const string& word,
                        bool is_rear) = 0;

@@ -15,7 +15,7 @@ class AsciiSegmentor : public Segmentor {
  public:
   explicit AsciiSegmentor(const Ticket& ticket);
 
-  virtual bool Proceed(Segmentation* segmentation);
+  bool Proceed(Segmentation* segmentation) override;
 };
 
 }  // namespace rime

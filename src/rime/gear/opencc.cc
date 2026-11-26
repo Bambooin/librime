@@ -43,7 +43,7 @@ bool Opencc::ConvertWord(const string& text, vector<string>* forms) {
       converter_->GetConversionChain()->GetConversions();
   vector<string> original_words{text};
   bool matched = false;
-  for (auto conversion : conversions) {
+  for (const auto& conversion : conversions) {
     opencc::DictPtr dict = conversion->GetDict();
     if (dict == nullptr) {
       return false;
@@ -96,7 +96,7 @@ bool Opencc::ConvertWord(const string& text, vector<string>* forms) {
     return false;
   }
   *forms = std::move(original_words);
-  return forms->size() > 0;
+  return !forms->empty();
 }
 
 bool Opencc::RandomConvertText(const string& text, string* simplified) {
@@ -106,7 +106,7 @@ bool Opencc::RandomConvertText(const string& text, string* simplified) {
   const list<opencc::ConversionPtr> conversions =
       converter_->GetConversionChain()->GetConversions();
   const char* phrase = text.c_str();
-  for (auto conversion : conversions) {
+  for (const auto& conversion : conversions) {
     opencc::DictPtr dict = conversion->GetDict();
     if (dict == nullptr) {
       return false;
@@ -121,7 +121,10 @@ bool Opencc::RandomConvertText(const string& text, string* simplified) {
         buffer << opencc::UTF8Util::FromSubstr(pstr, matched_length);
       } else {
         matched_length = matched.Get()->KeyLength();
+        // Non-cryptographic choice.
+        // NOLINTBEGIN(cert-msc30-c,cert-msc50-cpp,misc-predictable-rand)
         size_t i = rand() % (matched.Get()->NumValues());
+        // NOLINTEND(cert-msc30-c,cert-msc50-cpp,misc-predictable-rand)
         buffer << matched.Get()->Values().at(i);
       }
       pstr += matched_length;

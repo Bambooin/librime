@@ -19,10 +19,12 @@ class Simplifier : public Filter, TagMatching {
  public:
   RIME_DLL Simplifier(const Ticket& ticket, an<Opencc> opencc);
 
-  virtual an<Translation> Apply(an<Translation> translation,
-                                CandidateList* candidates);
+  an<Translation> Apply(an<Translation> translation,
+                        CandidateList* candidates) override;
 
-  virtual bool AppliesToSegment(Segment* segment) { return TagsMatch(segment); }
+  bool AppliesToSegment(Segment* segment) override {
+    return TagsMatch(segment);
+  }
 
   RIME_DLL bool Convert(const an<Candidate>& original, CandidateQueue* result);
 
@@ -47,7 +49,7 @@ class Simplifier : public Filter, TagMatching {
 class SimplifierComponent : public Simplifier::Component {
  public:
   SimplifierComponent();
-  Simplifier* Create(const Ticket& ticket);
+  Simplifier* Create(const Ticket& ticket) override;
 
  private:
   hash_map<string, weak<Opencc>> opencc_map_;

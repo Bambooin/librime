@@ -68,9 +68,9 @@ class Phrase : public Candidate {
          size_t end,
          const an<DictEntry>& entry)
       : Candidate(type, start, end), language_(language), entry_(entry) {}
-  const string& text() const { return entry_->text; }
-  string comment() const { return entry_->comment; }
-  string preedit() const { return entry_->preedit; }
+  const string& text() const override { return entry_->text; }
+  string comment() const override { return entry_->comment; }
+  string preedit() const override { return entry_->preedit; }
   void set_comment(const string& comment) { entry_->comment = comment; }
   void set_preedit(const string& preedit) { entry_->preedit = preedit; }
   void set_syllabifier(an<PhraseSyllabifier> syllabifier) {
@@ -143,7 +143,7 @@ class TranslatorOptions {
   vector<string> tags() const { return tags_; }
   void set_tags(const vector<string>& tags) {
     tags_ = tags;
-    if (tags_.size() == 0) {
+    if (tags_.empty()) {
       tags_.push_back("abc");
     }
   }

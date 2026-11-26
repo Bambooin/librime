@@ -28,8 +28,8 @@ class TableTranslator : public Translator,
  public:
   TableTranslator(const Ticket& ticket);
 
-  virtual an<Translation> Query(const string& input, const Segment& segment);
-  virtual bool Memorize(const CommitEntry& commit_entry);
+  an<Translation> Query(const string& input, const Segment& segment) override;
+  bool Memorize(const CommitEntry& commit_entry) override;
 
   an<Translation> MakeSentence(const string& input,
                                size_t start,
@@ -60,8 +60,8 @@ class TableTranslation : public Translation {
                    DictEntryIterator&& iter = {},
                    UserDictEntryIterator&& uter = {});
 
-  virtual bool Next();
-  virtual an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   virtual bool FetchMoreUserPhrases() { return false; }

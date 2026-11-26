@@ -18,8 +18,8 @@ namespace rime {
 class CharsetFilterTranslation : public Translation {
  public:
   explicit CharsetFilterTranslation(an<Translation> translation);
-  virtual bool Next();
-  virtual an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   virtual bool FilterCandidate(an<Candidate> cand);
@@ -35,10 +35,12 @@ class CharsetFilter : public Filter, TagMatching {
  public:
   explicit CharsetFilter(const Ticket& ticket);
 
-  virtual an<Translation> Apply(an<Translation> translation,
-                                CandidateList* candidates);
+  an<Translation> Apply(an<Translation> translation,
+                        CandidateList* candidates) override;
 
-  virtual bool AppliesToSegment(Segment* segment) { return TagsMatch(segment); }
+  bool AppliesToSegment(Segment* segment) override {
+    return TagsMatch(segment);
+  }
 
   // return true to accept, false to reject the tested item
   static bool FilterText(const string& text);
