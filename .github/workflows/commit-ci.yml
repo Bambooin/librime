@@ -15,13 +15,17 @@ jobs:
     steps:
       - name: Checkout last commit
         uses: actions/checkout@v7
+        with:
+          submodules: true
 
-      - name: Install clang-format
-        run: |
-          ./action-install-clang-format.sh 23
+      - name: Install clang tools
+        run: ./action-install-clang-tools.sh
 
-      - name: Code style lint
-        run: make clang-format-lint
+      - name: Install build dependencies
+        run: ./action-install-linux.sh
+
+      - name: Lint
+        run: make lint
 
   linux:
     needs: lint
