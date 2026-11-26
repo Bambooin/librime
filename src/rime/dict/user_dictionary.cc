@@ -39,10 +39,10 @@ struct DfsState {
 
   size_t depth() const { return code.size(); }
 
-  bool IsExactMatch(const string& prefix) {
+  bool IsExactMatch(const string& prefix) const {
     return boost::starts_with(key, prefix + '\t');
   }
-  bool IsPrefixMatch(const string& prefix) {
+  bool IsPrefixMatch(const string& prefix) const {
     return boost::starts_with(key, prefix);
   }
   void RecruitEntry(size_t pos,
@@ -82,11 +82,11 @@ void DfsState::RecruitEntry(size_t pos,
       vector<string> syllables =
           strings::split(full_code, " ", strings::SplitBehavior::SkipToken);
       Code numeric_code;
-      for (auto s = syllables.begin(); s != syllables.end(); ++s) {
-        auto found = syllabary->find(*s);
+      for (auto& syllable : syllables) {
+        auto found = syllabary->find(syllable);
         if (found == syllabary->end()) {
           LOG(ERROR) << "failed to recruit dict entry '" << e->text
-                     << "', unrecognized syllable: " << *s;
+                     << "', unrecognized syllable: " << syllable;
           return;
         }
         numeric_code.push_back(found->second);
@@ -203,7 +203,7 @@ bool UserDictionary::Load() {
   if (!db_->loaded() && !db_->Open()) {
     // try to recover managed db in available work thread
     Deployer& deployer(Service::instance().deployer());
-    auto task = DeploymentTask::Require("userdb_recovery_task");
+    auto* task = DeploymentTask::Require("userdb_recovery_task");
     if (task && Is<Recoverable>(db_) && !deployer.IsWorking()) {
       deployer.ScheduleTask(an<DeploymentTask>(task->Create(db_)));
       deployer.StartWork();
@@ -272,7 +272,7 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
     if (!TranslateCodeToString(state->code, &prefix))
       continue;
     for (size_t i = 0; i < spelling.second.size(); ++i) {
-      auto props = spelling.second[i];
+      const auto* props = spelling.second[i];
       if (i > 0 && props->type >= kAbbreviation)
         continue;
       state->credibility.push_back(state->credibility.back() +
@@ -316,8 +316,8 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
                 break;
               }
               SyllableId syllable_id = 0;
-              for (auto s = syllabary.begin(); s != syllabary.end(); ++s) {
-                syllabary_[*s] = syllable_id++;
+              for (const auto& s : syllabary) {
+                syllabary_[s] = syllable_id++;
               }
             }
             state->RecruitEntry(end_pos, &syllabary_);
@@ -357,7 +357,8 @@ bool UserDictionary::BuildCache() {
     TickCount tick;
   };
   vector<CacheEntryRecord> records;
-  string key, value;
+  string key;
+  string value;
   while (accessor->GetNextRecord(&key, &value)) {
     size_t tab = key.find('\t');
     if (tab == string::npos)
@@ -489,7 +490,7 @@ void UserDictionary::CacheLookup(const SyllableGraph& syll_graph,
       continue;
     }
     for (size_t i = 0; i < spelling.second.size(); ++i) {
-      auto props = spelling.second[i];
+      const auto* props = spelling.second[i];
       if (i > 0 && props->type >= kAbbreviation)
         continue;
       size_t end_pos = props->end_pos;
@@ -549,7 +550,7 @@ void UserDictionary::CacheLookup(const SyllableGraph& syll_graph,
         if (p.code == prefix &&
             (p.type == PendingUpdate::kAdd ||
              p.type == PendingUpdate::kUpdate) &&
-            seen.find(p.text) == seen.end()) {
+            !seen.contains(p.text)) {
           recruit({p.code, p.text, p.dee, p.commits, p.tick});
         }
       }
@@ -580,8 +581,8 @@ void UserDictionary::CacheLookup(const SyllableGraph& syll_graph,
             LOG(ERROR) << "failed to get syllabary for user dict: " << name();
           } else {
             SyllableId sid = 0;
-            for (auto s = raw.begin(); s != raw.end(); ++s) {
-              syllabary_[*s] = sid++;
+            for (const auto& s : raw) {
+              syllabary_[s] = sid++;
             }
           }
         }
@@ -634,7 +635,7 @@ void UserDictionary::CacheLookup(const SyllableGraph& syll_graph,
           for (const auto& kv : pending_) {
             const auto& p = kv.second;
             if (p.code != prefix && starts_with(p.code, prefix) &&
-                seen_pred.find(p.text) == seen_pred.end() &&
+                !seen_pred.contains(p.text) &&
                 p.type != PendingUpdate::kDelete) {
               recruit_pred({p.code, p.text, p.dee, p.commits, p.tick});
             }
@@ -816,9 +817,8 @@ bool UserDictionary::UpdateEntry(const DictEntry& entry,
     v.Unpack(value);
   }
   if (existed) {
-    if (v.tick > tick_) {
-      v.tick = tick_;  // fix abnormal timestamp
-    }
+    v.tick = std::min(v.tick, tick_);  // fix abnormal timestamp
+
   } else if (!new_entry_prefix.empty()) {
     key.insert(0, new_entry_prefix);
 #if RIME_USER_DICT_CACHE_ENABLED
@@ -925,7 +925,7 @@ bool UserDictionary::NewTransaction() {
   if (!db)
     return false;
   CommitPendingTransaction();
-  transaction_time_ = time(NULL);
+  transaction_time_ = time(nullptr);
   return db->BeginTransaction();
 }
 
@@ -933,7 +933,7 @@ bool UserDictionary::RevertRecentTransaction() {
   auto db = As<Transactional>(db_);
   if (!db || !db->in_transaction())
     return false;
-  if (time(NULL) - transaction_time_ > 3 /*seconds*/)
+  if (time(nullptr) - transaction_time_ > 3 /*seconds*/)
     return false;
   if (!db->AbortTransaction())
     return false;
@@ -965,7 +965,7 @@ bool UserDictionary::TranslateCodeToString(const Code& code, string* result) {
     return false;
   result->clear();
   for (const SyllableId& syllable_id : code) {
-    string spelling = rev_syllabary_.count(syllable_id)
+    string spelling = rev_syllabary_.contains(syllable_id)
                           ? rev_syllabary_[syllable_id]
                           : (rev_syllabary_[syllable_id] =
                                  table_->GetSyllableById(syllable_id));
@@ -1026,16 +1026,16 @@ an<DictEntry> UserDictionary::CreateDictEntry(const string& key,
 
 // UserDictionaryComponent members
 
-UserDictionaryComponent::UserDictionaryComponent() {}
+UserDictionaryComponent::UserDictionaryComponent() = default;
 
 UserDictionary* UserDictionaryComponent::Create(const string& dict_name,
                                                 const string& db_class) {
   auto db = db_pool_[dict_name].lock();
   if (!db) {
-    auto component = Db::Require(db_class);
+    auto* component = Db::Require(db_class);
     if (!component) {
       LOG(ERROR) << "undefined db class '" << db_class << "'.";
-      return NULL;
+      return nullptr;
     }
     db.reset(component->Create(dict_name));
     db_pool_[dict_name] = db;
@@ -1045,12 +1045,12 @@ UserDictionary* UserDictionaryComponent::Create(const string& dict_name,
 
 UserDictionary* UserDictionaryComponent::Create(const Ticket& ticket) {
   if (!ticket.schema)
-    return NULL;
+    return nullptr;
   Config* config = ticket.schema->config();
   bool enable_user_dict = true;
   config->GetBool(ticket.name_space + "/enable_user_dict", &enable_user_dict);
   if (!enable_user_dict)
-    return NULL;
+    return nullptr;
   string dict_name;
   if (config->GetString(ticket.name_space + "/user_dict", &dict_name)) {
     // user specified name
@@ -1060,7 +1060,7 @@ UserDictionary* UserDictionaryComponent::Create(const Ticket& ticket) {
   } else {
     LOG(ERROR) << ticket.name_space << "/dictionary not specified in schema '"
                << ticket.schema->schema_id() << "'.";
-    return NULL;
+    return nullptr;
   }
   string db_class("userdb");
   if (config->GetString(ticket.name_space + "/db_class", &db_class)) {

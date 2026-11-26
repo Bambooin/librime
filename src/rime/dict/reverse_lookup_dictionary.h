@@ -97,7 +97,7 @@ class ReverseLookupDictionaryComponent
       protected DbPool<ReverseDb> {
  public:
   ReverseLookupDictionaryComponent();
-  ReverseLookupDictionary* Create(const Ticket& ticket);
+  ReverseLookupDictionary* Create(const Ticket& ticket) override;
   ReverseLookupDictionary* Create(const string& dict_name);
 };
 

@@ -42,7 +42,7 @@ class Corrections : public hash_map<SyllableId, Correction> {
   /// \param syllable
   /// \param correction
   inline void Alter(SyllableId syllable, Correction correction) {
-    if (find(syllable) == end() ||
+    if (!contains(syllable) ||
         correction.distance < (*this)[syllable].distance) {
       (*this)[syllable] = correction;
     }
@@ -124,7 +124,7 @@ class RIME_DLL NearSearchCorrector : public Corrector {
 
 template <class... Cs>
 Corrector* CorrectorComponent::Combine(Cs... args) {
-  auto u = new Unified();
+  auto* u = new Unified();
   u->Add(args...);
   return u;
 }

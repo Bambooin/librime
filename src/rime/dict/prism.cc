@@ -39,7 +39,7 @@ const char kDefaultAlphabet[] = "abcdefghijklmnopqrstuvwxyz";
 
 SpellingAccessor::SpellingAccessor(prism::SpellingMap* spelling_map,
                                    SyllableId spelling_id)
-    : spelling_id_(spelling_id), iter_(NULL), end_(NULL) {
+    : spelling_id_(spelling_id), iter_(nullptr), end_(nullptr) {
   if (spelling_map &&
       spelling_id < static_cast<SyllableId>(spelling_map->size)) {
     iter_ = spelling_map->at[spelling_id].begin();
@@ -50,7 +50,7 @@ SpellingAccessor::SpellingAccessor(prism::SpellingMap* spelling_map,
 bool SpellingAccessor::Next() {
   if (exhausted())
     return false;
-  if (!iter_ || ++iter_ >= end_)
+  if (!iter_ || ++iter_ >= end_)  // NOLINT(bugprone-inc-dec-in-conditions)
     spelling_id_ = -1;
   return exhausted();
 }
@@ -99,12 +99,16 @@ bool Prism::Load() {
     Close();
     return false;
   }
-  if (strncmp(metadata_->format, kPrismFormatPrefix, kPrismFormatPrefixLen)) {
+  if (strncmp(metadata_->format, kPrismFormatPrefix, kPrismFormatPrefixLen) !=
+      0) {
     LOG(ERROR) << "invalid metadata.";
     Close();
     return false;
   }
+  // Controlled metadata format field.
+  // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
   format_ = atof(&metadata_->format[kPrismFormatPrefixLen]);
+  // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
 
   // 版本檢查: 強制重構舊版本
   if (format_ < kPrismFormatVersion - DBL_EPSILON) {
@@ -124,7 +128,7 @@ bool Prism::Load() {
   LOG(INFO) << "found double array image of size " << array_size << ".";
   trie_->set_array(array, array_size);
 
-  spelling_map_ = NULL;
+  spelling_map_ = nullptr;
   if (format_ > 1.0 - DBL_EPSILON) {
     spelling_map_ = metadata_->spelling_map.get();
   }
@@ -162,7 +166,7 @@ bool Prism::Build(const Syllabary& syllabary,
       max_key_length = (std::max)(max_key_length, it->length());
     }
   }
-  if (0 != trie_->build(num_spellings, &keys[0])) {
+  if (0 != trie_->build(num_spellings, keys.data())) {
     LOG(ERROR) << "Error building double-array trie.";
     return false;
   }
@@ -179,7 +183,7 @@ bool Prism::Build(const Syllabary& syllabary,
     return false;
   }
   // creating metadata
-  auto metadata = Allocate<prism::Metadata>();
+  auto* metadata = Allocate<prism::Metadata>();
   if (!metadata) {
     LOG(ERROR) << "Error creating metadata in file '" << file_path() << "'.";
     return false;
@@ -215,16 +219,16 @@ bool Prism::Build(const Syllabary& syllabary,
   if (script) {
     map<string, SyllableId> syllable_to_id;
     SyllableId syll_id = 0;
-    for (auto it = syllabary.begin(); it != syllabary.end(); ++it) {
-      syllable_to_id[*it] = syll_id++;
+    for (const auto& it : syllabary) {
+      syllable_to_id[it] = syll_id++;
     }
-    auto spelling_map = CreateArray<prism::SpellingMapItem>(num_spellings);
+    auto* spelling_map = CreateArray<prism::SpellingMapItem>(num_spellings);
     if (!spelling_map) {
       LOG(ERROR) << "Error creating spelling map.";
       return false;
     }
     auto i = script->begin();
-    auto item = spelling_map->begin();
+    auto* item = spelling_map->begin();
     for (; i != script->end(); ++i, ++item) {
       size_t list_size = i->second.size();
       item->size = list_size;
@@ -234,7 +238,7 @@ bool Prism::Build(const Syllabary& syllabary,
         return false;
       }
       auto j = i->second.begin();
-      auto desc = item->begin();
+      auto* desc = item->begin();
       for (; j != i->second.end(); ++j, ++desc) {
         desc->syllable_id = syllable_to_id[j->str];
         // 打包寫入 type + is_correction

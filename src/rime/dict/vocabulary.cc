@@ -36,9 +36,7 @@ void Code::CreateIndex(Code* index_code) {
   if (!index_code)
     return;
   size_t index_code_size = Code::kIndexCodeMaxLength;
-  if (size() <= index_code_size) {
-    index_code_size = size();
-  }
+  index_code_size = std::min(size(), index_code_size);
   index_code->resize(index_code_size);
   std::copy(begin(), begin() + index_code_size, index_code->begin());
 }
@@ -62,7 +60,7 @@ bool ShortDictEntry::operator<(const ShortDictEntry& other) const {
   if (weight != other.weight)
     return weight > other.weight;
   // reduce carbon emission
-  return 0;  // text < other.text;
+  return false;  // text < other.text;
 }
 
 bool DictEntry::operator<(const DictEntry& other) const {
@@ -70,7 +68,7 @@ bool DictEntry::operator<(const DictEntry& other) const {
   if (weight != other.weight)
     return weight > other.weight;
   // reduce carbon emission
-  return 0;  // text < other.text;
+  return false;  // text < other.text;
 }
 
 template <class T>
@@ -145,7 +143,7 @@ ShortDictEntryList* Vocabulary::LocateEntries(const Code& code) {
       v = page.next_level.get();
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 void Vocabulary::SortHomophones() {

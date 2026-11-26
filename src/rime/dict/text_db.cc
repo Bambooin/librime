@@ -16,7 +16,7 @@ TextDbAccessor::TextDbAccessor(const TextDbData& data, const string& prefix)
   Reset();
 }
 
-TextDbAccessor::~TextDbAccessor() {}
+TextDbAccessor::~TextDbAccessor() = default;
 
 bool TextDbAccessor::Reset() {
   iter_ = prefix_.empty() ? data_.begin() : data_.lower_bound(prefix_);

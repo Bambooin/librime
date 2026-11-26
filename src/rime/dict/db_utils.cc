@@ -13,7 +13,8 @@ int Source::Dump(Sink* sink) {
   if (!sink)
     return 0;
   int num_entries = 0;
-  string key, value;
+  string key;
+  string value;
   while (MetaGet(&key, &value)) {
     if (sink->MetaPut(key, value))
       ++num_entries;

@@ -301,9 +301,8 @@ Dictionary::Dictionary(string name,
       tables_(std::move(tables)),
       prism_(std::move(prism)) {}
 
-Dictionary::~Dictionary() {
-  // should not close shared table and prism objects
-}
+// Should not close shared table and prism objects.
+Dictionary::~Dictionary() = default;
 
 static void lookup_table(Table* table,
                          DictEntryCollector* collector,
@@ -360,7 +359,7 @@ an<DictEntryCollector> Dictionary::Lookup(const SyllableGraph& syllable_graph,
     it->second.Sort();
     if (blacklist && !blacklist->empty()) {
       it->second.AddFilter([blacklist](an<DictEntry> entry) {
-        return entry && !blacklist->count(entry->text);
+        return entry && !blacklist->contains(entry->text);
       });
       if (it->second.exhausted()) {
         it = collector->erase(it);
@@ -420,7 +419,7 @@ size_t Dictionary::LookupWords(DictEntryIterator* result,
   }
   if (blacklist && !blacklist->empty()) {
     result->AddFilter([blacklist](an<DictEntry> entry) {
-      return entry && !blacklist->count(entry->text);
+      return entry && !blacklist->contains(entry->text);
     });
   }
   return keys.size();
@@ -498,7 +497,7 @@ DictionaryComponent::DictionaryComponent()
           Service::instance().CreateDeployedResourceResolver(
               kTableResourceType)) {}
 
-DictionaryComponent::~DictionaryComponent() {}
+DictionaryComponent::~DictionaryComponent() = default;
 
 Dictionary* DictionaryComponent::Create(const Ticket& ticket) {
   if (!ticket.schema)

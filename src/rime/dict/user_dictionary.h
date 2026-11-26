@@ -73,7 +73,7 @@ class UserDictionary : public Class<UserDictionary, const Ticket&> {
                               const string& input,
                               bool predictive,
                               size_t limit = 0,
-                              string* resume_key = NULL);
+                              string* resume_key = nullptr);
   RIME_DLL bool UpdateEntry(const DictEntry& entry, int commits);
   RIME_DLL bool UpdateEntry(const DictEntry& entry,
                             int commits,
@@ -179,7 +179,7 @@ class UserDictionary : public Class<UserDictionary, const Ticket&> {
 class UserDictionaryComponent : public UserDictionary::Component {
  public:
   UserDictionaryComponent();
-  UserDictionary* Create(const Ticket& ticket);
+  UserDictionary* Create(const Ticket& ticket) override;
   UserDictionary* Create(const string& dict_name, const string& db_class);
 
  private:

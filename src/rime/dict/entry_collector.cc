@@ -6,6 +6,7 @@
 //
 #include <algorithm>
 #include <fstream>
+#include <memory>
 #include <utility>
 #include <boost/algorithm/string.hpp>
 #include <boost/unordered/unordered_flat_set.hpp>
@@ -81,12 +82,12 @@ static bool has_significant_weight(double weight, double total_weight) {
   return !(weight < total_weight * kMinSignificantWeightRatio);
 }
 
-EntryCollector::EntryCollector() {}
+EntryCollector::EntryCollector() = default;
 
 EntryCollector::EntryCollector(Syllabary&& fixed_syllabary)
     : syllabary(std::move(fixed_syllabary)), build_syllabary(false) {}
 
-EntryCollector::~EntryCollector() {}
+EntryCollector::~EntryCollector() = default;
 
 void EntryCollector::Configure(DictSettings* settings) {
   if (settings->use_preset_vocabulary()) {
@@ -94,9 +95,9 @@ void EntryCollector::Configure(DictSettings* settings) {
   }
 
   if (settings->use_rule_based_encoder()) {
-    encoder.reset(new TableEncoder(this));
+    encoder = std::make_unique<TableEncoder>(this);
   } else {
-    encoder.reset(new ScriptEncoder(this));
+    encoder = std::make_unique<ScriptEncoder>(this);
   }
   encoder->LoadSettings(settings);
 }
@@ -111,7 +112,7 @@ void EntryCollector::Collect(const vector<path>& dict_files) {
 void EntryCollector::LoadPresetVocabulary(DictSettings* settings) {
   auto vocabulary = settings->vocabulary();
   LOG(INFO) << "loading preset vocabulary: " << vocabulary;
-  preset_vocabulary.reset(new PresetVocabulary(vocabulary));
+  preset_vocabulary = std::make_unique<PresetVocabulary>(vocabulary);
   if (preset_vocabulary) {
     if (settings->max_phrase_length() > 0)
       preset_vocabulary->set_max_phrase_length(settings->max_phrase_length());
@@ -198,7 +199,8 @@ void EntryCollector::Finish() {
   LOG(INFO) << "Pass 2: total " << num_entries << " entries collected.";
   if (preset_vocabulary) {
     preset_vocabulary->Reset();
-    string phrase, weight_str;
+    string phrase;
+    string weight_str;
     while (preset_vocabulary->GetNextEntry(&phrase, &weight_str)) {
       if (collection.find(phrase) != collection.end())
         continue;

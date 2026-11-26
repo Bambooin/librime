@@ -39,7 +39,7 @@ class OffsetPtr {
   T& operator[](size_t index) const { return *(get() + index); }
   T* get() const {
     if (!offset_)
-      return NULL;
+      return nullptr;
     return reinterpret_cast<T*>((char*)&offset_ + offset_);
   }
 
@@ -142,7 +142,7 @@ T* MappedFile::Allocate(size_t count) {
 inline char* MappedFile::AllocateAlignedBytes(size_t num_bytes,
                                               size_t alignment) {
   if (!IsOpen() || alignment == 0 || (alignment & (alignment - 1)) != 0)
-    return NULL;
+    return nullptr;
 
   const size_t prev_size = size_;
   const size_t offset = (prev_size + alignment - 1) & ~(alignment - 1);
@@ -151,7 +151,7 @@ inline char* MappedFile::AllocateAlignedBytes(size_t num_bytes,
     // not enough space; grow the file
     const size_t new_capacity = (std::max)(new_size, capacity() * 2);
     if (!Resize(new_capacity) || !OpenReadWrite())
-      return NULL;
+      return nullptr;
   }
   char* base = address();
   if (new_size > prev_size) {
@@ -165,7 +165,7 @@ inline char* MappedFile::AllocateAlignedBytes(size_t num_bytes,
 template <class T>
 T* MappedFile::Find(size_t offset) {
   if (!IsOpen() || offset > size_)
-    return NULL;
+    return nullptr;
   return reinterpret_cast<T*>(address() + offset);
 }
 
@@ -175,7 +175,7 @@ Array<T>* MappedFile::CreateArray(size_t array_size) {
   Array<T>* ret = reinterpret_cast<Array<T>*>(
       AllocateAlignedBytes(num_bytes, alignof(Array<T>)));
   if (!ret)
-    return NULL;
+    return nullptr;
   ret->size = array_size;
   return ret;
 }

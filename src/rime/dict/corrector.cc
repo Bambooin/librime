@@ -74,7 +74,7 @@ Script SymDeleteCollector::Collect(size_t edit_distance) {
   // TODO: specifically for 1 length str
   Script script;
 
-  for (auto& v : syllabary_) {
+  for (const auto& v : syllabary_) {
     DFSCollect(v, v, edit_distance, script);
   }
 
@@ -152,7 +152,7 @@ void EditDistanceCorrector::ToleranceSearch(const Prism& prism,
 inline uint8_t SubstCost(char left, char right) {
   if (left == right)
     return 0;
-  if (keyboard_map[left].find(right) != keyboard_map[left].end()) {
+  if (keyboard_map[left].contains(right)) {
     return 1;
   }
   return 4;
@@ -169,7 +169,7 @@ Distance EditDistanceCorrector::LevenshteinDistance(const std::string& s1,
 
   auto column_start = (decltype(s1len))1;
 
-  auto column = new decltype(s1len)[s1len + 1];
+  auto* column = new decltype(s1len)[s1len + 1];
   std::iota(column + column_start - 1, column + s1len + 1, column_start - 1);
 
   for (auto x = column_start; x <= s2len; x++) {
@@ -193,7 +193,8 @@ Distance EditDistanceCorrector::LevenshteinDistance(const std::string& s1,
 Distance EditDistanceCorrector::RestrictedDistance(const std::string& s1,
                                                    const std::string& s2,
                                                    Distance threshold) {
-  auto len1 = s1.size(), len2 = s2.size();
+  auto len1 = s1.size();
+  auto len2 = s2.size();
   vector<size_t> d((len1 + 1) * (len2 + 1));
 
   auto index = [len2](size_t i, size_t j) { return i * (len2 + 1) + j; };
@@ -228,7 +229,7 @@ bool EditDistanceCorrector::Build(const Syllabary& syllabary,
                                   uint32_t schema_file_checksum) {
   Syllabary correct_syllabary;
   if (script && !script->empty()) {
-    for (auto& v : *script) {
+    for (const auto& v : *script) {
       correct_syllabary.insert(v.first);
     }
   } else {

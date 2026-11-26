@@ -30,7 +30,8 @@ static bool rime_table_entry_parser(const Tsv& row,
       v.commits = std::stoi(row[2]);
       const double kS = 1e8;
       v.dee = (v.commits + 1) / kS;
-    } catch (...) {
+    } catch (...) {  // NOLINT(bugprone-empty-catch): keep the default value
+      // Malformed commit count: keep the default value.
     }
   }
   *value = v.Pack();

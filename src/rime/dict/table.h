@@ -185,7 +185,7 @@ class TableQuery {
 class Table : public MappedFile {
  public:
   RIME_DLL Table(const path& file_path);
-  RIME_DLL virtual ~Table();
+  RIME_DLL ~Table() override;
 
   RIME_DLL bool Load();
   RIME_DLL bool Save();

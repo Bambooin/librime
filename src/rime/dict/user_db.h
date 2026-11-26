@@ -81,15 +81,15 @@ class UserDbWrapper : public BaseDb {
  public:
   RIME_DLL UserDbWrapper(const path& file_path, const string& db_name);
 
-  virtual bool CreateMetadata() {
+  bool CreateMetadata() override {
     return BaseDb::CreateMetadata() && UserDbHelper(this).UpdateUserInfo();
   }
-  virtual bool Backup(const path& snapshot_file) {
+  bool Backup(const path& snapshot_file) override {
     return UserDbHelper::IsUniformFormat(snapshot_file)
                ? UserDbHelper(this).UniformBackup(snapshot_file)
                : BaseDb::Backup(snapshot_file);
   }
-  virtual bool Restore(const path& snapshot_file) {
+  bool Restore(const path& snapshot_file) override {
     return UserDbHelper::IsUniformFormat(snapshot_file)
                ? UserDbHelper(this).UniformRestore(snapshot_file)
                : BaseDb::Restore(snapshot_file);
@@ -111,10 +111,10 @@ class UserDbComponent : public UserDb::Component, protected DbComponentBase {
 class UserDbMerger : public Sink {
  public:
   explicit UserDbMerger(Db* db);
-  virtual ~UserDbMerger();
+  ~UserDbMerger() override;
 
-  virtual bool MetaPut(const string& key, const string& value);
-  virtual bool Put(const string& key, const string& value);
+  bool MetaPut(const string& key, const string& value) override;
+  bool Put(const string& key, const string& value) override;
 
   void CloseMerge();
 
@@ -130,8 +130,8 @@ class UserDbImporter : public Sink {
  public:
   explicit UserDbImporter(Db* db);
 
-  virtual bool MetaPut(const string& key, const string& value);
-  virtual bool Put(const string& key, const string& value);
+  bool MetaPut(const string& key, const string& value) override;
+  bool Put(const string& key, const string& value) override;
 
  protected:
   Db* db_;

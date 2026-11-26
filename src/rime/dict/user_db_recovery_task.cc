@@ -87,7 +87,7 @@ UserDbRecoveryTask* UserDbRecoveryTaskComponent::Create(TaskInitializer arg) {
     auto db = std::any_cast<an<Db>>(arg);
     return new UserDbRecoveryTask(db);
   } catch (const std::bad_any_cast&) {
-    return NULL;
+    return nullptr;
   }
 }
 

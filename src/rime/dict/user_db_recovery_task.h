@@ -17,7 +17,7 @@ class Db;
 class UserDbRecoveryTask : public DeploymentTask {
  public:
   explicit UserDbRecoveryTask(an<Db> db);
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 
  protected:
   void RestoreUserDataFromSnapshot(Deployer* deployer);
@@ -27,7 +27,7 @@ class UserDbRecoveryTask : public DeploymentTask {
 
 class UserDbRecoveryTaskComponent : public UserDbRecoveryTask::Component {
  public:
-  UserDbRecoveryTask* Create(TaskInitializer arg);
+  UserDbRecoveryTask* Create(TaskInitializer arg) override;
 };
 
 }  // namespace rime

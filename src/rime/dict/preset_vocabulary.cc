@@ -10,6 +10,8 @@
 #include <rime/dict/preset_vocabulary.h>
 #include <rime/dict/text_db.h>
 
+#include <memory>
+
 namespace rime {
 
 static const ResourceType kVocabularyResourceType = {"vocabulary", "", ".txt"};
@@ -29,7 +31,7 @@ VocabularyDb::VocabularyDb(const path& file_path, const string& db_name)
 static bool rime_vocabulary_entry_parser(const Tsv& row,
                                          string* key,
                                          string* value) {
-  if (row.size() < 1 || row[0].empty()) {
+  if (row.empty() || row[0].empty()) {
     return false;
   }
   *key = row[0];
@@ -59,7 +61,7 @@ path PresetVocabulary::DictFilePath(const string& vocabulary) {
 }
 
 PresetVocabulary::PresetVocabulary(const string& vocabulary) {
-  db_.reset(new VocabularyDb(DictFilePath(vocabulary), vocabulary));
+  db_ = std::make_unique<VocabularyDb>(DictFilePath(vocabulary), vocabulary);
   if (db_ && db_->OpenReadOnly()) {
     db_->cursor = db_->QueryAll();
   }
@@ -98,7 +100,7 @@ bool PresetVocabulary::GetNextEntry(string* key, string* value) {
 }
 
 bool PresetVocabulary::IsQualifiedPhrase(const string& phrase,
-                                         const string& weight_str) {
+                                         const string& weight_str) const {
   if (max_phrase_length_ > 0) {
     size_t length = utf8::unchecked::distance(phrase.c_str(),
                                               phrase.c_str() + phrase.length());

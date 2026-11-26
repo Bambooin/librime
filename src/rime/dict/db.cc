@@ -27,7 +27,7 @@ DbComponentBase::DbComponentBase()
     : db_resource_resolver_(
           Service::instance().CreateResourceResolver(kDbResourceType)) {}
 
-DbComponentBase::~DbComponentBase() {}
+DbComponentBase::~DbComponentBase() = default;
 
 path DbComponentBase::DbFilePath(const string& name,
                                  const string& extension) const {

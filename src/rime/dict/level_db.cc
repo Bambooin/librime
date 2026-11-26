@@ -14,6 +14,8 @@
 #include <rime/dict/level_db.h>
 #include <rime/dict/user_db.h>
 
+#include <memory>
+
 namespace rime {
 
 static const char* kMetaCharacter = "\x01";
@@ -41,9 +43,9 @@ struct LevelDbCursor {
 
   string GetValue() const { return iterator->value().ToString(); }
 
-  void Next() { iterator->Next(); }
+  void Next() const { iterator->Next(); }
 
-  bool Jump(const string& key) {
+  bool Jump(const string& key) const {
     if (!iterator) {
       return false;
     }
@@ -76,9 +78,9 @@ struct LevelDbWrapper {
     ptr = nullptr;
   }
 
-  LevelDbCursor* CreateCursor() { return new LevelDbCursor(ptr); }
+  LevelDbCursor* CreateCursor() const { return new LevelDbCursor(ptr); }
 
-  bool Fetch(const string& key, string* value) {
+  bool Fetch(const string& key, string* value) const {
     auto status = ptr->Get(leveldb::ReadOptions(), key, value);
     return status.ok();
   }
@@ -111,7 +113,7 @@ struct LevelDbWrapper {
 
 // LevelDbAccessor members
 
-LevelDbAccessor::LevelDbAccessor() {}
+LevelDbAccessor::LevelDbAccessor() = default;
 
 LevelDbAccessor::LevelDbAccessor(LevelDbCursor* cursor, const string& prefix)
     : DbAccessor(prefix),
@@ -164,7 +166,7 @@ LevelDb::~LevelDb() {
 }
 
 void LevelDb::Initialize() {
-  db_.reset(new LevelDbWrapper);
+  db_ = std::make_unique<LevelDbWrapper>();
 }
 
 an<DbAccessor> LevelDb::QueryMetadata() {

@@ -26,7 +26,7 @@ struct QueryResult;
 class RIME_DLL DictEntryIterator : public DictEntryFilterBinder {
  public:
   DictEntryIterator();
-  virtual ~DictEntryIterator() = default;
+  ~DictEntryIterator() override = default;
   DictEntryIterator(const DictEntryIterator& other);
   DictEntryIterator& operator=(const DictEntryIterator& other);
   DictEntryIterator(DictEntryIterator&& other) = default;

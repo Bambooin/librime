@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <memory>
 #include <sstream>
 #include <string_view>
 #include <boost/algorithm/string.hpp>
@@ -51,12 +52,15 @@ bool ReverseDb::Load() {
     return false;
   }
   if (strncmp(metadata_->format, kReverseFormatPrefix,
-              kReverseFormatPrefixLen)) {
+              kReverseFormatPrefixLen) != 0) {
     LOG(ERROR) << "invalid metadata.";
     Close();
     return false;
   }
+  // Controlled metadata format field.
+  // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
   double format = std::atof(&metadata_->format[kReverseFormatPrefixLen]);
+  // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
   if (format - kReverseFormatCompatible < 0.0 - DBL_EPSILON ||
       format - kReverseFormatCompatible > 1.0 + DBL_EPSILON) {
     LOG(ERROR) << "incompatible reversedb format.";
@@ -64,10 +68,10 @@ bool ReverseDb::Load() {
     return false;
   }
 
-  key_trie_.reset(
-      new StringTable(metadata_->key_trie.get(), metadata_->key_trie_size));
-  value_trie_.reset(
-      new StringTable(metadata_->value_trie.get(), metadata_->value_trie_size));
+  key_trie_ = std::make_unique<StringTable>(metadata_->key_trie.get(),
+                                            metadata_->key_trie_size);
+  value_trie_ = std::make_unique<StringTable>(metadata_->value_trie.get(),
+                                              metadata_->value_trie_size);
 
   return true;
 }
@@ -240,7 +244,7 @@ bool ReverseDb::Build(DictSettings* settings,
     }
   }
 
-  auto index = Allocate<StringId>(entry_count);
+  auto* index = Allocate<StringId>(entry_count);
   if (!index) {
     return false;
   }
@@ -333,12 +337,12 @@ ReverseLookupDictionary* ReverseLookupDictionaryComponent::Create(
 ReverseLookupDictionary* ReverseLookupDictionaryComponent::Create(
     const Ticket& ticket) {
   if (!ticket.schema)
-    return NULL;
+    return nullptr;
   Config* config = ticket.schema->config();
   string dict_name;
   if (!config->GetString(ticket.name_space + "/dictionary", &dict_name)) {
     // missing!
-    return NULL;
+    return nullptr;
   }
   return Create(dict_name);
 }

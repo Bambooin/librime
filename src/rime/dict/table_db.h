@@ -23,7 +23,7 @@ class StableDb : public TableDb {
  public:
   StableDb(const path& file_path, const string& db_name);
 
-  virtual bool Open();
+  bool Open() override;
 };
 
 }  // namespace rime

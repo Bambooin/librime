@@ -10,7 +10,7 @@
 
 namespace rime {
 
-DictSettings::DictSettings() {}
+DictSettings::DictSettings() = default;
 
 bool DictSettings::LoadDictHeader(std::istream& stream) {
   if (!stream.good()) {

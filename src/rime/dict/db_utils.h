@@ -50,8 +50,8 @@ class DbSink : public Sink {
  public:
   explicit DbSink(Db* db);
 
-  virtual bool MetaPut(const string& key, const string& value);
-  virtual bool Put(const string& key, const string& value);
+  bool MetaPut(const string& key, const string& value) override;
+  bool Put(const string& key, const string& value) override;
 
  protected:
   Db* db_;
@@ -61,8 +61,8 @@ class DbSource : public Source {
  public:
   explicit DbSource(Db* db);
 
-  virtual bool MetaGet(string* key, string* value);
-  virtual bool Get(string* key, string* value);
+  bool MetaGet(string* key, string* value) override;
+  bool Get(string* key, string* value) override;
 
  protected:
   Db* db_;

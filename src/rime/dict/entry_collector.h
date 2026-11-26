@@ -77,10 +77,9 @@ class EntryCollector : public PhraseCollector {
   size_t total_text_bytes = 0;
   ReverseLookupTable stems;
 
- public:
   EntryCollector();
   explicit EntryCollector(Syllabary&& fixed_syllabary);
-  virtual ~EntryCollector();
+  ~EntryCollector() override;
 
   void Configure(DictSettings* settings);
   // Collect all tables in one batch; temporary encoding data is released after.
@@ -91,8 +90,8 @@ class EntryCollector : public PhraseCollector {
 
   void CreateEntry(const string& word,
                    const string& code_str,
-                   const string& weight_str);
-  bool TranslateWord(const string& word, vector<string>* code);
+                   const string& weight_str) override;
+  bool TranslateWord(const string& word, vector<string>* code) override;
 
  protected:
   void LoadPresetVocabulary(DictSettings* settings);
@@ -101,7 +100,6 @@ class EntryCollector : public PhraseCollector {
   // encode all collected entries
   void Finish();
 
- protected:
   the<PresetVocabulary> preset_vocabulary;
   the<Encoder> encoder;
   EncodeQueue encode_queue;
@@ -121,7 +119,6 @@ class EntryCollector : public PhraseCollector {
   void EnsureWords();
   void BuildWords();
 
- private:
   string current_dict_file;
   size_t line_number;
   bool deduplicated_ = false;

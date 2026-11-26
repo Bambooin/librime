@@ -17,7 +17,9 @@ int TsvReader::operator()(Sink* sink) {
     return 0;
   LOG(INFO) << "reading tsv file: " << file_path_;
   std::ifstream fin(file_path_.c_str());
-  string line, key, value;
+  string line;
+  string key;
+  string value;
   Tsv row;
   int line_no = 0;
   int num_entries = 0;
@@ -64,7 +66,8 @@ int TsvWriter::operator()(Source* source) {
   if (!file_description.empty()) {
     fout << "# " << file_description << std::endl;
   }
-  string key, value;
+  string key;
+  string value;
   while (source->MetaGet(&key, &value)) {
     fout << "#@" << key << '\t' << value << std::endl;
   }

@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
+#include <memory>
 #include <rime/dict/mapped_file.h>
 
 namespace rime {
@@ -25,10 +26,10 @@ class MappedFileImpl {
     boost::interprocess::mode_t file_mapping_mode =
         (mode == kOpenReadOnly) ? boost::interprocess::read_only
                                 : boost::interprocess::read_write;
-    file_.reset(new boost::interprocess::file_mapping(file_path.c_str(),
-                                                      file_mapping_mode));
-    region_.reset(
-        new boost::interprocess::mapped_region(*file_, file_mapping_mode));
+    file_ = std::make_unique<boost::interprocess::file_mapping>(
+        file_path.c_str(), file_mapping_mode);
+    region_ = std::make_unique<boost::interprocess::mapped_region>(
+        *file_, file_mapping_mode);
   }
   ~MappedFileImpl() {
     region_.reset();
@@ -68,7 +69,8 @@ bool MappedFile::Create(size_t capacity) {
     fbuf.close();
   }
   LOG(INFO) << "opening file for read/write access.";
-  file_.reset(new MappedFileImpl(file_path_, MappedFileImpl::kOpenReadWrite));
+  file_ = std::make_unique<MappedFileImpl>(file_path_,
+                                           MappedFileImpl::kOpenReadWrite);
   size_ = 0;
   return bool(file_);
 }
@@ -78,7 +80,8 @@ bool MappedFile::OpenReadOnly() {
     LOG(ERROR) << "attempt to open non-existent file '" << file_path_ << "'.";
     return false;
   }
-  file_.reset(new MappedFileImpl(file_path_, MappedFileImpl::kOpenReadOnly));
+  file_ = std::make_unique<MappedFileImpl>(file_path_,
+                                           MappedFileImpl::kOpenReadOnly);
   size_ = file_->get_size();
   return bool(file_);
 }
@@ -88,7 +91,8 @@ bool MappedFile::OpenReadWrite() {
     LOG(ERROR) << "attempt to open non-existent file '" << file_path_ << "'.";
     return false;
   }
-  file_.reset(new MappedFileImpl(file_path_, MappedFileImpl::kOpenReadWrite));
+  file_ = std::make_unique<MappedFileImpl>(file_path_,
+                                           MappedFileImpl::kOpenReadWrite);
   size_ = 0;
   return bool(file_);
 }
