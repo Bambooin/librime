@@ -22,11 +22,11 @@ class ConfigData {
   // returns whether actually saved to file.
   bool Save();
   bool LoadFromStream(std::istream& stream);
-  bool SaveToStream(std::ostream& stream);
+  bool SaveToStream(std::ostream& stream) const;
   bool LoadFromFile(const path& file_path, ConfigCompiler* compiler);
   bool SaveToFile(const path& file_path);
   bool TraverseWrite(const string& path, an<ConfigItem> item);
-  an<ConfigItem> Traverse(const string& path);
+  an<ConfigItem> Traverse(const string& path) const;
 
   static vector<string> SplitPath(const string& path);
   static string JoinPath(const vector<string>& keys);

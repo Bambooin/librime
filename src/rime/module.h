@@ -11,7 +11,7 @@
 #include <rime/common.h>
 
 struct rime_module_t;
-typedef struct rime_module_t RimeModule;
+using RimeModule = rime_module_t;
 
 namespace rime {
 

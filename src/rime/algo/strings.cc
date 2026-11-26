@@ -7,7 +7,8 @@ vector<string> split(const string& str,
                      const string& delim,
                      SplitBehavior behavior) {
   vector<string> strings;
-  size_t lastPos, pos;
+  size_t lastPos;
+  size_t pos;
   if (behavior == SplitBehavior::SkipToken) {
     lastPos = str.find_first_not_of(delim, 0);
   } else {

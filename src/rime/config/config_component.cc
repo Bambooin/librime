@@ -19,7 +19,7 @@ Config::Config() : ConfigItemRef(nullptr), data_(New<ConfigData>()) {
   ConfigItemRef::data_ = data_.get();
 }
 
-Config::~Config() {}
+Config::~Config() = default;
 
 Config::Config(an<ConfigData> data) : ConfigItemRef(data.get()), data_(data) {}
 
@@ -173,7 +173,7 @@ ResourceResolver* UserConfigResourceProvider::CreateResourceResolver(
 ConfigComponentBase::ConfigComponentBase(ResourceResolver* resource_resolver)
     : resource_resolver_(resource_resolver) {}
 
-ConfigComponentBase::~ConfigComponentBase() {}
+ConfigComponentBase::~ConfigComponentBase() = default;
 
 Config* ConfigComponentBase::Create(const string& file_name) {
   return new Config(GetConfigData(file_name));
@@ -193,16 +193,16 @@ an<ConfigData> ConfigComponentBase::GetConfigData(const string& file_name) {
 }
 
 an<ConfigData> ConfigLoader::LoadConfig(ResourceResolver* resource_resolver,
-                                        const string& config_id) {
+                                        const string& config_id) const {
   auto data = New<ConfigData>();
   data->LoadFromFile(resource_resolver->ResolvePath(config_id), nullptr);
   data->set_auto_save(auto_save_);
   return data;
 }
 
-ConfigBuilder::ConfigBuilder() {}
+ConfigBuilder::ConfigBuilder() = default;
 
-ConfigBuilder::~ConfigBuilder() {}
+ConfigBuilder::~ConfigBuilder() = default;
 
 void ConfigBuilder::InstallPlugin(ConfigCompilerPlugin* plugin) {
   plugins_.push_back(the<ConfigCompilerPlugin>(plugin));
@@ -223,8 +223,8 @@ struct MultiplePlugins : ConfigCompilerPlugin {
     return ReviewedByAll(&ConfigCompilerPlugin::ReviewLinkOutput, compiler,
                          resource);
   }
-  typedef bool (ConfigCompilerPlugin::*Reviewer)(ConfigCompiler* compiler,
-                                                 an<ConfigResource> resource);
+  using Reviewer = bool (ConfigCompilerPlugin::*)(ConfigCompiler* compiler,
+                                                  an<ConfigResource> resource);
   bool ReviewedByAll(Reviewer reviewer,
                      ConfigCompiler* compiler,
                      an<ConfigResource> resource);

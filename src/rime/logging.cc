@@ -124,7 +124,7 @@ std::string CurrentDate() {
   localtime_r(&now, &tm);
 #endif
   char buffer[16] = {};
-  std::strftime(buffer, sizeof(buffer), "%Y%m%d", &tm);
+  (void)std::strftime(buffer, sizeof(buffer), "%Y%m%d", &tm);
   return buffer;
 }
 
@@ -187,8 +187,8 @@ bool EnsureLogDirectory(const fs::path& directory) {
   fs::create_directories(directory, ec);
   std::error_code exists_ec;
   if (ec && !fs::exists(directory, exists_ec)) {
-    std::fprintf(stderr, "Rime: failed to create log directory %s: %s\n",
-                 ToUtf8(directory).c_str(), ec.message().c_str());
+    (void)std::fprintf(stderr, "Rime: failed to create log directory %s: %s\n",
+                       ToUtf8(directory).c_str(), ec.message().c_str());
     return false;
   }
   return true;
@@ -210,11 +210,11 @@ LogFileSink CreateFileSink(const fs::path& directory,
     fs::permissions(file_path, fs::perms::owner_read | fs::perms::owner_write,
                     fs::perm_options::replace, ec);
   } catch (const spdlog::spdlog_ex& ex) {
-    std::fprintf(stderr, "Rime: failed to open log file %s: %s\n",
-                 ToUtf8(file_path).c_str(), ex.what());
+    (void)std::fprintf(stderr, "Rime: failed to open log file %s: %s\n",
+                       ToUtf8(file_path).c_str(), ex.what());
   } catch (const std::exception& ex) {
-    std::fprintf(stderr, "Rime: failed to open log file %s: %s\n",
-                 ToUtf8(file_path).c_str(), ex.what());
+    (void)std::fprintf(stderr, "Rime: failed to open log file %s: %s\n",
+                       ToUtf8(file_path).c_str(), ex.what());
   }
   return result;
 }
@@ -238,8 +238,8 @@ void RefreshSymlink(const fs::path& directory,
   }
 #endif
   if (ec) {
-    std::fprintf(stderr, "Rime: failed to create log symlink %s: %s\n",
-                 ToUtf8(link_path).c_str(), ec.message().c_str());
+    (void)std::fprintf(stderr, "Rime: failed to create log symlink %s: %s\n",
+                       ToUtf8(link_path).c_str(), ec.message().c_str());
   }
 }
 
@@ -297,9 +297,9 @@ std::shared_ptr<spdlog::logger> BuildLogger(const char* app_name,
                    "Rime: no writable log directory found; logging to "
                    "logcat instead.\n");
 #else
-      std::fprintf(stderr,
-                   "Rime: no writable log directory found; logging to "
-                   "stderr instead.\n");
+      (void)std::fprintf(stderr,
+                         "Rime: no writable log directory found; logging to "
+                         "stderr instead.\n");
 #endif
     }
   }
@@ -386,9 +386,9 @@ void ShutdownLogging() {
     try {
       logger->flush();
     } catch (const std::exception& ex) {
-      std::fprintf(stderr, "Rime: failed to flush logs: %s\n", ex.what());
+      (void)std::fprintf(stderr, "Rime: failed to flush logs: %s\n", ex.what());
     } catch (...) {
-      std::fprintf(stderr, "Rime: failed to flush logs.\n");
+      (void)std::fprintf(stderr, "Rime: failed to flush logs.\n");
     }
   }
 }
@@ -435,14 +435,14 @@ void LogMessageToSink(LogSeverity severity,
       if (severity == LogSeverity::Fatal)
         logger->flush();
     } catch (const std::exception& ex) {
-      std::fprintf(stderr, "Rime: logging failed: %s\n", ex.what());
+      (void)std::fprintf(stderr, "Rime: logging failed: %s\n", ex.what());
     } catch (...) {
-      std::fprintf(stderr, "Rime: logging failed.\n");
+      (void)std::fprintf(stderr, "Rime: logging failed.\n");
     }
   } else {
-    std::fprintf(stderr, "%c %s:%d] %s\n", LevelChar(severity), source_file,
-                 line, message.c_str());
-    std::fflush(stderr);
+    (void)std::fprintf(stderr, "%c %s:%d] %s\n", LevelChar(severity),
+                       source_file, line, message.c_str());
+    (void)std::fflush(stderr);
   }
 
   if (severity == LogSeverity::Fatal)

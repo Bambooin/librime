@@ -22,7 +22,7 @@ struct ResourceType {
 class RIME_DLL ResourceResolver {
  public:
   explicit ResourceResolver(const ResourceType type) : type_(type) {}
-  virtual ~ResourceResolver() {}
+  virtual ~ResourceResolver() = default;
   virtual path ResolvePath(const string& resource_id);
   string ToResourceId(const string& file_path) const;
   string ToFilePath(const string& resource_id) const;

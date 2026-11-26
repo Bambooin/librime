@@ -16,7 +16,7 @@ SaveOutputPlugin::SaveOutputPlugin()
     : resource_resolver_(
           Service::instance().CreateStagingResourceResolver(kCompiledConfig)) {}
 
-SaveOutputPlugin::~SaveOutputPlugin() {}
+SaveOutputPlugin::~SaveOutputPlugin() = default;
 
 bool SaveOutputPlugin::ReviewCompileOutput(ConfigCompiler*,
                                            an<ConfigResource>) {

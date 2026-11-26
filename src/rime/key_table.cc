@@ -1,32 +1,32 @@
 
-#include <stddef.h>
-#include <string.h>
+#include <cstddef>
+#include <cstring>
 #include <X11/keysym.h>
 #include <rime_api.h>
 
 static const char* modifier_name[] = {
-    "Shift",                            // 0
-    "Lock",                             // 1
-    "Control",                          // 2
-    "Alt",                              // 3
-    "Mod2",                             // 4
-    "Mod3",                             // 5
-    "Mod4",                             // 6
-    "Mod5",                             // 7
-    "Button1",                          // 8
-    "Button2",                          // 9
-    "Button3",                          // 10
-    "Button4",                          // 11
-    "Button5",                          // 12
-    NULL,      NULL, NULL, NULL, NULL,  // 13 - 17
-    NULL,      NULL, NULL, NULL, NULL,  // 18 - 22
-    NULL,      NULL, NULL,              // 23 - 25
-    "Super",                            // 26
-    "Hyper",                            // 27
-    "Meta",                             // 28
-    NULL,                               // 29
-    "Release",                          // 30
-    NULL,                               // 31
+    "Shift",                                        // 0
+    "Lock",                                         // 1
+    "Control",                                      // 2
+    "Alt",                                          // 3
+    "Mod2",                                         // 4
+    "Mod3",                                         // 5
+    "Mod4",                                         // 6
+    "Mod5",                                         // 7
+    "Button1",                                      // 8
+    "Button2",                                      // 9
+    "Button3",                                      // 10
+    "Button4",                                      // 11
+    "Button5",                                      // 12
+    nullptr,   nullptr, nullptr, nullptr, nullptr,  // 13 - 17
+    nullptr,   nullptr, nullptr, nullptr, nullptr,  // 18 - 22
+    nullptr,   nullptr, nullptr,                    // 23 - 25
+    "Super",                                        // 26
+    "Hyper",                                        // 27
+    "Meta",                                         // 28
+    nullptr,                                        // 29
+    "Release",                                      // 30
+    nullptr,                                        // 31
 };
 
 static const char key_names[] =
@@ -1337,10 +1337,10 @@ static const char key_names[] =
     "Delete\0"
     "VoidSymbol\0";
 
-typedef struct {
+struct key_entry {
   int keyval;
   int offset;
-} key_entry;
+};
 
 static const key_entry keys_by_keyval[] = {
     {0x000020, 0},     {0x000021, 6},     {0x000022, 13},    {0x000023, 22},
@@ -2020,7 +2020,7 @@ RIME_DLL const char* RimeGetModifierName(int modifier) {
     }
     modifier >>= 1;
   }
-  return NULL;
+  return nullptr;
 }
 
 RIME_DLL int RimeGetKeycodeByName(const char* name) {
@@ -2033,11 +2033,10 @@ RIME_DLL int RimeGetKeycodeByName(const char* name) {
 }
 
 RIME_DLL const char* RimeGetKeyName(int keycode) {
-  const int n = sizeof(keys_by_name) / sizeof(const key_entry);
-  for (int i = 0; i < n; ++i) {
-    if (keycode == keys_by_name[i].keyval) {
-      return key_names + keys_by_name[i].offset;
+  for (const auto& i : keys_by_name) {
+    if (keycode == i.keyval) {
+      return key_names + i.offset;
     }
   }
-  return NULL;
+  return nullptr;
 }

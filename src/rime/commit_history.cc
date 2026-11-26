@@ -30,7 +30,7 @@ void CommitHistory::Push(const KeyEvent& key_event) {
 }
 
 void CommitHistory::Push(const Composition& composition, const string& input) {
-  CommitRecord* last = NULL;
+  CommitRecord* last = nullptr;
   size_t end = 0;
   for (const Segment& seg : composition) {
     if (auto cand = seg.GetSelectedCandidate()) {
@@ -44,7 +44,7 @@ void CommitHistory::Push(const Composition& composition, const string& input) {
       }
       if (seg.status >= Segment::kConfirmed) {
         // terminate a record by confirmation
-        last = NULL;
+        last = nullptr;
       }
       end = cand->end();
     } else {

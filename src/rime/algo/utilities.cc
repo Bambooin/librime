@@ -11,9 +11,13 @@
 namespace rime {
 
 int CompareVersionString(const string& x, const string& y) {
-  size_t i = 0, j = 0, m = x.size(), n = y.size();
+  size_t i = 0;
+  size_t j = 0;
+  size_t m = x.size();
+  size_t n = y.size();
   while (i < m || j < n) {
-    int v1 = 0, v2 = 0;
+    int v1 = 0;
+    int v2 = 0;
     while (i < m && x[i] != '.')
       v1 = v1 * 10 + (int)(x[i++] - '0');
     ++i;

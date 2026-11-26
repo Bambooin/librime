@@ -99,8 +99,8 @@ void SwitcherSettings::GetSelectedSchemasFromConfig() {
     LOG(WARNING) << "schema list not defined.";
     return;
   }
-  for (auto it = schema_list->begin(); it != schema_list->end(); ++it) {
-    auto item = As<ConfigMap>(*it);
+  for (auto& it : *schema_list) {
+    auto item = As<ConfigMap>(it);
     if (!item)
       continue;
     auto schema_property = item->GetValue("schema");
@@ -117,8 +117,8 @@ void SwitcherSettings::GetHotkeysFromConfig() {
     LOG(WARNING) << "hotkeys not defined.";
     return;
   }
-  for (auto it = hotkeys->begin(); it != hotkeys->end(); ++it) {
-    auto item = As<ConfigValue>(*it);
+  for (auto& it : *hotkeys) {
+    auto item = As<ConfigValue>(it);
     if (!item)
       continue;
     const string& hotkey(item->str());

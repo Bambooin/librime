@@ -13,6 +13,7 @@
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <memory>
 #include <rime/common.h>
 #include <rime/resource.h>
 #include <rime/schema.h>
@@ -41,7 +42,7 @@ DetectModifications::DetectModifications(TaskInitializer arg) {
 bool DetectModifications::Run(Deployer*) {
   time_t last_modified = 0;
   try {
-    for (auto dir : data_dirs_) {
+    for (const auto& dir : data_dirs_) {
       path p = fs::canonical(dir);
       last_modified = (std::max)(last_modified,
                                  filesystem::to_time_t(fs::last_write_time(p)));
@@ -132,7 +133,7 @@ bool InstallationUpdate::Run(Deployer* deployer) {
   if (!config.IsMap("")) {
     config = Config();
   }
-  time_t now = time(NULL);
+  time_t now = time(nullptr);
   string time_str(ctime(&now));
   boost::trim(time_str);
   if (installation_id.empty()) {
@@ -170,12 +171,12 @@ bool WorkspaceUpdate::Run(Deployer* deployer) {
   LOG(INFO) << "updating workspace.";
   {
     the<DeploymentTask> t;
-    t.reset(new ConfigFileUpdate("default.yaml", "config_version"));
+    t = std::make_unique<ConfigFileUpdate>("default.yaml", "config_version");
     t->Run(deployer);
     // Deprecated: symbols.yaml is only used as source file
     // t.reset(new ConfigFileUpdate("symbols.yaml", "config_version"));
     // t->Run(deployer);
-    t.reset(new SymlinkingPrebuiltDictionaries);
+    t = std::make_unique<SymlinkingPrebuiltDictionaries>();
     t->Run(deployer);
   }
 
@@ -196,7 +197,7 @@ bool WorkspaceUpdate::Run(Deployer* deployer) {
 
   the<ResourceResolver> resolver(Service::instance().CreateResourceResolver(
       {"schema_source_file", "", ".schema.yaml"}));
-  auto schema_component = Config::Require("schema");
+  auto* schema_component = Config::Require("schema");
 
   // Phase 1 (serial): update schema config files and collect compile units.
   // All accesses to the shared, non-thread-safe component caches happen in
@@ -248,8 +249,8 @@ bool WorkspaceUpdate::Run(Deployer* deployer) {
         return;
     }
   };
-  for (auto it = schema_list->begin(); it != schema_list->end(); ++it) {
-    auto item = As<ConfigMap>(*it);
+  for (auto& it : *schema_list) {
+    auto item = As<ConfigMap>(it);
     if (!item)
       continue;
     auto schema_property = item->GetValue("schema");
@@ -264,8 +265,8 @@ bool WorkspaceUpdate::Run(Deployer* deployer) {
     if (!schema_config)
       continue;
     if (auto dependencies = schema_config->GetList("schema/dependencies")) {
-      for (auto d = dependencies->begin(); d != dependencies->end(); ++d) {
-        auto dependency = As<ConfigValue>(*d);
+      for (auto& d : *dependencies) {
+        auto dependency = As<ConfigValue>(d);
         if (!dependency)
           continue;
         process_schema(dependency->str(), true);
@@ -295,7 +296,7 @@ bool WorkspaceUpdate::Run(Deployer* deployer) {
 
   the<Config> user_config(Config::Require("user_config")->Create("user"));
   // TODO: store as 64-bit number to avoid the year 2038 problem
-  user_config->SetInt("var/last_build_time", (int)time(NULL));
+  user_config->SetInt("var/last_build_time", (int)time(nullptr));
 
   return failure == 0;
 }
@@ -377,7 +378,7 @@ bool SchemaUpdate::Run(Deployer* deployer) {
     return false;
   }
   string schema_id;
-  the<Config> config(new Config);
+  the<Config> config = std::make_unique<Config>();
   if (!config->LoadFromFile(source_path_) ||
       !config->GetString("schema/schema_id", &schema_id) || schema_id.empty()) {
     LOG(ERROR) << "invalid schema definition in '" << source_path_ << "'.";
@@ -448,7 +449,7 @@ static bool ConfigNeedsUpdate(Config* config) {
   }
   the<ResourceResolver> resolver(Service::instance().CreateResourceResolver(
       {"config_source_file", "", ".yaml"}));
-  for (auto entry : *timestamps.AsMap()) {
+  for (const auto& entry : *timestamps.AsMap()) {
     auto value = As<ConfigValue>(entry.second);
     int recorded_time = 0;
     if (!value || !value->GetInt(&recorded_time)) {
@@ -549,7 +550,7 @@ bool SymlinkingPrebuiltDictionaries::Run(Deployer* deployer) {
 
 bool UserDictUpgrade::Run(Deployer* deployer) {
   LoadModules(kLegacyModules);
-  auto legacy_userdb_component = UserDb::Require("legacy_userdb");
+  auto* legacy_userdb_component = UserDb::Require("legacy_userdb");
   if (!legacy_userdb_component) {
     return true;  // nothing to upgrade
   }
@@ -557,8 +558,8 @@ bool UserDictUpgrade::Run(Deployer* deployer) {
   UserDictList dicts;
   manager.GetUserDictList(&dicts, legacy_userdb_component);
   bool ok = true;
-  for (auto it = dicts.cbegin(); it != dicts.cend(); ++it) {
-    if (!manager.UpgradeUserDict(*it))
+  for (const auto& dict : dicts) {
+    if (!manager.UpgradeUserDict(dict))
       ok = false;
   }
   return ok;
@@ -596,7 +597,10 @@ bool BackupConfigFiles::Run(Deployer* deployer) {
   if (!MaybeCreateDirectory(backup_dir)) {
     return false;
   }
-  int success = 0, failure = 0, latest = 0, skipped = 0;
+  int success = 0;
+  int failure = 0;
+  int latest = 0;
+  int skipped = 0;
   for (fs::directory_iterator iter(user_data_path), end; iter != end; ++iter) {
     path entry(iter->path());
     if (!fs::is_regular_file(entry))
@@ -636,7 +640,8 @@ bool CleanupTrash::Run(Deployer* deployer) {
   if (!fs::exists(user_data_path))
     return false;
   path trash = user_data_path / "trash";
-  int success = 0, failure = 0;
+  int success = 0;
+  int failure = 0;
   for (fs::directory_iterator iter(user_data_path), end; iter != end; ++iter) {
     path entry(iter->path());
     if (!fs::is_regular_file(entry))
@@ -674,8 +679,8 @@ bool CleanOldLogFiles::Run(Deployer* deployer) {
   }
 
   char ymd[12] = {0};
-  time_t now = time(NULL);
-  strftime(ymd, sizeof(ymd), ".%Y%m%d", localtime(&now));
+  time_t now = time(nullptr);
+  (void)strftime(ymd, sizeof(ymd), ".%Y%m%d", localtime(&now));
   string today(ymd);
   DLOG(INFO) << "today: " << today;
 

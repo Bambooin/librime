@@ -5,7 +5,7 @@
 // 2011-12-12 GONG Chen <chen.sst@gmail.com>
 //
 #include <filesystem>
-#include <stdint.h>
+#include <cstdint>
 #include <rime/common.h>
 #include <rime/config.h>
 #include <rime/algo/utilities.h>
@@ -112,9 +112,9 @@ bool Customizer::UpdateConfigFile() {
       return false;
     }
     if (auto patch = custom_config.GetMap("patch")) {
-      for (auto it = patch->begin(); it != patch->end(); ++it) {
-        if (!dest_config.SetItem(it->first, it->second)) {
-          LOG(ERROR) << "Error applying customization: '" << it->first << "'.";
+      for (auto& it : *patch) {
+        if (!dest_config.SetItem(it.first, it.second)) {
+          LOG(ERROR) << "Error applying customization: '" << it.first << "'.";
           return false;
         }
       }

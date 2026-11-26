@@ -20,12 +20,12 @@ class Translator;
 class Switcher : public Processor, public Engine {
  public:
   Switcher(const Ticket& ticket);
-  virtual ~Switcher();
+  ~Switcher() override;
 
-  virtual bool ProcessKey(const KeyEvent& key_event) {
+  bool ProcessKey(const KeyEvent& key_event) override {
     return ProcessKeyEvent(key_event) == kAccepted;
   }
-  virtual ProcessResult ProcessKeyEvent(const KeyEvent& key_event);
+  ProcessResult ProcessKeyEvent(const KeyEvent& key_event) override;
 
   static int ForEachSchemaListEntry(
       Config* config,

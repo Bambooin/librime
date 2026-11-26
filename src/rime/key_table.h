@@ -11,7 +11,7 @@
 #include <X11/keysym.h>
 #include <rime_api.h>
 
-typedef enum {
+enum RimeModifier {
   kShiftMask = 1 << 0,
   kLockMask = 1 << 1,
   kControlMask = 1 << 2,
@@ -43,7 +43,7 @@ typedef enum {
   kReleaseMask = 1 << 30,
 
   kModifierMask = 0x5f001fff
-} RimeModifier;
+};
 
 // 给定modifier文字，返回马赛克值
 // 例如 RimeGetModifierByName("Alt") == (1 << 3)

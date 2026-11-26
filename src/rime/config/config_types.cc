@@ -51,7 +51,7 @@ bool ConfigValue::GetInt(int* value) const {
     return false;
   // try to parse hex number
   if (boost::starts_with(value_, "0x")) {
-    char* p = NULL;
+    char* p = nullptr;
     unsigned int hex = std::strtoul(value_.c_str(), &p, 16);
     if (*p == '\0') {
       *value = static_cast<int>(hex);

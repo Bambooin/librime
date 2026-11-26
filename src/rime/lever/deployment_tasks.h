@@ -18,7 +18,7 @@ class DetectModifications : public DeploymentTask {
   DetectModifications(TaskInitializer arg = TaskInitializer());
   // Unlike other tasks, its return value indicates whether modifications
   // has been detected and workspace needs update.
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 
  protected:
   vector<path> data_dirs_;
@@ -28,14 +28,14 @@ class DetectModifications : public DeploymentTask {
 class RIME_DLL InstallationUpdate : public DeploymentTask {
  public:
   InstallationUpdate(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 // update distributed config files and preset schemas
 class RIME_DLL WorkspaceUpdate : public DeploymentTask {
  public:
   WorkspaceUpdate(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 
  protected:
   string GetSchemaPath(Deployer* deployer,
@@ -48,7 +48,7 @@ class RIME_DLL SchemaUpdate : public DeploymentTask {
  public:
   explicit SchemaUpdate(const path& source_path) : source_path_(source_path) {}
   SchemaUpdate(TaskInitializer arg);
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
   void set_verbose(bool verbose) { verbose_ = verbose; }
 
  protected:
@@ -62,7 +62,7 @@ class ConfigFileUpdate : public DeploymentTask {
   ConfigFileUpdate(const string& file_name, const string& version_key)
       : file_name_(file_name), version_key_(version_key) {}
   ConfigFileUpdate(TaskInitializer arg);
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 
  protected:
   string file_name_;
@@ -73,45 +73,45 @@ class ConfigFileUpdate : public DeploymentTask {
 class PrebuildAllSchemas : public DeploymentTask {
  public:
   PrebuildAllSchemas(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 // create symlinks to prebuilt dictionaries in user directory
 class SymlinkingPrebuiltDictionaries : public DeploymentTask {
  public:
   SymlinkingPrebuiltDictionaries(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 // upgrade user dictionaries
 class UserDictUpgrade : public DeploymentTask {
  public:
   UserDictUpgrade(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 class UserDictSync : public DeploymentTask {
  public:
   UserDictSync(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 class BackupConfigFiles : public DeploymentTask {
  public:
   BackupConfigFiles(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 class CleanupTrash : public DeploymentTask {
  public:
   CleanupTrash(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 class CleanOldLogFiles : public DeploymentTask {
  public:
   CleanOldLogFiles(TaskInitializer = TaskInitializer()) {}
-  bool Run(Deployer* deployer);
+  bool Run(Deployer* deployer) override;
 };
 
 }  // namespace rime

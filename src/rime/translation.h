@@ -44,8 +44,8 @@ class UniqueTranslation : public Translation {
     set_exhausted(!candidate);
   }
 
-  bool Next();
-  an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   an<Candidate> candidate_;
@@ -55,8 +55,8 @@ class RIME_DLL FifoTranslation : public Translation {
  public:
   FifoTranslation();
 
-  bool Next();
-  an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
   void Append(an<Candidate> candy);
 
@@ -71,8 +71,8 @@ class UnionTranslation : public Translation {
  public:
   UnionTranslation();
 
-  bool Next();
-  an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
   UnionTranslation& operator+=(an<Translation> t);
 
@@ -86,8 +86,8 @@ class MergedTranslation : public Translation {
  public:
   explicit MergedTranslation(const CandidateList& previous_candidates);
 
-  bool Next();
-  an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
   MergedTranslation& operator+=(an<Translation> t);
 
@@ -105,8 +105,8 @@ class CacheTranslation : public Translation {
  public:
   CacheTranslation(an<Translation> translation);
 
-  virtual bool Next();
-  virtual an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   an<Translation> translation_;
@@ -121,7 +121,7 @@ inline an<Translation> Cached(Args&&... args) {
 class DistinctTranslation : public CacheTranslation {
  public:
   DistinctTranslation(an<Translation> translation);
-  virtual bool Next();
+  bool Next() override;
 
  protected:
   bool AlreadyHas(const string& text) const;
@@ -133,8 +133,8 @@ class PrefetchTranslation : public Translation {
  public:
   PrefetchTranslation(an<Translation> translation);
 
-  virtual bool Next();
-  virtual an<Candidate> Peek();
+  bool Next() override;
+  an<Candidate> Peek() override;
 
  protected:
   virtual bool Replenish() { return false; }

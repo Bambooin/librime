@@ -4,6 +4,7 @@
 //
 // 2013-07-17 GONG Chen <chen.sst@gmail.com>
 //
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <utf8.h>
 #include <rime/config.h>
@@ -98,9 +99,7 @@ bool TableEncoder::LoadSettings(Config* config) {
           continue;
         }
         r.min_word_length = r.max_word_length = length;
-        if (max_phrase_length_ < length) {
-          max_phrase_length_ = length;
-        }
+        max_phrase_length_ = std::max(max_phrase_length_, length);
       } else if (auto range = As<ConfigList>(rule->Get("length_in_range"))) {
         if (range->size() != 2 || !range->GetValueAt(0) ||
             !range->GetValueAt(1) ||
@@ -110,19 +109,15 @@ bool TableEncoder::LoadSettings(Config* config) {
           LOG(ERROR) << "invalid range.";
           continue;
         }
-        if (max_phrase_length_ < r.max_word_length) {
-          max_phrase_length_ = r.max_word_length;
-        }
+        max_phrase_length_ = std::max(max_phrase_length_, r.max_word_length);
       }
       encoding_rules_.push_back(r);
     }
-    if (max_phrase_length_ > kMaxPhraseLength) {
-      max_phrase_length_ = kMaxPhraseLength;
-    }
+    max_phrase_length_ = std::min(max_phrase_length_, kMaxPhraseLength);
   }
   if (auto excludes = config->GetList("encoder/exclude_patterns")) {
-    for (auto it = excludes->begin(); it != excludes->end(); ++it) {
-      auto pattern = As<ConfigValue>(*it);
+    for (auto& it : *excludes) {
+      auto pattern = As<ConfigValue>(it);
       if (!pattern)
         continue;
       exclude_patterns_.push_back(boost::regex(pattern->str()));
@@ -249,13 +244,15 @@ int TableEncoder::CalculateCodeIndex(const string& code, int index, int start) {
       k = static_cast<int>(tail) - 1;
     }
     while (++index < 0) {
-      while (--k >= 0 && tail_anchor_.find(code[k]) != string::npos) {
+      while (--k >= 0 &&  // NOLINT(bugprone-inc-dec-in-conditions)
+             tail_anchor_.find(code[k]) != string::npos) {
       }
     }
   } else {
     // 'ab|cd|ef|g' ~ '(AaAb)Ac' -> 'abc'; index = 2
     while (index-- > 0) {
-      while (++k < n && tail_anchor_.find(code[k]) != string::npos) {
+      while (++k < n &&  // NOLINT(bugprone-inc-dec-in-conditions)
+             tail_anchor_.find(code[k]) != string::npos) {
       }
     }
   }

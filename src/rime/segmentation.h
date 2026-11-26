@@ -60,7 +60,7 @@ struct Segment {
 class RIME_DLL Segmentation : public vector<Segment> {
  public:
   Segmentation();
-  virtual ~Segmentation() {}
+  virtual ~Segmentation() = default;
   void Reset(const string& input);
   void Reset(size_t num_segments);
   bool AddSegment(Segment segment);

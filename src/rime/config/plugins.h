@@ -14,42 +14,54 @@ struct ConfigResource;
 
 class ConfigCompilerPlugin {
  public:
-  typedef bool Review(ConfigCompiler* compiler, an<ConfigResource> resource);
+  using Review = bool(ConfigCompiler* compiler, an<ConfigResource> resource);
 
   virtual ~ConfigCompilerPlugin() = default;
 
-  virtual Review ReviewCompileOutput = 0;
-  virtual Review ReviewLinkOutput = 0;
+  virtual bool ReviewCompileOutput(ConfigCompiler* compiler,
+                                   an<ConfigResource> resource) = 0;
+  virtual bool ReviewLinkOutput(ConfigCompiler* compiler,
+                                an<ConfigResource> resource) = 0;
 };
 
 class AutoPatchConfigPlugin : public ConfigCompilerPlugin {
  public:
-  Review ReviewCompileOutput;
-  Review ReviewLinkOutput;
+  bool ReviewCompileOutput(ConfigCompiler* compiler,
+                           an<ConfigResource> resource) override;
+  bool ReviewLinkOutput(ConfigCompiler* compiler,
+                        an<ConfigResource> resource) override;
 };
 
 class DefaultConfigPlugin : public ConfigCompilerPlugin {
  public:
-  Review ReviewCompileOutput;
-  Review ReviewLinkOutput;
+  bool ReviewCompileOutput(ConfigCompiler* compiler,
+                           an<ConfigResource> resource) override;
+  bool ReviewLinkOutput(ConfigCompiler* compiler,
+                        an<ConfigResource> resource) override;
 };
 
 class LegacyPresetConfigPlugin : public ConfigCompilerPlugin {
  public:
-  Review ReviewCompileOutput;
-  Review ReviewLinkOutput;
+  bool ReviewCompileOutput(ConfigCompiler* compiler,
+                           an<ConfigResource> resource) override;
+  bool ReviewLinkOutput(ConfigCompiler* compiler,
+                        an<ConfigResource> resource) override;
 };
 
 class LegacyDictionaryConfigPlugin : public ConfigCompilerPlugin {
  public:
-  Review ReviewCompileOutput;
-  Review ReviewLinkOutput;
+  bool ReviewCompileOutput(ConfigCompiler* compiler,
+                           an<ConfigResource> resource) override;
+  bool ReviewLinkOutput(ConfigCompiler* compiler,
+                        an<ConfigResource> resource) override;
 };
 
 class BuildInfoPlugin : public ConfigCompilerPlugin {
  public:
-  Review ReviewCompileOutput;
-  Review ReviewLinkOutput;
+  bool ReviewCompileOutput(ConfigCompiler* compiler,
+                           an<ConfigResource> resource) override;
+  bool ReviewLinkOutput(ConfigCompiler* compiler,
+                        an<ConfigResource> resource) override;
 };
 
 class ResourceResolver;
@@ -58,10 +70,12 @@ struct ResourceType;
 class SaveOutputPlugin : public ConfigCompilerPlugin {
  public:
   SaveOutputPlugin();
-  virtual ~SaveOutputPlugin();
+  ~SaveOutputPlugin() override;
 
-  Review ReviewCompileOutput;
-  Review ReviewLinkOutput;
+  bool ReviewCompileOutput(ConfigCompiler* compiler,
+                           an<ConfigResource> resource) override;
+  bool ReviewLinkOutput(ConfigCompiler* compiler,
+                        an<ConfigResource> resource) override;
 
  private:
   the<ResourceResolver> resource_resolver_;

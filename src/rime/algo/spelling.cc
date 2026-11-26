@@ -1,12 +1,12 @@
 #include "spelling.h"
 
+#include <algorithm>
+
 namespace rime {
 
 void SpellingProperties::Compose(const SpellingProperties& delta) {
   // 類型取最模糊者
-  if (delta.type > type) {
-    type = delta.type;
-  }
+  type = std::max(delta.type, type);
   // 權重累加
   credibility += delta.credibility;
   // 糾錯標記
@@ -31,9 +31,7 @@ void SpellingProperties::Update(const SpellingProperties& other) {
     is_correction = other.is_correction;
   }
   // 保留最大權重
-  if (other.credibility > credibility) {
-    credibility = other.credibility;
-  }
+  credibility = std::max(other.credibility, credibility);
   // 提示是針對其中一個拼寫來源的, 可能對合併後的拼寫不適用
   tips.clear();
 }

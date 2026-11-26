@@ -28,7 +28,7 @@ class SwitcherSettings : public CustomSettings {
   using Selection = vector<string>;
 
   explicit SwitcherSettings(Deployer* deployer);
-  bool Load();
+  bool Load() override;
   bool Select(Selection selection);
   bool SetHotkeys(const string& hotkeys);
 

@@ -41,7 +41,7 @@ ComponentBase* Registry::Find(const string& name) {
   if (it != map_.end()) {
     return it->second;
   }
-  return NULL;
+  return nullptr;
 }
 
 Registry& Registry::instance() {

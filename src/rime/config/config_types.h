@@ -105,7 +105,7 @@ class ConfigMap : public ConfigItem {
   Map map_;
 };
 
-namespace {
+namespace detail {
 
 template <class T>
 an<ConfigItem> AsConfigItem(const T& x, const std::false_type&) {
@@ -117,7 +117,7 @@ an<ConfigItem> AsConfigItem(const T& x, const std::true_type&) {
   return x;
 };
 
-}  // namespace
+}  // namespace detail
 
 class ConfigData;
 class ConfigListEntryRef;
@@ -131,7 +131,7 @@ class ConfigItemRef {
   an<ConfigItem> operator*() const { return GetItem(); }
   template <class T>
   ConfigItemRef& operator=(const T& x) {
-    SetItem(AsConfigItem(x, std::is_convertible<T, an<ConfigItem>>()));
+    SetItem(detail::AsConfigItem(x, std::is_convertible<T, an<ConfigItem>>()));
     return *this;
   }
   ConfigListEntryRef operator[](size_t index);
@@ -174,8 +174,8 @@ class ConfigListEntryRef : public ConfigItemRef {
   using ConfigItemRef::operator=;
 
  protected:
-  an<ConfigItem> GetItem() const { return list_->GetAt(index_); }
-  void SetItem(an<ConfigItem> item) {
+  an<ConfigItem> GetItem() const override { return list_->GetAt(index_); }
+  void SetItem(an<ConfigItem> item) override {
     list_->SetAt(index_, item);
     set_modified();
   }
@@ -192,8 +192,8 @@ class ConfigMapEntryRef : public ConfigItemRef {
   using ConfigItemRef::operator=;
 
  protected:
-  an<ConfigItem> GetItem() const { return map_->Get(key_); }
-  void SetItem(an<ConfigItem> item) {
+  an<ConfigItem> GetItem() const override { return map_->Get(key_); }
+  void SetItem(an<ConfigItem> item) override {
     map_->Set(key_, item);
     set_modified();
   }

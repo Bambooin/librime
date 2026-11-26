@@ -18,8 +18,7 @@ namespace rime {
 using namespace corrector;
 
 using Vertex = pair<size_t, SpellingType>;
-using VertexQueue =
-    std::priority_queue<Vertex, vector<Vertex>, std::greater<Vertex>>;
+using VertexQueue = std::priority_queue<Vertex, vector<Vertex>, std::greater<>>;
 
 // 權重階梯：
 // 1. 全拼：用戶完整輸入了所有編碼。Penalty = 0
@@ -52,8 +51,7 @@ int Syllabifier::BuildSyllableGraph(const string& input,
       continue;  // discard worse spelling types
     }
 
-    if (current_pos > farthest)
-      farthest = current_pos;
+    farthest = std::max(current_pos, farthest);
 
     // consume leading delimiters
     size_t begin_pos = current_pos;
@@ -75,7 +73,11 @@ int Syllabifier::BuildSyllableGraph(const string& input,
       syllable.reserve(limit);
       for (size_t len = 1; len <= limit; ++len) {
         // TODO: 須重構 Calculus 爲寫入時複製以避免複製子串.
-        syllable.assign(current_input.data(), len);
+        syllable.assign(
+            current_input
+                .data(),  // NOLINT(bugprone-suspicious-stringview-data-usage):
+                          // len given
+            len);
         canonicalizer_->Apply(&syllable);
         // 重排打破了前綴單調性, 故不能用前綴下行搜索, 改爲每次步進精確查詢.
         int value = -1;
@@ -161,9 +163,7 @@ int Syllabifier::BuildSyllableGraph(const string& input,
         // find the best common type in a path up to the end vertex
         // eg. pinyin "shurfa" has vertex type kNormalSpelling at position 3,
         // kAbbreviation at position 4 and kAbbreviation at position 6
-        if (end_vertex_type < vertex.second) {
-          end_vertex_type = vertex.second;
-        }
+        end_vertex_type = std::max(end_vertex_type, vertex.second);
         queue.push(Vertex{end_pos, end_vertex_type});
         DLOG(INFO) << "added to syllable graph, edge: [" << current_pos << ", "
                    << end_pos << ")";
@@ -198,8 +198,7 @@ int Syllabifier::BuildSyllableGraph(const string& input,
         if (k->second.type > last_type) {
           j->second.erase(k++);
         } else {
-          if (k->second.type < edge_type)
-            edge_type = k->second.type;
+          edge_type = std::min(k->second.type, edge_type);
           ++k;
         }
       }

@@ -21,7 +21,7 @@ class RIME_DLL Candidate {
 
   static an<Candidate> GetGenuineCandidate(const an<Candidate>& cand);
   static vector<of<Candidate>> GetGenuineCandidates(const an<Candidate>& cand);
-  int compare(const Candidate& other);
+  int compare(const Candidate& other) const;
 
   // recognized by translators in learning phase
   const string& type() const { return type_; }
@@ -68,9 +68,9 @@ class SimpleCandidate : public Candidate {
         comment_(comment),
         preedit_(preedit) {}
 
-  const string& text() const { return text_; }
-  string comment() const { return comment_; }
-  string preedit() const { return preedit_; }
+  const string& text() const override { return text_; }
+  string comment() const override { return comment_; }
+  string preedit() const override { return preedit_; }
 
   void set_text(const string& text) { text_ = text; }
   void set_comment(const string& comment) { comment_ = comment; }
@@ -95,11 +95,13 @@ class ShadowCandidate : public Candidate {
         item_(item),
         inherit_comment_(inherit_comment) {}
 
-  const string& text() const { return text_.empty() ? item_->text() : text_; }
-  string comment() const {
+  const string& text() const override {
+    return text_.empty() ? item_->text() : text_;
+  }
+  string comment() const override {
     return inherit_comment_ && comment_.empty() ? item_->comment() : comment_;
   }
-  string preedit() const { return item_->preedit(); }
+  string preedit() const override { return item_->preedit(); }
 
   const an<Candidate>& item() const { return item_; }
 
@@ -122,14 +124,14 @@ class UniquifiedCandidate : public Candidate {
     Append(item);
   }
 
-  const string& text() const {
+  const string& text() const override {
     return text_.empty() && !items_.empty() ? items_.front()->text() : text_;
   }
-  string comment() const {
+  string comment() const override {
     return comment_.empty() && !items_.empty() ? items_.front()->comment()
                                                : comment_;
   }
-  string preedit() const {
+  string preedit() const override {
     return !items_.empty() ? items_.front()->preedit() : string();
   }
 

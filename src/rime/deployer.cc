@@ -26,7 +26,7 @@ Deployer::~Deployer() {
 }
 
 bool Deployer::RunTask(const string& task_name, TaskInitializer arg) {
-  auto c = DeploymentTask::Require(task_name);
+  auto* c = DeploymentTask::Require(task_name);
   if (!c) {
     LOG(ERROR) << "unknown deployment task: " << task_name;
     return false;
@@ -40,7 +40,7 @@ bool Deployer::RunTask(const string& task_name, TaskInitializer arg) {
 }
 
 bool Deployer::ScheduleTask(const string& task_name, TaskInitializer arg) {
-  auto c = DeploymentTask::Require(task_name);
+  auto* c = DeploymentTask::Require(task_name);
   if (!c) {
     LOG(ERROR) << "unknown deployment task: " << task_name;
     return false;

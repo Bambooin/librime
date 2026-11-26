@@ -90,16 +90,16 @@ inline void UpdateComponentConditions(vector<ComponentEntry<T>>& components,
 class ConcreteEngine : public Engine {
  public:
   ConcreteEngine();
-  virtual ~ConcreteEngine();
-  virtual bool ProcessKey(const KeyEvent& key_event) {
+  ~ConcreteEngine() override;
+  bool ProcessKey(const KeyEvent& key_event) override {
     return ProcessKey(key_event, /* synthetic= */ false);
   }
-  virtual bool ProcessSyntheticKey(const KeyEvent& key_event) {
+  bool ProcessSyntheticKey(const KeyEvent& key_event) override {
     return ProcessKey(key_event, /* synthetic= */ true);
   }
-  virtual void ApplySchema(Schema* schema);
-  virtual void CommitText(string text);
-  virtual void Compose(Context* ctx);
+  void ApplySchema(Schema* schema) override;
+  void CommitText(string text) override;
+  void Compose(Context* ctx) override;
 
  protected:
   bool ProcessKey(const KeyEvent& key_event, bool synthetic);
@@ -382,8 +382,8 @@ void ConcreteEngine::ApplySchema(Schema* schema) {
 inline bool HasOnlyKeys(ConfigMap* map, const set<string>& allowed_keys) {
   if (!map)
     return false;
-  for (auto it = map->begin(); it != map->end(); ++it) {
-    if (allowed_keys.find(it->first) == allowed_keys.end())
+  for (auto& it : *map) {
+    if (allowed_keys.find(it.first) == allowed_keys.end())
       return false;
   }
   return true;
@@ -588,7 +588,7 @@ void ConcreteEngine::InitializeComponents() {
   CreateComponentsFromList<Filter>(this, config, "engine/filters", "filter",
                                    filters_);
   // create formatters
-  auto c_formatter = Formatter::Require("shape_formatter");
+  auto* c_formatter = Formatter::Require("shape_formatter");
   if (c_formatter) {
     an<Formatter> f(c_formatter->Create(Ticket(this)));
     if (f) {
@@ -600,7 +600,7 @@ void ConcreteEngine::InitializeComponents() {
     LOG(WARNING) << "shape_formatter not available.";
   }
   // create post-processors
-  auto c_processor = Processor::Require("shape_processor");
+  auto* c_processor = Processor::Require("shape_processor");
   if (c_processor) {
     an<Processor> p(c_processor->Create(Ticket(this)));
     if (p) {

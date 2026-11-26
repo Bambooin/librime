@@ -52,7 +52,7 @@ an<Candidate> Segment::GetSelectedCandidate() const {
   return GetCandidateAt(selected_index);
 }
 
-Segmentation::Segmentation() {}
+Segmentation::Segmentation() = default;
 
 void Segmentation::Reset(const string& new_input) {
   DLOG(INFO) << "reset to " << size() << " segments.";

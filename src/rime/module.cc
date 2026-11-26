@@ -19,7 +19,7 @@ RimeModule* ModuleManager::Find(const string& name) {
   if (it != map_.end()) {
     return it->second;
   }
-  return NULL;
+  return nullptr;
 }
 
 void ModuleManager::LoadModule(RimeModule* module) {
@@ -28,7 +28,7 @@ void ModuleManager::LoadModule(RimeModule* module) {
   }
   DLOG(INFO) << "loading module: " << module->module_name;
   loaded_.insert(module);
-  if (module->initialize != NULL) {
+  if (module->initialize != nullptr) {
     module->initialize();
   } else {
     LOG(WARNING) << "missing initialize() function in module: "
@@ -37,8 +37,8 @@ void ModuleManager::LoadModule(RimeModule* module) {
 }
 
 void ModuleManager::UnloadModules() {
-  for (auto module : loaded_) {
-    if (module->finalize != NULL) {
+  for (auto* module : loaded_) {
+    if (module->finalize != nullptr) {
       module->finalize();
     }
   }

@@ -32,7 +32,7 @@ vector<of<Candidate>> Candidate::GetGenuineCandidates(
   return result;
 }
 
-int Candidate::compare(const Candidate& other) {
+int Candidate::compare(const Candidate& other) const {
   // the one nearer to the beginning of segment comes first
   int k = start_ - other.start_;
   if (k != 0)

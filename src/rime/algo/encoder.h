@@ -79,12 +79,12 @@ struct TableEncodingRule {
 // for rule-based phrase encoding
 class RIME_DLL TableEncoder : public Encoder {
  public:
-  TableEncoder(PhraseCollector* collector = NULL);
+  TableEncoder(PhraseCollector* collector = nullptr);
 
-  bool LoadSettings(Config* config);
+  bool LoadSettings(Config* config) override;
 
   bool Encode(const RawCode& code, string* result);
-  bool EncodePhrase(const string& phrase, const string& value);
+  bool EncodePhrase(const string& phrase, const string& value) override;
 
   bool IsCodeExcluded(const string& code);
 
@@ -117,7 +117,7 @@ class ScriptEncoder : public Encoder {
  public:
   ScriptEncoder(PhraseCollector* collector);
 
-  bool EncodePhrase(const string& phrase, const string& value);
+  bool EncodePhrase(const string& phrase, const string& value) override;
 
  private:
   bool DfsEncode(const string& phrase,

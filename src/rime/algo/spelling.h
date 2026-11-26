@@ -41,8 +41,8 @@ struct Spelling {
   Spelling() = default;
   Spelling(const string& _str) : str(_str) {}
 
-  bool operator==(const Spelling& other) { return str == other.str; }
-  bool operator<(const Spelling& other) { return str < other.str; }
+  bool operator==(const Spelling& other) const { return str == other.str; }
+  bool operator<(const Spelling& other) const { return str < other.str; }
 };
 
 }  // namespace rime

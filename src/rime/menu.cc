@@ -43,12 +43,12 @@ Page* Menu::CreatePage(size_t page_size, size_t page_no) {
     else
       end_pos = Prepare(end_pos);
     if (start_pos >= end_pos)
-      return NULL;
+      return nullptr;
     end_pos = (std::min)(start_pos + page_size, end_pos);
   }
   Page* page = new Page;
   if (!page)
-    return NULL;
+    return nullptr;
   page->page_size = page_size;
   page->page_no = page_no;
   page->is_last_page = result_->exhausted() && (end_pos == candidates_.size());

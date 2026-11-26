@@ -5,6 +5,7 @@
 // 2012-01-17 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+#include <memory>
 #include <utf8.h>
 #include <rime/algo/calculus.h>
 #include <rime/common.h>
@@ -32,15 +33,15 @@ void Calculus::Register(const string& token, Calculation::Factory* factory) {
 Calculation* Calculus::Parse(const string& definition) {
   size_t sep = definition.find_first_not_of("zyxwvutsrqponmlkjihgfedcba");
   if (sep == string::npos)
-    return NULL;
+    return nullptr;
   vector<string> args;
   boost::split(args, definition,
                boost::is_from_range(definition[sep], definition[sep]));
   if (args.empty())
-    return NULL;
+    return nullptr;
   auto it = factories_.find(args[0]);
   if (it == factories_.end())
-    return NULL;
+    return nullptr;
   Calculation* result = (*it->second)(args);
   return result;
 }
@@ -49,23 +50,24 @@ Calculation* Calculus::Parse(const string& definition) {
 
 Calculation* Transliteration::Parse(const vector<string>& args) {
   if (args.size() < 3)
-    return NULL;
+    return nullptr;
   const string& left(args[1]);
   const string& right(args[2]);
   const char* pl = left.c_str();
   const char* pr = right.c_str();
-  uint32_t cl, cr;
+  uint32_t cl;
+  uint32_t cr;
   map<uint32_t, uint32_t> char_map;
   while ((cl = utf8::unchecked::next(pl)), (cr = utf8::unchecked::next(pr)),
          cl && cr) {
     char_map[cl] = cr;
   }
   if (cl == 0 && cr == 0) {
-    the<Transliteration> x(new Transliteration);
+    the<Transliteration> x = std::make_unique<Transliteration>();
     x->char_map_.swap(char_map);
     return x.release();
   }
-  return NULL;
+  return nullptr;
 }
 
 bool Transliteration::Apply(Spelling* spelling) {
@@ -110,12 +112,12 @@ bool Transliteration::Apply(Spelling* spelling) {
 
 Calculation* Transformation::Parse(const vector<string>& args) {
   if (args.size() < 3)
-    return NULL;
+    return nullptr;
   const string& left(args[1]);
   const string& right(args[2]);
   if (left.empty())
-    return NULL;
-  the<Transformation> x(new Transformation);
+    return nullptr;
+  the<Transformation> x = std::make_unique<Transformation>();
   x->pattern_.assign(left);
   x->replacement_.assign(right);
   return x.release();
@@ -135,11 +137,11 @@ bool Transformation::Apply(Spelling* spelling) {
 
 Calculation* Erasion::Parse(const vector<string>& args) {
   if (args.size() < 2)
-    return NULL;
+    return nullptr;
   const string& pattern(args[1]);
   if (pattern.empty())
-    return NULL;
-  the<Erasion> x(new Erasion);
+    return nullptr;
+  the<Erasion> x = std::make_unique<Erasion>();
   x->pattern_.assign(pattern);
   return x.release();
 }
@@ -157,32 +159,32 @@ bool Erasion::Apply(Spelling* spelling) {
 
 Calculation* Derivation::Parse(const vector<string>& args) {
   if (args.size() < 3)
-    return NULL;
+    return nullptr;
 
   const string& left(args[1]);
   const string& right(args[2]);
   if (left.empty())
-    return NULL;
+    return nullptr;
 
   if (args.size() > 3) {
     const string& tag = args[3];
     // 糾錯
     if (tag == "correction") {
-      the<Correction> x(new Correction);
+      the<Correction> x = std::make_unique<Correction>();
       x->pattern_.assign(left);
       x->replacement_.assign(right);
       return x.release();
     }
     // 簡拼
     if (tag == "abbrev") {
-      the<Abbreviation> x(new Abbreviation);
+      the<Abbreviation> x = std::make_unique<Abbreviation>();
       x->pattern_.assign(left);
       x->replacement_.assign(right);
       return x.release();
     }
     // 模糊音
     if (tag == "fuzz") {
-      the<Fuzzing> x(new Fuzzing);
+      the<Fuzzing> x = std::make_unique<Fuzzing>();
       x->pattern_.assign(left);
       x->replacement_.assign(right);
       return x.release();
@@ -190,7 +192,7 @@ Calculation* Derivation::Parse(const vector<string>& args) {
     // tag 無法識別, 作爲普通 derive 處理
   }
 
-  the<Derivation> x(new Derivation);
+  the<Derivation> x = std::make_unique<Derivation>();
   x->pattern_.assign(left);
   x->replacement_.assign(right);
   return x.release();
@@ -200,12 +202,12 @@ Calculation* Derivation::Parse(const vector<string>& args) {
 
 Calculation* Fuzzing::Parse(const vector<string>& args) {
   if (args.size() < 3)
-    return NULL;
+    return nullptr;
   const string& left(args[1]);
   const string& right(args[2]);
   if (left.empty())
-    return NULL;
-  the<Fuzzing> x(new Fuzzing);
+    return nullptr;
+  the<Fuzzing> x = std::make_unique<Fuzzing>();
   x->pattern_.assign(left);
   x->replacement_.assign(right);
   return x.release();
@@ -224,12 +226,12 @@ bool Fuzzing::Apply(Spelling* spelling) {
 
 Calculation* Abbreviation::Parse(const vector<string>& args) {
   if (args.size() < 3)
-    return NULL;
+    return nullptr;
   const string& left(args[1]);
   const string& right(args[2]);
   if (left.empty())
-    return NULL;
-  the<Abbreviation> x(new Abbreviation);
+    return nullptr;
+  the<Abbreviation> x = std::make_unique<Abbreviation>();
   x->pattern_.assign(left);
   x->replacement_.assign(right);
   return x.release();
@@ -264,7 +266,7 @@ Calculation* Reorder::Parse(const vector<string>& args) {
   if (order.empty())
     return nullptr;
   bool dedup = args.size() > 2 && args[2] == "dedup";
-  the<Reorder> x(new Reorder);
+  the<Reorder> x = std::make_unique<Reorder>();
   utf8::unchecked::utf8to32(order.begin(), order.end(),
                             std::back_inserter(x->order_));
   x->dedup_ = dedup;

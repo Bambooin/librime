@@ -10,6 +10,8 @@
 #include <rime/schema.h>
 #include <rime/service.h>
 
+#include <memory>
+
 namespace rime {
 
 Session::Session() {
@@ -26,7 +28,7 @@ bool Session::ProcessKey(const KeyEvent& key_event) {
 }
 
 void Session::Activate() {
-  last_active_time_ = time(NULL);
+  last_active_time_ = time(nullptr);
 }
 
 void Session::ResetCommitText() {
@@ -55,11 +57,11 @@ void Session::OnCommit(const string& commit_text) {
 }
 
 Context* Session::context() const {
-  return engine_ ? engine_->active_engine()->context() : NULL;
+  return engine_ ? engine_->active_engine()->context() : nullptr;
 }
 
 Schema* Session::schema() const {
-  return engine_ ? engine_->active_engine()->schema() : NULL;
+  return engine_ ? engine_->active_engine()->schema() : nullptr;
 }
 
 Service::Service() {
@@ -124,7 +126,7 @@ bool Service::DestroySession(SessionId session_id) {
 }
 
 void Service::CleanupStaleSessions() {
-  time_t now = time(NULL);
+  time_t now = time(nullptr);
   int count = 0;
   for (auto it = sessions_.begin(); it != sessions_.end();) {
     if (it->second &&
@@ -163,7 +165,8 @@ void Service::Notify(SessionId session_id,
 }
 
 ResourceResolver* Service::CreateResourceResolver(const ResourceType& type) {
-  the<FallbackResourceResolver> resolver(new FallbackResourceResolver(type));
+  the<FallbackResourceResolver> resolver =
+      std::make_unique<FallbackResourceResolver>(type);
   resolver->set_root_path(deployer().user_data_dir);
   resolver->set_fallback_root_path(deployer().shared_data_dir);
   return resolver.release();
@@ -178,7 +181,8 @@ ResourceResolver* Service::CreateUserSpecificResourceResolver(
 
 ResourceResolver* Service::CreateDeployedResourceResolver(
     const ResourceType& type) {
-  the<FallbackResourceResolver> resolver(new FallbackResourceResolver(type));
+  the<FallbackResourceResolver> resolver =
+      std::make_unique<FallbackResourceResolver>(type);
   resolver->set_root_path(deployer().staging_dir);
   resolver->set_fallback_root_path(deployer().prebuilt_data_dir);
   return resolver.release();

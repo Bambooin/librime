@@ -99,7 +99,6 @@ void Switcher::HighlightNextSchema() {
   } while (!option || option->type() != "schema");
   seg.selected_index = index;
   seg.tags.insert("paging");
-  return;
 }
 
 /*
@@ -129,9 +128,8 @@ static an<ConfigValue> ParseSchemaListEntry(Config* config,
   if (!schema_property)
     return nullptr;
   if (auto case_conditions = As<ConfigList>(entry_map->Get("case"))) {
-    for (auto iter = case_conditions->begin(); iter != case_conditions->end();
-         ++iter) {
-      if (auto condition_variable = As<ConfigValue>(*iter)) {
+    for (auto& iter : *case_conditions) {
+      if (auto condition_variable = As<ConfigValue>(iter)) {
         bool condition_met = false;
         if (!config->GetBool(condition_variable->str(), &condition_met) ||
             !condition_met) {
@@ -150,8 +148,8 @@ int Switcher::ForEachSchemaListEntry(
   if (!schema_list)
     return 0;
   int num_processed_entries = 0;
-  for (auto iter = schema_list->begin(); iter != schema_list->end(); ++iter) {
-    auto entry = ParseSchemaListEntry(config, As<ConfigMap>(*iter));
+  for (auto& iter : *schema_list) {
+    auto entry = ParseSchemaListEntry(config, As<ConfigMap>(iter));
     if (!entry)
       continue;
     const string& schema_id = entry->str();
@@ -165,7 +163,7 @@ int Switcher::ForEachSchemaListEntry(
 void Switcher::SetActiveSchema(const string& schema_id) {
   if (user_config_) {
     user_config_->SetString("var/previously_selected_schema", schema_id);
-    user_config_->SetInt("var/schema_access_time/" + schema_id, time(NULL));
+    user_config_->SetInt("var/schema_access_time/" + schema_id, time(nullptr));
     // persist recently used schema and options that have changed
     user_config_->Save();
   }
@@ -279,8 +277,8 @@ void Switcher::LoadSettings() {
   }
   if (auto options = config->GetList("switcher/save_options")) {
     save_options_.clear();
-    for (auto it = options->begin(); it != options->end(); ++it) {
-      auto option_name = As<ConfigValue>(*it);
+    for (auto& it : *options) {
+      auto option_name = As<ConfigValue>(it);
       if (!option_name)
         continue;
       save_options_.insert(option_name->str());
@@ -293,26 +291,26 @@ void Switcher::LoadSettings() {
 void Switcher::InitializeComponents() {
   processors_.clear();
   translators_.clear();
-  if (auto c = Processor::Require("key_binder")) {
+  if (auto* c = Processor::Require("key_binder")) {
     an<Processor> p(c->Create(Ticket(this)));
     processors_.push_back(p);
   } else {
     LOG(WARNING) << "key_binder not available.";
   }
-  if (auto c = Processor::Require("selector")) {
+  if (auto* c = Processor::Require("selector")) {
     an<Processor> p(c->Create(Ticket(this)));
     processors_.push_back(p);
   } else {
     LOG(WARNING) << "selector not available.";
   }
   DLOG(INFO) << "num processors: " << processors_.size();
-  if (auto c = Translator::Require("schema_list_translator")) {
+  if (auto* c = Translator::Require("schema_list_translator")) {
     an<Translator> t(c->Create(Ticket(this)));
     translators_.push_back(t);
   } else {
     LOG(WARNING) << "schema_list_translator not available.";
   }
-  if (auto c = Translator::Require("switch_translator")) {
+  if (auto* c = Translator::Require("switch_translator")) {
     an<Translator> t(c->Create(Ticket(this)));
     translators_.push_back(t);
   } else {

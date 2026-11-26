@@ -21,7 +21,7 @@ string KeyEvent::repr() const {
   std::ostringstream modifiers;
   if (modifier_) {
     int k = modifier_ & kModifierMask;
-    const char* modifier_name = NULL;
+    const char* modifier_name = nullptr;
     for (int i = 0; k; ++i, k >>= 1) {
       if (!(k & 1))
         continue;
@@ -54,7 +54,8 @@ bool KeyEvent::Parse(const string& repr) {
     return false;
   }
   if (repr.size() == 1) {
-    keycode_ = static_cast<int>(repr[0]);
+    // Normalize the byte to 0..255 so 8-bit key codes stay positive.
+    keycode_ = static_cast<int>(static_cast<unsigned char>(repr[0]));
   } else {
     size_t start = 0;
     size_t found = 0;
@@ -95,12 +96,12 @@ static bool is_unescaped_character(const KeyEvent& key_event) {
 string KeySequence::repr() const {
   std::ostringstream result;
   string k;
-  for (auto it = cbegin(); it != cend(); ++it) {
-    k = it->repr();
+  for (auto it : *this) {
+    k = it.repr();
     if (k.size() == 1) {
       result << k;
-    } else if (is_unescaped_character(*it)) {
-      result << char(it->keycode());
+    } else if (is_unescaped_character(it)) {
+      result << char(it.keycode());
     } else {
       result << '{' << k << '}';
     }

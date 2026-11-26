@@ -23,7 +23,7 @@ class Config : public Class<Config, const string&>, public ConfigItemRef {
   // CAVEAT: Config instances created without argument will NOT
   // be managed by ConfigComponent
   RIME_DLL Config();
-  RIME_DLL virtual ~Config();
+  RIME_DLL ~Config() override;
   // instances of Config with identical config id share a copy of config data
   // in the ConfigComponent
   explicit Config(an<ConfigData> data);
@@ -62,8 +62,8 @@ class Config : public Class<Config, const string&>, public ConfigItemRef {
   using ConfigItemRef::operator=;
 
  protected:
-  an<ConfigItem> GetItem() const;
-  void SetItem(an<ConfigItem> item);
+  an<ConfigItem> GetItem() const override;
+  void SetItem(an<ConfigItem> item) override;
 
   an<ConfigData> data_;
 };
@@ -93,8 +93,8 @@ struct UserConfigResourceProvider {
 class ConfigComponentBase : public Config::Component {
  public:
   RIME_DLL ConfigComponentBase(ResourceResolver* resource_resolver);
-  RIME_DLL virtual ~ConfigComponentBase();
-  RIME_DLL Config* Create(const string& file_name);
+  RIME_DLL ~ConfigComponentBase() override;
+  RIME_DLL Config* Create(const string& file_name) override;
 
  protected:
   virtual an<ConfigData> LoadConfig(const string& config_id) = 0;
@@ -128,7 +128,7 @@ class ConfigComponent : public ConfigComponentBase {
 class ConfigLoader {
  public:
   RIME_DLL an<ConfigData> LoadConfig(ResourceResolver* resource_resolver,
-                                     const string& config_id);
+                                     const string& config_id) const;
   void set_auto_save(bool auto_save) { auto_save_ = auto_save; }
 
  private:

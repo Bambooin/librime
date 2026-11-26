@@ -151,9 +151,9 @@ static bool MergeTree(an<ConfigItemRef> target, an<ConfigMap> map) {
   if (!map)
     return false;
   // NOTE: the referenced content of target can be any type
-  for (ConfigMap::Iterator iter = map->begin(); iter != map->end(); ++iter) {
-    const auto& key = iter->first;
-    const auto& value = iter->second;
+  for (auto& iter : *map) {
+    const auto& key = iter.first;
+    const auto& value = iter.second;
     if (!EditNode(target, key, value, true)) {
       LOG(ERROR) << "error merging branch " << key;
       return false;
@@ -331,7 +331,7 @@ ConfigCompiler::ConfigCompiler(ResourceResolver* resource_resolver,
       plugin_(plugin),
       graph_(new ConfigDependencyGraph) {}
 
-ConfigCompiler::~ConfigCompiler() {}
+ConfigCompiler::~ConfigCompiler() = default;
 
 Reference ConfigCompiler::CreateReference(const string& qualified_path) {
   auto end = qualified_path.find_last_of("?");
@@ -511,7 +511,7 @@ static bool ParseList(bool (*parser)(ConfigCompiler*, const an<ConfigItem>&),
                       ConfigCompiler* compiler,
                       const an<ConfigItem>& item) {
   if (Is<ConfigList>(item)) {
-    for (auto list_item : *As<ConfigList>(item)) {
+    for (const auto& list_item : *As<ConfigList>(item)) {
       if (!parser(compiler, list_item)) {
         return false;
       }
