@@ -39,10 +39,10 @@ static an<Dictionary> sys_dict;
 static void BuildSysDict() {
   if (sys_dict)
     return;
-  // NOLINTNEXTLINE(modernize-make-shared): braced {} argument cannot be deduced
-  sys_dict.reset(new Dictionary("dictionary_test", {},
-                                {New<Table>(path{"dictionary_test.table.bin"})},
-                                New<Prism>(path{"dictionary_test.prism.bin"})));
+  sys_dict = std::make_shared<Dictionary>(
+      "dictionary_test", std::vector<string>{},
+      std::vector<of<Table>>{New<Table>(path{"dictionary_test.table.bin"})},
+      New<Prism>(path{"dictionary_test.prism.bin"}));
   sys_dict->Remove();
   DictCompiler dc(sys_dict.get());
   ASSERT_TRUE(dc.Compile(path()));

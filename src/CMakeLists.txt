@@ -1,4 +1,4 @@
-# rime_api_impl.cc is included by rime_api.cc and rime_api_stdbool.cc.
+# rime_api_impl.h is included by rime_api.cc and rime_api_stdbool.cc.
 set(rime_api_src
   rime_api.cc
   rime_api_stdbool.cc)

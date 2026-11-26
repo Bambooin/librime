@@ -81,9 +81,8 @@ static Switches::SwitchOption switch_by_index(Switches& switches,
   try {
     size_t index = std::stoul(option.substr(1));
     return switches.ByIndex(index);
-    // NOLINTNEXTLINE(bugprone-empty-catch): non-numeric index, return empty
   } catch (...) {
-    // Not a numeric index; fall through to an empty result.
+    LOG(WARNING) << "non-numeric switch index: " << option;
   }
   return {};
 }

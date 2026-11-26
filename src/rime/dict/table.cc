@@ -5,6 +5,7 @@
 // 2011-07-02 GONG Chen <chen.sst@gmail.com>
 //
 #include <cfloat>
+#include <cstdlib>
 #include <cstring>
 #include <algorithm>
 #include <memory>
@@ -299,9 +300,14 @@ bool Table::Load() {
     return false;
   }
   // Controlled metadata format field.
-  // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-  double format_version = atof(&metadata_->format[kTableFormatPrefixLen]);
-  // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
+  const char* format_str = &metadata_->format[kTableFormatPrefixLen];
+  char* format_end = nullptr;
+  double format_version = std::strtod(format_str, &format_end);
+  if (format_end == format_str) {
+    LOG(ERROR) << "invalid table format version.";
+    Close();
+    return false;
+  }
   if (format_version < kTableFormatLowestCompatible - DBL_EPSILON) {
     LOG(ERROR) << "table format version " << format_version
                << " is no longer supported. please upgrade to version "

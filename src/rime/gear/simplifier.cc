@@ -56,12 +56,6 @@ Simplifier::Simplifier(const Ticket& ticket, an<Opencc> opencc)
   if (option_name_.empty()) {
     option_name_ = "simplification";  // default switcher option
   }
-  if (random_) {
-    // Non-cryptographic RNG.
-    // NOLINTBEGIN(bugprone-random-generator-seed,cert-msc32-c,cert-msc51-cpp)
-    srand((unsigned)time(nullptr));
-    // NOLINTEND(bugprone-random-generator-seed,cert-msc32-c,cert-msc51-cpp)
-  }
 }
 
 class SimplifiedTranslation : public PrefetchTranslation {

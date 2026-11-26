@@ -243,17 +243,20 @@ int TableEncoder::CalculateCodeIndex(const string& code, int index, int start) {
     if (tail != string::npos) {
       k = static_cast<int>(tail) - 1;
     }
-    while (++index < 0) {
-      while (--k >= 0 &&  // NOLINT(bugprone-inc-dec-in-conditions)
-             tail_anchor_.find(code[k]) != string::npos) {
-      }
+    // Equivalent to while (++index < 0), but without mutating in the condition.
+    while (index < -1) {
+      ++index;
+      do {
+        --k;
+      } while (k >= 0 && tail_anchor_.find(code[k]) != string::npos);
     }
   } else {
     // 'ab|cd|ef|g' ~ '(AaAb)Ac' -> 'abc'; index = 2
-    while (index-- > 0) {
-      while (++k < n &&  // NOLINT(bugprone-inc-dec-in-conditions)
-             tail_anchor_.find(code[k]) != string::npos) {
-      }
+    while (index > 0) {
+      --index;
+      do {
+        ++k;
+      } while (k < n && tail_anchor_.find(code[k]) != string::npos);
     }
   }
   return k;

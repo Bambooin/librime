@@ -178,8 +178,8 @@ static TickCount get_tick_count(Db* db) {
   if (db && db->MetaFetch("/tick", &tick)) {
     try {
       return std::stoul(tick);
-    } catch (...) {  // NOLINT(bugprone-empty-catch): fall back to 1
-      // Corrupt tick value: fall back to 1.
+    } catch (...) {
+      LOG(WARNING) << "invalid tick value: " << tick;
     }
   }
   return 1;
@@ -200,8 +200,8 @@ bool UserDbMerger::MetaPut(const string& key, const string& value) {
     try {
       their_tick_ = std::stoul(value);
       max_tick_ = (std::max)(our_tick_, their_tick_);
-    } catch (...) {  // NOLINT(bugprone-empty-catch): keep our own tick
-      // Corrupt tick value: keep our own tick.
+    } catch (...) {
+      LOG(WARNING) << "invalid tick value: " << value;
     }
   }
   return true;

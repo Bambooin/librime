@@ -2,6 +2,7 @@
 // Copyright RIME Developers
 // Distributed under the BSD License
 //
+#include <random>
 #include <sstream>
 #include <rime/common.h>
 #include <rime/gear/opencc.h>
@@ -13,6 +14,10 @@
 #include <opencc/DictEntry.hpp>
 
 namespace rime {
+
+namespace {
+thread_local std::mt19937 rng(std::random_device{}());
+}  // namespace
 
 Opencc::Opencc(const path& config_path)
     : initialized_(false), config_path_(config_path) {}
@@ -122,9 +127,9 @@ bool Opencc::RandomConvertText(const string& text, string* simplified) {
       } else {
         matched_length = matched.Get()->KeyLength();
         // Non-cryptographic choice.
-        // NOLINTBEGIN(cert-msc30-c,cert-msc50-cpp,misc-predictable-rand)
-        size_t i = rand() % (matched.Get()->NumValues());
-        // NOLINTEND(cert-msc30-c,cert-msc50-cpp,misc-predictable-rand)
+        std::uniform_int_distribution<size_t> pick(
+            0, matched.Get()->NumValues() - 1);
+        size_t i = pick(rng);
         buffer << matched.Get()->Values().at(i);
       }
       pstr += matched_length;

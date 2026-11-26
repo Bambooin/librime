@@ -129,3 +129,27 @@ TEST(RimeEncoderTest, TailAnchor) {
   EXPECT_TRUE(encoder.Encode(c, &result));
   EXPECT_EQ("zyxwuqpo", result);
 }
+
+TEST(RimeEncoderTest, CalculateCodeIndex) {
+  class ExposedTableEncoder : public rime::TableEncoder {
+   public:
+    using rime::TableEncoder::CalculateCodeIndex;
+  };
+  rime::Config config;
+  config["encoder"]["tail_anchor"] = "|";
+  ExposedTableEncoder encoder;
+  encoder.LoadSettings(&config);
+
+  const rime::string code = "ab|cd|ef|g";
+  // Negative indices count back from the first tail anchor after `start`.
+  EXPECT_EQ(1, encoder.CalculateCodeIndex(code, -1, 1));
+  EXPECT_EQ(4, encoder.CalculateCodeIndex(code, -1, 4));
+  EXPECT_EQ(3, encoder.CalculateCodeIndex(code, -2, 4));
+  EXPECT_EQ(1, encoder.CalculateCodeIndex(code, -3, 4));
+  EXPECT_EQ(2, encoder.CalculateCodeIndex("abc", -1, 0));
+  // Non-negative indices count forward, skipping tail anchors.
+  EXPECT_EQ(0, encoder.CalculateCodeIndex(code, 0, 0));
+  EXPECT_EQ(1, encoder.CalculateCodeIndex(code, 1, 0));
+  EXPECT_EQ(3, encoder.CalculateCodeIndex(code, 2, 0));
+  EXPECT_EQ(4, encoder.CalculateCodeIndex(code, 3, 0));
+}

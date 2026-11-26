@@ -16,12 +16,11 @@ class RimeDictionaryTest : public ::testing::Test {
  public:
   void SetUp() override {
     if (!dict_) {
-      // The braced {} argument cannot be deduced by make_unique.
-      // NOLINTNEXTLINE(modernize-make-unique)
-      dict_.reset(new rime::Dictionary(
-          "dictionary_test", {},
-          {rime::New<rime::Table>(rime::path{"dictionary_test.table.bin"})},
-          rime::New<rime::Prism>(rime::path{"dictionary_test.prism.bin"})));
+      dict_ = std::make_unique<rime::Dictionary>(
+          "dictionary_test", std::vector<std::string>{},
+          std::vector<rime::of<rime::Table>>{
+              rime::New<rime::Table>(rime::path{"dictionary_test.table.bin"})},
+          rime::New<rime::Prism>(rime::path{"dictionary_test.prism.bin"}));
     }
     if (!rebuilt_) {
       dict_->Remove();

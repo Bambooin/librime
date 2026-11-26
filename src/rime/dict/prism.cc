@@ -6,6 +6,7 @@
 // 2012-01-26 GONG Chen <chen.sst@gmail.com>  spelling algebra support
 //
 #include <cfloat>
+#include <cstdlib>
 #include <cstring>
 #include <queue>
 #include <rime/algo/algebra.h>
@@ -50,8 +51,13 @@ SpellingAccessor::SpellingAccessor(prism::SpellingMap* spelling_map,
 bool SpellingAccessor::Next() {
   if (exhausted())
     return false;
-  if (!iter_ || ++iter_ >= end_)  // NOLINT(bugprone-inc-dec-in-conditions)
+  if (!iter_) {
     spelling_id_ = -1;
+  } else {
+    ++iter_;
+    if (iter_ >= end_)
+      spelling_id_ = -1;
+  }
   return exhausted();
 }
 
@@ -106,9 +112,15 @@ bool Prism::Load() {
     return false;
   }
   // Controlled metadata format field.
-  // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-  format_ = atof(&metadata_->format[kPrismFormatPrefixLen]);
-  // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
+  const char* format_str = &metadata_->format[kPrismFormatPrefixLen];
+  char* format_end = nullptr;
+  double parsed_format = std::strtod(format_str, &format_end);
+  if (format_end == format_str) {
+    LOG(ERROR) << "invalid prism format version.";
+    Close();
+    return false;
+  }
+  format_ = parsed_format;
 
   // 版本檢查: 強制重構舊版本
   if (format_ < kPrismFormatVersion - DBL_EPSILON) {

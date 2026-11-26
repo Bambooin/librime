@@ -58,9 +58,14 @@ bool ReverseDb::Load() {
     return false;
   }
   // Controlled metadata format field.
-  // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-  double format = std::atof(&metadata_->format[kReverseFormatPrefixLen]);
-  // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
+  const char* format_str = &metadata_->format[kReverseFormatPrefixLen];
+  char* format_end = nullptr;
+  double format = std::strtod(format_str, &format_end);
+  if (format_end == format_str) {
+    LOG(ERROR) << "invalid reversedb format version.";
+    Close();
+    return false;
+  }
   if (format - kReverseFormatCompatible < 0.0 - DBL_EPSILON ||
       format - kReverseFormatCompatible > 1.0 + DBL_EPSILON) {
     LOG(ERROR) << "incompatible reversedb format.";

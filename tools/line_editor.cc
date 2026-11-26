@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <climits>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -585,6 +586,14 @@ int LineEditor::ReadCharTimeout(int timeout_ms) {
 #endif
 }
 
+static int PositiveEnvInt(const char* text, int fallback) {
+  char* end = nullptr;
+  long value = std::strtol(text, &end, 10);
+  if (end == text || *end != '\0' || value <= 0 || value > INT_MAX)
+    return fallback;
+  return static_cast<int>(value);
+}
+
 size_t LineEditor::TerminalWidth() const {
 #ifdef _WIN32
   if (win_console_output_) {
@@ -602,14 +611,8 @@ size_t LineEditor::TerminalWidth() const {
     return ws.ws_col;
 #endif
   const char* cols = std::getenv("COLUMNS");
-  if (cols) {
-    // Environment variable.
-    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    const int value = std::atoi(cols);
-    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    if (value > 0)
-      return static_cast<size_t>(value);
-  }
+  if (cols)
+    return static_cast<size_t>(PositiveEnvInt(cols, 80));
   return 80;
 }
 
@@ -630,14 +633,8 @@ size_t LineEditor::TerminalHeight() const {
     return ws.ws_row;
 #endif
   const char* lines = std::getenv("LINES");
-  if (lines) {
-    // Environment variable.
-    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    const int value = std::atoi(lines);
-    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    if (value > 0)
-      return static_cast<size_t>(value);
-  }
+  if (lines)
+    return static_cast<size_t>(PositiveEnvInt(lines, 24));
   return 24;
 }
 

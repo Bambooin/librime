@@ -73,11 +73,7 @@ int Syllabifier::BuildSyllableGraph(const string& input,
       syllable.reserve(limit);
       for (size_t len = 1; len <= limit; ++len) {
         // TODO: 須重構 Calculus 爲寫入時複製以避免複製子串.
-        syllable.assign(
-            current_input
-                .data(),  // NOLINT(bugprone-suspicious-stringview-data-usage):
-                          // len given
-            len);
+        syllable.assign(current_input.substr(0, len));
         canonicalizer_->Apply(&syllable);
         // 重排打破了前綴單調性, 故不能用前綴下行搜索, 改爲每次步進精確查詢.
         int value = -1;

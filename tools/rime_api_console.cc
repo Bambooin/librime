@@ -4,6 +4,7 @@
  *
  * 2011-08-29 GONG Chen <chen.sst@gmail.com>
  */
+#include <climits>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -15,6 +16,14 @@
 #include "line_editor.h"
 
 namespace {
+
+int ParseIndex(const char* text) {
+  char* end = nullptr;
+  long value = std::strtol(text, &end, 10);
+  if (end == text || *end != '\0' || value < 0 || value > INT_MAX)
+    return 0;
+  return static_cast<int>(value);
+}
 
 std::string FormatStatusHeader(const RimeStatus& status) {
   std::string header = "schema: ";
@@ -238,9 +247,7 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   command_length = strlen(kSelectCandidateCommand);
   if (!strncmp(line, kSelectCandidateCommand, command_length)) {
     // CLI input.
-    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    int index = atoi(line + command_length);
-    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
+    int index = ParseIndex(line + command_length);
     if (index > 0 &&
         rime->select_candidate_on_current_page(session_id, index - 1)) {
       print(session_id);
@@ -285,9 +292,7 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   if (!strncmp(line, kDeleteCandidateOnCurrentPage, command_length)) {
     const char* index_str = line + command_length;
     // CLI input.
-    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    int index = atoi(index_str);
-    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
+    int index = ParseIndex(index_str);
     if (!rime->delete_candidate_on_current_page(session_id, index)) {
       (void)fprintf(stderr, "failed to delete\n");
     }
@@ -298,9 +303,7 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   if (!strncmp(line, kDeleteCandidate, command_length)) {
     const char* index_str = line + command_length;
     // CLI input.
-    // NOLINTBEGIN(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
-    int index = atoi(index_str);
-    // NOLINTEND(bugprone-unchecked-string-to-number-conversion,cert-err34-c)
+    int index = ParseIndex(index_str);
     if (!rime->delete_candidate(session_id, index)) {
       (void)fprintf(stderr, "failed to delete\n");
     }

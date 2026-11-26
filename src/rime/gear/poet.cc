@@ -179,10 +179,8 @@ struct DynamicProgramming {
 
   static Line& BestLineToUpdate(State& state, const Line&) { return state; }
 
-  static const Line& BestLineInState(const State& final_state,
-                                     const Poet::Compare&) {
-    return final_state;  // NOLINT(bugprone-return-const-ref-from-parameter):
-                         // caller-owned state
+  static Line BestLineInState(const State& final_state, const Poet::Compare&) {
+    return final_state;
   }
 };
 

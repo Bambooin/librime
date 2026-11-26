@@ -5,7 +5,7 @@
 // 2011-08-09 GONG Chen <chen.sst@gmail.com>
 //
 
-#include "rime_api_impl.cc"  // NOLINT(bugprone-suspicious-include): intentional amalgamation
+#include "rime_api_impl.h"
 
 #include <cstring>
 #include <sstream>
