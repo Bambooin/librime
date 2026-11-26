@@ -1,4 +1,5 @@
 build/
+build-tidy/
 build-static/
 debug/
 dist/
