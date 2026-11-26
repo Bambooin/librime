@@ -6,9 +6,11 @@ dist/
 data/*
 include/*
 lib/*
+lib64/*
 bin/*
 share/*
 deps/*/*
+deps/boost_*.tar.gz
 plugins/*/
 env.bat
 node_modules/

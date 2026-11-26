@@ -1,11 +1,38 @@
 RIME_ROOT ?= $(CURDIR)
 
 RIME_SOURCE_PATH = plugins sample src test tools
+RIME_THIRD_PARTY_PATH = plugins/*/
+
+CLANG_TIDY_ROOT_RE = $(shell python3 -c \
+	'import re, sys; print(re.escape(sys.argv[1]))' \
+	"$(abspath $(RIME_ROOT))")
+
+THIRD_PARTY_RE = $(subst *,[^/]+,$(RIME_THIRD_PARTY_PATH))
+
+CLANG_TIDY_SOURCE_FILTER = ^$(CLANG_TIDY_ROOT_RE)/(?!$(THIRD_PARTY_RE)|deps/)
+
+CLANG_FORMAT_FIND = find -L $(RIME_SOURCE_PATH) \
+	\! -path '$(RIME_THIRD_PARTY_PATH)*' \
+	-a \( -name '*.cc' -o -name '*.cpp' -o -name '*.cxx' \
+	-o -name '*.h' -o -name '*.hpp' -o -false \)
+
+LINT_TIP = Please lint your code by 'make $(1)-apply'.
+
+LLVM_MAJOR_VERSION ?= 23
 
 OS_NAME = $(shell uname)
 ifdef BOOST_ROOT
 CMAKE_BOOST_OPTIONS = -DBoost_NO_BOOST_CMAKE=TRUE \
 	-DBOOST_ROOT="$(BOOST_ROOT)"
+endif
+
+TIDY_BOOST_OPTIONS = -DBoost_NO_BOOST_CMAKE=TRUE
+ifdef BOOST_ROOT
+TIDY_BOOST_OPTIONS += -DBOOST_ROOT="$(BOOST_ROOT)"
+else
+ifneq ($(wildcard $(RIME_ROOT)/deps/boost),)
+TIDY_BOOST_OPTIONS += -DBOOST_ROOT="$(RIME_ROOT)/deps/boost"
+endif
 endif
 
 ifeq ($(OS_NAME),Darwin) # for macOS
@@ -37,21 +64,48 @@ endif
 
 debug install-debug uninstall-debug test-debug: build ?= debug
 build ?= build
+tidy-build ?= build-tidy
 
-.PHONY: all deps clean \
+.PHONY: all lint apply llvm-major-version deps clean \
 librime librime-static merged-plugins no-logging \
 release debug test install uninstall \
-install-debug uninstall-debug
+install-debug uninstall-debug \
+clang-format-lint clang-format-apply \
+clang-tidy-check clang-tidy-lint clang-tidy-apply
 
 all: release
 
+lint: clang-format-lint clang-tidy-lint
+
+.NOTPARALLEL: apply
+apply: clang-format-apply clang-tidy-apply
+
+llvm-major-version:
+	@echo $(LLVM_MAJOR_VERSION)
+
 clang-format-lint:
 	clang-format --version
-	find ${RIME_SOURCE_PATH} \! -path 'plugins/*/*' -a \( -name '*.cc' -o -name '*.h' \) | \
-	xargs clang-format -Werror --dry-run || { echo Please lint your code by '"'"make clang-format-apply"'"'.; false; }
+	$(CLANG_FORMAT_FIND) -exec clang-format --verbose -Werror --dry-run {} + || \
+	{ echo "$(call LINT_TIP,clang-format)"; false; }
 
 clang-format-apply:
-	find ${RIME_SOURCE_PATH} \! -path 'plugins/*/*' -a \( -name '*.cc' -o -name '*.h' \) | xargs clang-format --verbose -i
+	$(CLANG_FORMAT_FIND) -exec clang-format --verbose -i {} +
+
+clang-tidy-check:
+	cmake . -B$(tidy-build) -DCMAKE_BUILD_TYPE=Debug \
+	-DBUILD_MERGED_PLUGINS=OFF -DENABLE_EXTERNAL_PLUGINS=ON -DBUILD_SAMPLE=ON \
+	$(TIDY_BOOST_OPTIONS)
+	clang-tidy --verify-config
+	clang-tidy --version
+
+clang-tidy-lint: clang-tidy-check
+	run-clang-tidy -p $(tidy-build) -quiet -warnings-as-errors='*' \
+	-source-filter='$(CLANG_TIDY_SOURCE_FILTER)' || \
+	{ echo "$(call LINT_TIP,clang-tidy)"; false; }
+
+clang-tidy-apply: clang-tidy-check
+	run-clang-tidy -p $(tidy-build) -fix -format \
+	-source-filter='$(CLANG_TIDY_SOURCE_FILTER)'
 
 deps:
 	$(MAKE) -f deps.mk
@@ -60,7 +114,7 @@ deps/%:
 	$(MAKE) -f deps.mk $(@:deps/%=%)
 
 clean:
-	rm -r $(build) || true
+	rm -r $(build) $(tidy-build) || true
 
 librime: release
 
