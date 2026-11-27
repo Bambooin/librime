@@ -78,7 +78,8 @@ bool SimplifiedTranslation::Replenish() {
   return !cache_.empty();
 }
 
-an<Translation> Simplifier::Apply(an<Translation> translation, CandidateList*) {
+an<Translation> Simplifier::Apply(an<Translation> translation,
+                                  CandidateList* /*candidates*/) {
   if (!engine_->context()->get_option(option_name_)) {  // off
     return translation;
   }

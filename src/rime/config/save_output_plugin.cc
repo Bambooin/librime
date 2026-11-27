@@ -18,12 +18,12 @@ SaveOutputPlugin::SaveOutputPlugin()
 
 SaveOutputPlugin::~SaveOutputPlugin() = default;
 
-bool SaveOutputPlugin::ReviewCompileOutput(ConfigCompiler*,
-                                           an<ConfigResource>) {
+bool SaveOutputPlugin::ReviewCompileOutput(ConfigCompiler* /*compiler*/,
+                                           an<ConfigResource> /*resource*/) {
   return true;
 }
 
-bool SaveOutputPlugin::ReviewLinkOutput(ConfigCompiler*,
+bool SaveOutputPlugin::ReviewLinkOutput(ConfigCompiler* /*compiler*/,
                                         an<ConfigResource> resource) {
   auto file_path = resource_resolver_->ResolvePath(resource->resource_id);
   return resource->data->SaveToFile(file_path);

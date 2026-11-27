@@ -262,7 +262,7 @@ static bool EditNode(an<ConfigItemRef> head,
   }
 }
 
-bool PatchLiteral::Resolve(ConfigCompiler*) {
+bool PatchLiteral::Resolve(ConfigCompiler* /*compiler*/) {
   DLOG(INFO) << "PatchLiteral::Resolve()";
   bool success = true;
   for (const auto& entry : *patch) {

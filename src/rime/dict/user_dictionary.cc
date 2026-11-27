@@ -477,7 +477,7 @@ void UserDictionary::RecruitPredictiveEntry(
 // the sorted cache_ array — O(log N) instead of O(DB_I/O) per prefix.
 void UserDictionary::CacheLookup(const SyllableGraph& syll_graph,
                                  size_t current_pos,
-                                 const string&,
+                                 const string& /*current_prefix*/,
                                  DfsState* state) {
   auto index = syll_graph.indices.find(current_pos);
   if (index == syll_graph.indices.end())

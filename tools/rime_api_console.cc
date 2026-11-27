@@ -312,7 +312,7 @@ bool execute_special_command(const char* line, RimeSessionId session_id) {
   return false;
 }
 
-void on_message(void*,
+void on_message(void* /*context_object*/,
                 RimeSessionId session_id,
                 const char* message_type,
                 const char* message_value) {
@@ -339,7 +339,7 @@ RimeSessionId ensure_session(RimeApi* rime) {
   return id;
 }
 
-int main(int, char*[]) {
+int main(int /*argc*/, char* /*argv*/[]) {
   unsigned int codepage = SetConsoleOutputCodePage();
   RimeApi* rime = rime_get_api();
 

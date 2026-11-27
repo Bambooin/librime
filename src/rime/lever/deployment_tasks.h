@@ -27,14 +27,14 @@ class DetectModifications : public DeploymentTask {
 // initialize/update installation.yaml
 class RIME_DLL InstallationUpdate : public DeploymentTask {
  public:
-  InstallationUpdate(TaskInitializer = TaskInitializer()) {}
+  InstallationUpdate(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 // update distributed config files and preset schemas
 class RIME_DLL WorkspaceUpdate : public DeploymentTask {
  public:
-  WorkspaceUpdate(TaskInitializer = TaskInitializer()) {}
+  WorkspaceUpdate(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 
  protected:
@@ -72,45 +72,45 @@ class ConfigFileUpdate : public DeploymentTask {
 // for installer
 class PrebuildAllSchemas : public DeploymentTask {
  public:
-  PrebuildAllSchemas(TaskInitializer = TaskInitializer()) {}
+  PrebuildAllSchemas(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 // create symlinks to prebuilt dictionaries in user directory
 class SymlinkingPrebuiltDictionaries : public DeploymentTask {
  public:
-  SymlinkingPrebuiltDictionaries(TaskInitializer = TaskInitializer()) {}
+  SymlinkingPrebuiltDictionaries(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 // upgrade user dictionaries
 class UserDictUpgrade : public DeploymentTask {
  public:
-  UserDictUpgrade(TaskInitializer = TaskInitializer()) {}
+  UserDictUpgrade(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 class UserDictSync : public DeploymentTask {
  public:
-  UserDictSync(TaskInitializer = TaskInitializer()) {}
+  UserDictSync(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 class BackupConfigFiles : public DeploymentTask {
  public:
-  BackupConfigFiles(TaskInitializer = TaskInitializer()) {}
+  BackupConfigFiles(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 class CleanupTrash : public DeploymentTask {
  public:
-  CleanupTrash(TaskInitializer = TaskInitializer()) {}
+  CleanupTrash(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 
 class CleanOldLogFiles : public DeploymentTask {
  public:
-  CleanOldLogFiles(TaskInitializer = TaskInitializer()) {}
+  CleanOldLogFiles(TaskInitializer /*arg*/ = TaskInitializer()) {}
   bool Run(Deployer* deployer) override;
 };
 

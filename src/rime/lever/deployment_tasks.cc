@@ -39,7 +39,7 @@ DetectModifications::DetectModifications(TaskInitializer arg) {
   }
 }
 
-bool DetectModifications::Run(Deployer*) {
+bool DetectModifications::Run(Deployer* /*deployer*/) {
   time_t last_modified = 0;
   try {
     for (const auto& dir : data_dirs_) {

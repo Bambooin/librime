@@ -360,7 +360,7 @@ an<Translation> PunctTranslator::Query(const string& input,
 }
 
 an<Translation> PunctTranslator::TranslateUniquePunct(
-    const string&,
+    const string& /*key*/,
     const Segment& segment,
     const an<ConfigValue>& definition) {
   if (!definition)

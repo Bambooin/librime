@@ -9,8 +9,8 @@
 
 namespace rime {
 
-bool DefaultConfigPlugin::ReviewCompileOutput(ConfigCompiler*,
-                                              an<ConfigResource>) {
+bool DefaultConfigPlugin::ReviewCompileOutput(ConfigCompiler* /*compiler*/,
+                                              an<ConfigResource> /*resource*/) {
   return true;
 }
 

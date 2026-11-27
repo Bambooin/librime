@@ -59,7 +59,7 @@ void ReverseLookupFilter::Initialize() {
 }
 
 an<Translation> ReverseLookupFilter::Apply(an<Translation> translation,
-                                           CandidateList*) {
+                                           CandidateList* /*candidates*/) {
   if (!initialized_) {
     Initialize();
   }

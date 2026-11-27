@@ -172,14 +172,17 @@ struct DynamicProgramming {
   static void Initiate(State& initial_state) { initial_state = Line::kEmpty; }
 
   static void ForEachCandidate(const State& state,
-                               Poet::Compare,
+                               Poet::Compare /*compare*/,
                                UpdateLineCandidate update) {
     update(state);
   }
 
-  static Line& BestLineToUpdate(State& state, const Line&) { return state; }
+  static Line& BestLineToUpdate(State& state, const Line& /*new_line*/) {
+    return state;
+  }
 
-  static Line BestLineInState(const State& final_state, const Poet::Compare&) {
+  static Line BestLineInState(const State& final_state,
+                              const Poet::Compare& /*compare*/) {
     return final_state;
   }
 };

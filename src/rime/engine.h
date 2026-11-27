@@ -22,11 +22,13 @@ class Engine : public Messenger {
   using CommitSink = signal<void(const string& commit_text)>;
 
   virtual ~Engine();
-  virtual bool ProcessKey(const KeyEvent&) { return false; }
-  virtual bool ProcessSyntheticKey(const KeyEvent&) { return false; }
-  virtual void ApplySchema(Schema*) {}
+  virtual bool ProcessKey(const KeyEvent& /*key_event*/) { return false; }
+  virtual bool ProcessSyntheticKey(const KeyEvent& /*key_event*/) {
+    return false;
+  }
+  virtual void ApplySchema(Schema* /*schema*/) {}
   virtual void CommitText(string text) { sink_(text); }
-  virtual void Compose(Context*) {}
+  virtual void Compose(Context* /*ctx*/) {}
 
   Schema* schema() const { return schema_.get(); }
   Context* context() const { return context_.get(); }
