@@ -20,6 +20,8 @@ class UserDictionary;
 class Language;
 class Phrase;
 class Memory;
+struct Ticket;
+struct Segment;
 
 struct CommitEntry : DictEntry {
   vector<const DictEntry*> elements;
