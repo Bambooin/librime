@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 
+// Must follow gtest (which declares Bool()) and precede the API headers.
 #include <rime_api_stdbool.h>
+
 #include <rime_api.h>
 #include <rime_levers_api.h>
 

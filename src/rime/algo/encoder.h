@@ -12,6 +12,7 @@
 
 #include <boost/regex.hpp>
 
+#include <rime/common.h>
 #include <rime_api.h>
 
 namespace rime {

@@ -6,9 +6,9 @@
 //
 #include <gtest/gtest.h>
 
+#include <rime/algo/encoder.h>
 #include <rime/common.h>
 #include <rime/config.h>
-#include <rime/algo/encoder.h>
 
 TEST(RimeEncoderTest, Settings) {
   rime::Config config;

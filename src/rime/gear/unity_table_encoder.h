@@ -7,8 +7,8 @@
 #ifndef RIME_UNITY_TABLE_ENCODER_H_
 #define RIME_UNITY_TABLE_ENCODER_H_
 
-#include <rime/common.h>
 #include <rime/algo/encoder.h>
+#include <rime/common.h>
 
 namespace rime {
 

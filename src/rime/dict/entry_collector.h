@@ -16,8 +16,8 @@
 #endif
 #include <boost/unordered/unordered_flat_map.hpp>
 
-#include <rime/common.h>
 #include <rime/algo/encoder.h>
+#include <rime/common.h>
 #include <rime/dict/dictionary.h>
 #include <rime/dict/vocabulary.h>
 

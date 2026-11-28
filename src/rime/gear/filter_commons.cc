@@ -4,10 +4,10 @@
 //
 // 2013-11-05 GONG Chen <chen.sst@gmail.com>
 //
+#include <rime/gear/filter_commons.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>
 #include <rime/ticket.h>
-#include <rime/gear/filter_commons.h>
 
 namespace rime {
 

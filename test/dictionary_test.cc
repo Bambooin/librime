@@ -9,6 +9,7 @@
 #include <memory>
 
 #include <rime/common.h>
+
 #include <rime/algo/encoder.h>
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/dictionary.h>
