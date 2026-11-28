@@ -7,9 +7,9 @@
 #ifndef RIME_REVERSE_LOOKUP_TRANSLATOR_H_
 #define RIME_REVERSE_LOOKUP_TRANSLATOR_H_
 
+#include <rime/algo/algebra.h>
 #include <rime/common.h>
 #include <rime/translator.h>
-#include <rime/algo/algebra.h>
 
 namespace rime {
 

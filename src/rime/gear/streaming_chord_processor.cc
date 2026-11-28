@@ -13,13 +13,13 @@
 
 #include <utf8.h>
 
+#include <rime/algo/algebra.h>
+#include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/schema.h>
-#include <rime/config.h>
-#include <rime/algo/algebra.h>
 
 namespace rime {
 

@@ -7,8 +7,8 @@
 #ifndef RIME_CONTEXT_H_
 #define RIME_CONTEXT_H_
 
-#include <rime/common.h>
 #include <rime/commit_history.h>
+#include <rime/common.h>
 #include <rime/composition.h>
 
 namespace rime {

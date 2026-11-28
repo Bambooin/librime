@@ -7,8 +7,8 @@
 #ifndef RIME_SIMPLIFIER_H_
 #define RIME_SIMPLIFIER_H_
 
-#include <rime/filter.h>
 #include <rime/algo/algebra.h>
+#include <rime/filter.h>
 #include <rime/gear/filter_commons.h>
 
 namespace rime {

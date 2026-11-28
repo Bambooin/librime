@@ -9,12 +9,12 @@
 //
 #include <gtest/gtest.h>
 
-#include <rime_api.h>
 #include <rime/dict/dict_compiler.h>
 #include <rime/dict/dictionary.h>
 #include <rime/dict/prism.h>
 #include <rime/dict/reverse_lookup_dictionary.h>
 #include <rime/dict/table.h>
+#include <rime_api.h>
 
 #include <fstream>
 #include <string>

@@ -4,8 +4,8 @@
 //
 // 2011-04-20 GONG Chen <chen.sst@gmail.com>
 //
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 #include <rime/key_event.h>
 #include <rime/key_table.h>

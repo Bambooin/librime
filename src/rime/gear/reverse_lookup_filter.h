@@ -7,9 +7,9 @@
 #ifndef RIME_REVERSE_LOOKUP_FILTER_H_
 #define RIME_REVERSE_LOOKUP_FILTER_H_
 
+#include <rime/algo/algebra.h>
 #include <rime/common.h>
 #include <rime/filter.h>
-#include <rime/algo/algebra.h>
 #include <rime/gear/filter_commons.h>
 
 namespace rime {

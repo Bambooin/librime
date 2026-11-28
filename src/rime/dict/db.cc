@@ -9,9 +9,9 @@
 #include <filesystem>
 
 #include <rime/common.h>
+#include <rime/dict/db.h>
 #include <rime/resource.h>
 #include <rime/service.h>
-#include <rime/dict/db.h>
 
 namespace rime {
 

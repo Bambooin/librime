@@ -7,29 +7,29 @@
 // 2011-07-10 GONG Chen <chen.sst@gmail.com>
 //
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <stack>
-#include <cmath>
 
 #include <boost/algorithm/string/join.hpp>
 #include <boost/range/adaptor/reversed.hpp>
 
+#include <rime/algo/syllabifier.h>
+#include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/composition.h>
-#include <rime/candidate.h>
 #include <rime/config.h>
 #include <rime/context.h>
-#include <rime/engine.h>
-#include <rime/language.h>
-#include <rime/schema.h>
-#include <rime/translation.h>
-#include <rime/algo/syllabifier.h>
 #include <rime/dict/corrector.h>
 #include <rime/dict/dictionary.h>
 #include <rime/dict/user_dictionary.h>
+#include <rime/engine.h>
 #include <rime/gear/poet.h>
 #include <rime/gear/script_translator.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/language.h>
+#include <rime/schema.h>
+#include <rime/translation.h>
 
 // static const char* quote_left = "\xef\xbc\x88";
 // static const char* quote_right = "\xef\xbc\x89";

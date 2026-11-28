@@ -8,9 +8,9 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/ascii_segmentor.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>
-#include <rime/gear/ascii_segmentor.h>
 
 namespace rime {
 

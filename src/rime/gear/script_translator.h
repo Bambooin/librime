@@ -7,12 +7,12 @@
 #ifndef RIME_SCRIPT_TRANSLATOR_H_
 #define RIME_SCRIPT_TRANSLATOR_H_
 
-#include <rime/common.h>
-#include <rime/translation.h>
-#include <rime/translator.h>
 #include <rime/algo/algebra.h>
+#include <rime/common.h>
 #include <rime/gear/memory.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/translation.h>
+#include <rime/translator.h>
 
 namespace rime {
 

@@ -11,12 +11,12 @@
 #include <rime/composition.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/key_binder.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/schema.h>
 #include <rime/switcher.h>
 #include <rime/switches.h>
-#include <rime/gear/key_binder.h>
 
 namespace rime {
 

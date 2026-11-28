@@ -9,10 +9,10 @@
 
 #include <rime/candidate.h>
 #include <rime/common.h>
-#include <rime/ticket.h>
-#include <rime/translation.h>
 #include <rime/gear/opencc.h>
 #include <rime/gear/simplifier.h>
+#include <rime/ticket.h>
+#include <rime/translation.h>
 
 using namespace rime;
 

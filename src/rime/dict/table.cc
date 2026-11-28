@@ -4,16 +4,16 @@
 //
 // 2011-07-02 GONG Chen <chen.sst@gmail.com>
 //
+#include <algorithm>
 #include <cfloat>
 #include <cstdlib>
 #include <cstring>
-#include <algorithm>
 #include <memory>
 #include <queue>
 #include <utility>
 
-#include <rime/common.h>
 #include <rime/algo/syllabifier.h>
+#include <rime/common.h>
 #include <rime/dict/table.h>
 
 namespace rime {

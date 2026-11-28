@@ -9,10 +9,10 @@
 #include <boost/range/adaptor/reversed.hpp>
 
 #include <rime/config.h>
-#include <rime/schema.h>
-#include <rime/ticket.h>
 #include <rime/gear/grammar.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/schema.h>
+#include <rime/ticket.h>
 
 namespace rime {
 

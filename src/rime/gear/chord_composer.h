@@ -7,12 +7,12 @@
 #ifndef RIME_CHORD_COMPOSER_H_
 #define RIME_CHORD_COMPOSER_H_
 
+#include <rime/algo/algebra.h>
 #include <rime/common.h>
 #include <rime/component.h>
+#include <rime/gear/key_binding_processor.h>
 #include <rime/key_event.h>
 #include <rime/processor.h>
-#include <rime/algo/algebra.h>
-#include <rime/gear/key_binding_processor.h>
 
 namespace rime {
 

@@ -5,10 +5,10 @@
 // 2013-10-17 GONG Chen <chen.sst@gmail.com>
 //
 
-#include <rime_api.h>
 #include <rime/common.h>
-#include <rime/registry.h>
 #include <rime/lever/deployment_tasks.h>
+#include <rime/registry.h>
+#include <rime_api.h>
 
 using namespace rime;
 

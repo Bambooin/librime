@@ -2,10 +2,10 @@
 
 #include <rime_levers_api.h>
 
-#include <rime/service.h>
 #include <rime/lever/custom_settings.h>
 #include <rime/lever/switcher_settings.h>
 #include <rime/lever/user_dict_manager.h>
+#include <rime/service.h>
 
 using namespace rime;
 

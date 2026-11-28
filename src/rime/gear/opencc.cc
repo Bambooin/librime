@@ -8,10 +8,10 @@
 #include <rime/common.h>
 #include <rime/gear/opencc.h>
 
-#include <opencc/Config.hpp>  // Place OpenCC #includes here to avoid VS2015 compilation errors
-#include <opencc/Converter.hpp>
+#include <opencc/Config.hpp>
 #include <opencc/Conversion.hpp>
 #include <opencc/ConversionChain.hpp>
+#include <opencc/Converter.hpp>
 #include <opencc/Dict.hpp>
 #include <opencc/DictEntry.hpp>
 

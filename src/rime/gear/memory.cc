@@ -5,17 +5,17 @@
 // 2013-01-02 GONG Chen <chen.sst@gmail.com>
 //
 #include <rime/candidate.h>
-#include <rime/context.h>
 #include <rime/composition.h>
+#include <rime/context.h>
+#include <rime/dict/dictionary.h>
+#include <rime/dict/user_dictionary.h>
 #include <rime/engine.h>
+#include <rime/gear/memory.h>
+#include <rime/gear/translator_commons.h>
 #include <rime/key_event.h>
 #include <rime/language.h>
 #include <rime/schema.h>
 #include <rime/ticket.h>
-#include <rime/dict/dictionary.h>
-#include <rime/dict/user_dictionary.h>
-#include <rime/gear/memory.h>
-#include <rime/gear/translator_commons.h>
 
 namespace rime {
 

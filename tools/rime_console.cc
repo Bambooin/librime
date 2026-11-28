@@ -12,14 +12,14 @@
 #include <rime/composition.h>
 #include <rime/context.h>
 #include <rime/deployer.h>
+#include <rime/dict/dict_compiler.h>
+#include <rime/dict/dictionary.h>
 #include <rime/engine.h>
 #include <rime/key_event.h>
+#include <rime/lever/deployment_tasks.h>
 #include <rime/menu.h>
 #include <rime/schema.h>
 #include <rime/setup.h>
-#include <rime/dict/dictionary.h>
-#include <rime/dict/dict_compiler.h>
-#include <rime/lever/deployment_tasks.h>
 #include "codepage.h"
 
 using namespace rime;

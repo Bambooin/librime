@@ -6,8 +6,8 @@
 
 #include <gtest/gtest.h>
 
-#include <rime/common.h>
 #include <rime/algo/calculus.h>
+#include <rime/common.h>
 
 // Combo Pinyin 3.0 key order
 static const char* kComboPinyinKeyOrder = "SCZHLFGDBKTPIUÜANREO";

@@ -5,9 +5,9 @@
 // 2014-01-04 GONG Chen <chen.sst@gmail.com>
 //
 
-#include <rime_api.h>
 #include <rime/common.h>
 #include <rime/registry.h>
+#include <rime_api.h>
 
 #include "trivial_translator.h"
 

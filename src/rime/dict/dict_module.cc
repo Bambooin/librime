@@ -5,19 +5,19 @@
 // 2013-10-17 GONG Chen <chen.sst@gmail.com>
 //
 
-#include <rime_api.h>
 #include <rime/common.h>
-#include <rime/registry.h>
+#include <rime/dict/corrector.h>
 #include <rime/dict/db.h>
+#include <rime/dict/dictionary.h>
 #include <rime/dict/level_db.h>
+#include <rime/dict/reverse_lookup_dictionary.h>
 #include <rime/dict/table_db.h>
 #include <rime/dict/text_db.h>
 #include <rime/dict/user_db.h>
-#include <rime/dict/corrector.h>
-#include <rime/dict/dictionary.h>
-#include <rime/dict/reverse_lookup_dictionary.h>
-#include <rime/dict/user_dictionary.h>
 #include <rime/dict/user_db_recovery_task.h>
+#include <rime/dict/user_dictionary.h>
+#include <rime/registry.h>
+#include <rime_api.h>
 
 static void rime_dict_initialize() {
   using namespace rime;

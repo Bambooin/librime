@@ -11,9 +11,9 @@
 #define RIME_POET_H_
 
 #include <rime/common.h>
-#include <rime/translation.h>
-#include <rime/gear/translator_commons.h>
 #include <rime/gear/contextual_translation.h>
+#include <rime/gear/translator_commons.h>
+#include <rime/translation.h>
 
 namespace rime {
 

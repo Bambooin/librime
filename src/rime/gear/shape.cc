@@ -4,13 +4,13 @@
 //
 // 2013-07-02 GONG Chen <chen.sst@gmail.com>
 //
-#include <sstream>
 #include <algorithm>
+#include <sstream>
 
 #include <rime/context.h>
 #include <rime/engine.h>
-#include <rime/key_event.h>
 #include <rime/gear/shape.h>
+#include <rime/key_event.h>
 
 namespace rime {
 

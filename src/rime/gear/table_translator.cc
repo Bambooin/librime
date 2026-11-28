@@ -17,16 +17,16 @@
 #include <rime/composition.h>
 #include <rime/config.h>
 #include <rime/context.h>
-#include <rime/engine.h>
-#include <rime/schema.h>
-#include <rime/translation.h>
 #include <rime/dict/dictionary.h>
 #include <rime/dict/user_dictionary.h>
+#include <rime/engine.h>
 #include <rime/gear/charset_filter.h>
 #include <rime/gear/poet.h>
 #include <rime/gear/table_translator.h>
 #include <rime/gear/translator_commons.h>
 #include <rime/gear/unity_table_encoder.h>
+#include <rime/schema.h>
+#include <rime/translation.h>
 
 namespace rime {
 

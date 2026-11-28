@@ -9,8 +9,8 @@
 
 #include <type_traits>
 
-#include <rime_api.h>
 #include <rime/common.h>
+#include <rime_api.h>
 
 namespace rime {
 

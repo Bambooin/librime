@@ -6,12 +6,12 @@
 #include <boost/algorithm/string.hpp>
 
 #include <rime/common.h>
-#include <rime/resource.h>
 #include <rime/config/config_compiler.h>
 #include <rime/config/config_compiler_impl.h>
 #include <rime/config/config_data.h>
 #include <rime/config/config_types.h>
 #include <rime/config/plugins.h>
+#include <rime/resource.h>
 
 namespace rime {
 

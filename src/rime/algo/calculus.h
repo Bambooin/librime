@@ -12,8 +12,8 @@
 
 #include <boost/regex.hpp>
 
-#include <rime_api.h>
 #include <rime/common.h>
+#include <rime_api.h>
 #include "spelling.h"
 
 namespace rime {

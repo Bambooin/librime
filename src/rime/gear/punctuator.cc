@@ -12,12 +12,12 @@
 #include <rime/composition.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/punctuator.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/menu.h>
 #include <rime/schema.h>
 #include <rime/translation.h>
-#include <rime/gear/punctuator.h>
 
 namespace rime {
 

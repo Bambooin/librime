@@ -7,12 +7,12 @@
 #ifndef RIME_DICTIONARY_H_
 #define RIME_DICTIONARY_H_
 
-#include <rime_api.h>
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/dict/prism.h>
 #include <rime/dict/table.h>
 #include <rime/dict/vocabulary.h>
+#include <rime_api.h>
 
 namespace rime {
 

@@ -6,9 +6,9 @@
 //
 #include <rime/common.h>
 #include <rime/config.h>
+#include <rime/gear/abc_segmentor.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>
-#include <rime/gear/abc_segmentor.h>
 
 static const char kRimeAlphabet[] = "zyxwvutsrqponmlkjihgfedcba";
 

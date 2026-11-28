@@ -12,11 +12,11 @@
 #include <rime/composition.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/navigator.h>
+#include <rime/gear/translator_commons.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/schema.h>
-#include <rime/gear/navigator.h>
-#include <rime/gear/translator_commons.h>
 
 namespace rime {
 

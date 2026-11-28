@@ -6,9 +6,9 @@
 //
 #include <rime/common.h>
 #include <rime/config.h>
+#include <rime/gear/matcher.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>
-#include <rime/gear/matcher.h>
 
 namespace rime {
 

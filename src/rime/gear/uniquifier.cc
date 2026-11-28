@@ -6,8 +6,8 @@
 //
 #include <rime/candidate.h>
 #include <rime/common.h>
-#include <rime/translation.h>
 #include <rime/gear/uniquifier.h>
+#include <rime/translation.h>
 
 namespace rime {
 

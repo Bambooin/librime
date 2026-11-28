@@ -8,11 +8,11 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
-#include <rime/schema.h>
-#include <rime/key_table.h>
 #include <rime/gear/editor.h>
 #include <rime/gear/key_binding_processor.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/key_table.h>
+#include <rime/schema.h>
 
 namespace rime {
 

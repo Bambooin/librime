@@ -8,8 +8,8 @@
 
 #include <gtest/gtest.h>
 
-#include <rime/common.h>
 #include <rime/algo/algebra.h>
+#include <rime/common.h>
 
 static const char* kTransliteration =
     "xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/";

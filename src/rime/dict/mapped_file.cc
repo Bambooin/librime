@@ -6,13 +6,12 @@
 //
 // 2011-06-30 GONG Chen <chen.sst@gmail.com>
 //
-#include <fstream>
 #include <filesystem>
+#include <fstream>
+#include <memory>
 
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
-
-#include <memory>
 
 #include <rime/dict/mapped_file.h>
 

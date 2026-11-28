@@ -7,9 +7,9 @@
 #include <utf8.h>
 
 #include <rime/candidate.h>
-#include <rime/translation.h>
 #include <rime/gear/single_char_filter.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/translation.h>
 
 namespace rime {
 

@@ -7,9 +7,9 @@
 #ifndef RIME_MENU_H_
 #define RIME_MENU_H_
 
-#include <rime_api.h>
 #include <rime/candidate.h>
 #include <rime/common.h>
+#include <rime_api.h>
 
 namespace rime {
 

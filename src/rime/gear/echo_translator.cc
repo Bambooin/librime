@@ -7,9 +7,9 @@
 
 #include <rime/candidate.h>
 #include <rime/common.h>
+#include <rime/gear/echo_translator.h>
 #include <rime/segmentation.h>
 #include <rime/translation.h>
-#include <rime/gear/echo_translator.h>
 
 namespace rime {
 

@@ -12,11 +12,11 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/speller.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/menu.h>
 #include <rime/schema.h>
-#include <rime/gear/speller.h>
 
 static const char kRimeAlphabet[] = "zyxwvutsrqponmlkjihgfedcba";
 

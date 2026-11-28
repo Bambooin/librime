@@ -12,9 +12,9 @@
 
 #include <boost/scope_exit.hpp>
 
+#include <rime/algo/utilities.h>
 #include <rime/common.h>
 #include <rime/deployer.h>
-#include <rime/algo/utilities.h>
 #include <rime/dict/db_utils.h>
 #include <rime/dict/table_db.h>
 #include <rime/dict/user_db.h>

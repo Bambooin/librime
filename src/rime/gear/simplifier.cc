@@ -17,11 +17,11 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/opencc.h>
+#include <rime/gear/simplifier.h>
 #include <rime/schema.h>
 #include <rime/service.h>
 #include <rime/translation.h>
-#include <rime/gear/opencc.h>
-#include <rime/gear/simplifier.h>
 
 static const char* quote_left = "\xe3\x80\x94";   //"\xef\xbc\x88";
 static const char* quote_right = "\xe3\x80\x95";  //"\xef\xbc\x89";

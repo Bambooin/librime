@@ -6,13 +6,12 @@
 //
 #include <algorithm>
 
-#include <boost/algorithm/string.hpp>
 #include <utf8.h>
-
-#include <rime/config.h>
+#include <boost/algorithm/string.hpp>
 
 #include <rime/algo/encoder.h>
 #include <rime/algo/strings.h>
+#include <rime/config.h>
 
 namespace rime {
 

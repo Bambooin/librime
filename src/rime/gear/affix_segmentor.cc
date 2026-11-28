@@ -7,9 +7,9 @@
 #include <boost/algorithm/string.hpp>
 
 #include <rime/common.h>
+#include <rime/gear/affix_segmentor.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>
-#include <rime/gear/affix_segmentor.h>
 
 namespace rime {
 

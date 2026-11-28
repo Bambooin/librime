@@ -7,9 +7,9 @@
 #ifndef RIME_DB_H_
 #define RIME_DB_H_
 
-#include <rime_api.h>
 #include <rime/common.h>
 #include <rime/component.h>
+#include <rime_api.h>
 
 namespace rime {
 

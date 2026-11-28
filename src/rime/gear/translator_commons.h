@@ -9,13 +9,13 @@
 
 #include <boost/regex.hpp>
 
-#include <rime/common.h>
-#include <rime/config.h>
-#include <rime/candidate.h>
-#include <rime/translation.h>
 #include <rime/algo/algebra.h>
 #include <rime/algo/syllabifier.h>
+#include <rime/candidate.h>
+#include <rime/common.h>
+#include <rime/config.h>
 #include <rime/dict/vocabulary.h>
+#include <rime/translation.h>
 
 namespace rime {
 

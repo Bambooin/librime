@@ -8,16 +8,16 @@
 
 #include <memory>
 
-#include <rime/common.h>
 #include <rime/algo/syllabifier.h>
-#include <rime/dict/dictionary.h>
+#include <rime/common.h>
 #include <rime/dict/dict_compiler.h>
+#include <rime/dict/dictionary.h>
 #include <rime/dict/level_db.h>
 #include <rime/dict/prism.h>
 #include <rime/dict/table.h>
 #include <rime/dict/text_db.h>
-#include <rime/dict/user_dictionary.h>
 #include <rime/dict/user_db.h>
+#include <rime/dict/user_dictionary.h>
 
 using namespace rime;
 

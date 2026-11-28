@@ -14,8 +14,8 @@
 #include <rime/common.h>
 #include <rime/dict/compact_entries.h>
 #include <rime/dict/mapped_file.h>
-#include <rime/dict/vocabulary.h>
 #include <rime/dict/string_table.h>
+#include <rime/dict/vocabulary.h>
 
 #define RIME_TABLE_UNION(U, V, A, a, B, b)                           \
   struct U {                                                         \

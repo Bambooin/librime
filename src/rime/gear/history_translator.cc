@@ -8,10 +8,10 @@
 #include <rime/candidate.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/history_translator.h>
 #include <rime/schema.h>
 #include <rime/ticket.h>
 #include <rime/translation.h>
-#include <rime/gear/history_translator.h>
 
 namespace rime {
 

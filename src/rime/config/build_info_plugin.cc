@@ -4,11 +4,11 @@
 //
 #include <filesystem>
 
-#include <rime/service.h>
 #include <rime/algo/fs.h>
 #include <rime/config/config_compiler.h>
 #include <rime/config/config_types.h>
 #include <rime/config/plugins.h>
+#include <rime/service.h>
 
 namespace rime {
 

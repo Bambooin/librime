@@ -7,9 +7,9 @@
 // 2013-10-20 GONG Chen <chen.sst@gmail.com>
 //
 
+#include "trivial_translator.h"
 #include <rime/candidate.h>
 #include <rime/segmentation.h>
-#include "trivial_translator.h"
 
 namespace sample {
 

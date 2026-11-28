@@ -18,12 +18,12 @@
 #include <io.h>
 #include <windows.h>
 #else
-#include <cerrno>
-#include <csignal>
 #include <sys/ioctl.h>
 #include <sys/select.h>
 #include <termios.h>
 #include <unistd.h>
+#include <cerrno>
+#include <csignal>
 #endif
 
 #ifdef _WIN32

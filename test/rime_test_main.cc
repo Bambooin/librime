@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <rime_api.h>
 #include <rime/service.h>
 #include <rime/setup.h>
+#include <rime_api.h>
 
 class GlobalEnvironment : public testing::Environment {
  public:

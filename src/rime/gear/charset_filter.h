@@ -8,10 +8,10 @@
 #ifndef RIME_CHARSET_FILTER_H_
 #define RIME_CHARSET_FILTER_H_
 
-#include <rime_api.h>
 #include <rime/filter.h>
-#include <rime/translation.h>
 #include <rime/gear/filter_commons.h>
+#include <rime/translation.h>
+#include <rime_api.h>
 
 namespace rime {
 

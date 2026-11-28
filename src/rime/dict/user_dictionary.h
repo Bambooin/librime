@@ -7,17 +7,17 @@
 #ifndef RIME_USER_DICTIONARY_H_
 #define RIME_USER_DICTIONARY_H_
 
-#include <string_view>
 #include <time.h>
+#include <string_view>
 
 #ifndef RIME_USER_DICT_CACHE_ENABLED
 #define RIME_USER_DICT_CACHE_ENABLED 1
 #endif  // RIME_USER_DICT_CACHE_ENABLED
-#include <rime_api.h>
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/dict/user_db.h>
 #include <rime/dict/vocabulary.h>
+#include <rime_api.h>
 
 #include <unordered_map>
 

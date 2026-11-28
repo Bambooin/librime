@@ -5,8 +5,8 @@
 
 #include <gtest/gtest.h>
 
-#include <rime/common.h>
 #include <rime/candidate.h>
+#include <rime/common.h>
 
 using namespace rime;
 

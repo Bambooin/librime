@@ -8,11 +8,11 @@
 
 #include <rime/config.h>
 #include <rime/deployer.h>
-#include <rime/service.h>
-#include <rime/setup.h>
 #include <rime/dict/level_db.h>
 #include <rime/dict/user_db.h>
 #include <rime/lever/user_dict_manager.h>
+#include <rime/service.h>
+#include <rime/setup.h>
 #include "codepage.h"
 
 using namespace rime;

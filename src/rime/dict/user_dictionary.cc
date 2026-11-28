@@ -12,18 +12,18 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/scope_exit.hpp>
 
-#include <rime/common.h>
-#include <rime/language.h>
-#include <rime/schema.h>
-#include <rime/service.h>
-#include <rime/ticket.h>
 #include <rime/algo/dynamics.h>
-#include <rime/algo/syllabifier.h>
 #include <rime/algo/strings.h>
+#include <rime/algo/syllabifier.h>
+#include <rime/common.h>
 #include <rime/dict/db.h>
 #include <rime/dict/table.h>
 #include <rime/dict/user_dictionary.h>
 #include <rime/dict/vocabulary.h>
+#include <rime/language.h>
+#include <rime/schema.h>
+#include <rime/service.h>
+#include <rime/ticket.h>
 
 namespace rime {
 

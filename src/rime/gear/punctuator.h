@@ -10,10 +10,10 @@
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/config.h>
+#include <rime/gear/shape.h>
 #include <rime/processor.h>
 #include <rime/segmentor.h>
 #include <rime/translator.h>
-#include <rime/gear/shape.h>
 
 namespace rime {
 

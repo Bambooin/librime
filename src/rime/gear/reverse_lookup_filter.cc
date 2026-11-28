@@ -5,12 +5,12 @@
 // 2013-11-05 GONG Chen <chen.sst@gmail.com>
 //
 #include <rime/candidate.h>
-#include <rime/engine.h>
-#include <rime/schema.h>
-#include <rime/translation.h>
 #include <rime/dict/reverse_lookup_dictionary.h>
+#include <rime/engine.h>
 #include <rime/gear/reverse_lookup_filter.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/schema.h>
+#include <rime/translation.h>
 
 namespace rime {
 

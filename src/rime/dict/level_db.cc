@@ -11,9 +11,9 @@
 #include <leveldb/write_batch.h>
 
 #include <rime/common.h>
-#include <rime/service.h>
 #include <rime/dict/level_db.h>
 #include <rime/dict/user_db.h>
+#include <rime/service.h>
 
 #include <memory>
 

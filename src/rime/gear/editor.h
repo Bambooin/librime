@@ -9,9 +9,9 @@
 
 #include <rime/common.h>
 #include <rime/component.h>
+#include <rime/gear/key_binding_processor.h>
 #include <rime/key_event.h>
 #include <rime/processor.h>
-#include <rime/gear/key_binding_processor.h>
 
 namespace rime {
 

@@ -3,9 +3,9 @@
 //
 #include <iostream>
 
+#include <rime/common.h>
 #include <rime_api.h>
 #include <rime_levers_api.h>
-#include <rime/common.h>
 #include "codepage.h"
 
 // usage:

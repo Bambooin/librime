@@ -13,11 +13,11 @@
 #include "no_logging.h"
 #endif  // RIME_ENABLE_LOGGING
 
-#include <rime_api.h>
 #include <rime/deployer.h>
 #include <rime/module.h>
 #include <rime/service.h>
 #include <rime/setup.h>
+#include <rime_api.h>
 
 namespace rime {
 

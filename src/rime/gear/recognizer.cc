@@ -9,9 +9,9 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/recognizer.h>
 #include <rime/key_event.h>
 #include <rime/schema.h>
-#include <rime/gear/recognizer.h>
 
 namespace rime {
 

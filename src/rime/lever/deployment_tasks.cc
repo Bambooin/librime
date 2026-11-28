@@ -8,27 +8,24 @@
 #include <rime/build_config.h>
 
 #include <algorithm>
+#include <filesystem>
+#include <memory>
 
 #include <boost/algorithm/string.hpp>
-
-#include <filesystem>
-
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include <memory>
-
+#include <rime/algo/fs.h>
+#include <rime/algo/utilities.h>
 #include <rime/common.h>
+#include <rime/lever/compile_unit.h>
+#include <rime/lever/deployment_tasks.h>
+#include <rime/lever/user_dict_manager.h>
 #include <rime/resource.h>
 #include <rime/schema.h>
 #include <rime/service.h>
 #include <rime/setup.h>
-#include <rime/algo/fs.h>
-#include <rime/algo/utilities.h>
-#include <rime/lever/compile_unit.h>
-#include <rime/lever/deployment_tasks.h>
-#include <rime/lever/user_dict_manager.h>
 
 namespace fs = std::filesystem;
 

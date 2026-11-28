@@ -3,10 +3,10 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
+#include <rime/gear/ascii_composer.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/schema.h>
-#include <rime/gear/ascii_composer.h>
 
 namespace rime {
 

@@ -8,12 +8,11 @@
 
 #include <memory>
 
-#include <rime/common.h>
-
 #include <rime/algo/encoder.h>
 #include <rime/algo/syllabifier.h>
-#include <rime/dict/dictionary.h>
+#include <rime/common.h>
 #include <rime/dict/dict_compiler.h>
+#include <rime/dict/dictionary.h>
 
 class RimeDictionaryTest : public ::testing::Test {
  public:

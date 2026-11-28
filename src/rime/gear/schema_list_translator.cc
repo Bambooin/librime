@@ -10,10 +10,10 @@
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/config.h>
+#include <rime/gear/schema_list_translator.h>
 #include <rime/schema.h>
 #include <rime/switcher.h>
 #include <rime/translation.h>
-#include <rime/gear/schema_list_translator.h>
 
 namespace rime {
 

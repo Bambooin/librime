@@ -7,8 +7,8 @@
 #ifndef RIME_SWITCHER_SETTINGS_H_
 #define RIME_SWITCHER_SETTINGS_H_
 
-#include "custom_settings.h"
 #include <rime/common.h>
+#include "custom_settings.h"
 
 namespace rime {
 

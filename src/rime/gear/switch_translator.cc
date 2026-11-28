@@ -10,11 +10,11 @@
 #include <rime/common.h>
 #include <rime/config.h>
 #include <rime/context.h>
+#include <rime/gear/switch_translator.h>
 #include <rime/schema.h>
 #include <rime/switcher.h>
 #include <rime/switches.h>
 #include <rime/translation.h>
-#include <rime/gear/switch_translator.h>
 
 static const char* kRightArrow = "\xe2\x86\x92 ";
 // static const char* kRadioSelected = " \xe2\x97\x89";  // U+25C9 FISHEYE

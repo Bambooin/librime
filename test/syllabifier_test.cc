@@ -10,9 +10,9 @@
 
 #include <gtest/gtest.h>
 
-#include <rime/dict/prism.h>
 #include <rime/algo/algebra.h>
 #include <rime/algo/syllabifier.h>
+#include <rime/dict/prism.h>
 
 using namespace rime;
 

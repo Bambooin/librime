@@ -7,10 +7,10 @@
 #ifndef RIME_DICT_COMPILER_H_
 #define RIME_DICT_COMPILER_H_
 
-#include <rime_api.h>
 #include <rime/common.h>
 #include <rime/dict/compact_entries.h>
 #include <rime/dict/vocabulary.h>
+#include <rime_api.h>
 
 namespace rime {
 

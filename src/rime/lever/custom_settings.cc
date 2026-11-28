@@ -8,8 +8,8 @@
 
 #include <rime/config.h>
 #include <rime/deployer.h>
-#include <rime/signature.h>
 #include <rime/lever/custom_settings.h>
+#include <rime/signature.h>
 
 namespace rime {
 

@@ -4,8 +4,8 @@
 //
 // 2013-01-30 GONG Chen <chen.sst@gmail.com>
 //
-#include <fstream>
 #include <array>
+#include <fstream>
 
 #include <rime/algo/utilities.h>
 

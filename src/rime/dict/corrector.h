@@ -8,10 +8,10 @@
 #ifndef RIME_CORRECTOR_H
 #define RIME_CORRECTOR_H
 
-#include <rime/common.h>
-#include <rime/component.h>
 #include <rime/algo/algebra.h>
 #include <rime/algo/spelling.h>
+#include <rime/common.h>
+#include <rime/component.h>
 #include <rime/dict/prism.h>
 #include <rime/dict/vocabulary.h>
 

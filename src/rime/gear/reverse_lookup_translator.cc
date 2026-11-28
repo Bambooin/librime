@@ -8,18 +8,18 @@
 
 #include <memory>
 
+#include <rime/algo/syllabifier.h>
 #include <rime/candidate.h>
+#include <rime/dict/dictionary.h>
+#include <rime/dict/reverse_lookup_dictionary.h>
 #include <rime/engine.h>
+#include <rime/gear/reverse_lookup_translator.h>
+#include <rime/gear/table_translator.h>
+#include <rime/gear/translator_commons.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>
 #include <rime/ticket.h>
 #include <rime/translation.h>
-#include <rime/algo/syllabifier.h>
-#include <rime/dict/dictionary.h>
-#include <rime/dict/reverse_lookup_dictionary.h>
-#include <rime/gear/reverse_lookup_translator.h>
-#include <rime/gear/translator_commons.h>
-#include <rime/gear/table_translator.h>
 
 // static const char* quote_left = "\xef\xbc\x88";
 // static const char* quote_right = "\xef\xbc\x89";

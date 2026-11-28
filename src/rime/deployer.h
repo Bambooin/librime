@@ -7,10 +7,10 @@
 #ifndef RIME_DEPLOYER_H_
 #define RIME_DEPLOYER_H_
 
+#include <any>
 #include <future>
 #include <mutex>
 #include <queue>
-#include <any>
 
 #include <rime/common.h>
 #include <rime/component.h>

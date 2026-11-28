@@ -5,9 +5,9 @@
 // 2013-10-17 GONG Chen <chen.sst@gmail.com>
 //
 
-#include <rime_api.h>
 #include <rime/common.h>
 #include <rime/registry.h>
+#include <rime_api.h>
 
 // built-in components
 #include <rime/config.h>

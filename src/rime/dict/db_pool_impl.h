@@ -1,8 +1,8 @@
 #ifndef RIME_DB_POOL_IMPL_H_
 #define RIME_DB_POOL_IMPL_H_
 
-#include "db_pool.h"
 #include <rime/resource.h>
+#include "db_pool.h"
 
 namespace rime {
 

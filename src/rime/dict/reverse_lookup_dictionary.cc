@@ -16,13 +16,13 @@
 
 #include <boost/algorithm/string.hpp>
 
+#include <rime/dict/db_pool_impl.h>
+#include <rime/dict/dict_settings.h>
+#include <rime/dict/reverse_lookup_dictionary.h>
 #include <rime/resource.h>
 #include <rime/schema.h>
 #include <rime/service.h>
 #include <rime/ticket.h>
-#include <rime/dict/db_pool_impl.h>
-#include <rime/dict/dict_settings.h>
-#include <rime/dict/reverse_lookup_dictionary.h>
 
 namespace rime {
 

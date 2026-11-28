@@ -21,13 +21,13 @@
 #endif  // !RIME_NO_THREADING
 
 #include <rime/common.h>
+#include <rime/dict/dict_compiler.h>
+#include <rime/dict/dictionary.h>
+#include <rime/lever/compile_unit.h>
 #include <rime/resource.h>
 #include <rime/schema.h>
 #include <rime/service.h>
 #include <rime/ticket.h>
-#include <rime/dict/dictionary.h>
-#include <rime/dict/dict_compiler.h>
-#include <rime/lever/compile_unit.h>
 
 namespace fs = std::filesystem;
 

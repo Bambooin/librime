@@ -5,13 +5,13 @@
 // 2011-04-06 Zou Xu <zouivex@gmail.com>
 //
 
-#include <rime/resource.h>
-#include <rime/service.h>
-#include <rime/config/config_component.h>
 #include <rime/config/config_compiler.h>
+#include <rime/config/config_component.h>
 #include <rime/config/config_data.h>
 #include <rime/config/config_types.h>
 #include <rime/config/plugins.h>
+#include <rime/resource.h>
+#include <rime/service.h>
 
 namespace rime {
 

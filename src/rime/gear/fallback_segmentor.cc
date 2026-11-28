@@ -5,8 +5,8 @@
 // 2011-06-20 GONG Chen <chen.sst@gmail.com>
 //
 #include <rime/common.h>
-#include <rime/segmentation.h>
 #include <rime/gear/fallback_segmentor.h>
+#include <rime/segmentation.h>
 
 namespace rime {
 

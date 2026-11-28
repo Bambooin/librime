@@ -7,8 +7,8 @@
 #include <boost/algorithm/string.hpp>
 
 #include <rime/dict/dict_settings.h>
-#include <rime/dict/user_dictionary.h>
 #include <rime/dict/reverse_lookup_dictionary.h>
+#include <rime/dict/user_dictionary.h>
 #include <rime/gear/unity_table_encoder.h>
 
 namespace rime {

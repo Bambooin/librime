@@ -13,8 +13,8 @@
 
 #include <darts.h>
 
-#include <rime/common.h>
 #include <rime/algo/spelling.h>
+#include <rime/common.h>
 #include <rime/dict/mapped_file.h>
 #include <rime/dict/vocabulary.h>
 

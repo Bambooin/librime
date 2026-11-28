@@ -2,11 +2,11 @@
 // Copyright RIME Developers
 // Distributed under the BSD License
 //
-#include <rime/resource.h>
-#include <rime/service.h>
 #include <rime/config/config_compiler.h>
 #include <rime/config/config_types.h>
 #include <rime/config/plugins.h>
+#include <rime/resource.h>
+#include <rime/service.h>
 
 namespace rime {
 

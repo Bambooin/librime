@@ -7,15 +7,15 @@
 #ifndef RIME_TABLE_TRANSLATOR_H_
 #define RIME_TABLE_TRANSLATOR_H_
 
+#include <rime/algo/algebra.h>
 #include <rime/common.h>
 #include <rime/config.h>
-#include <rime/translation.h>
-#include <rime/translator.h>
-#include <rime/algo/algebra.h>
 #include <rime/dict/dictionary.h>
 #include <rime/dict/user_dictionary.h>
 #include <rime/gear/memory.h>
 #include <rime/gear/translator_commons.h>
+#include <rime/translation.h>
+#include <rime/translator.h>
 
 namespace rime {
 

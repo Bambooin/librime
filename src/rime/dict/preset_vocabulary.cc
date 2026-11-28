@@ -6,10 +6,10 @@
 //
 #include <utf8.h>
 
-#include <rime/resource.h>
-#include <rime/service.h>
 #include <rime/dict/preset_vocabulary.h>
 #include <rime/dict/text_db.h>
+#include <rime/resource.h>
+#include <rime/service.h>
 
 #include <memory>
 

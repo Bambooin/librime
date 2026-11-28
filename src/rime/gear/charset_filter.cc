@@ -11,8 +11,8 @@
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/context.h>
-#include <rime/engine.h>
 #include <rime/dict/vocabulary.h>
+#include <rime/engine.h>
 #include <rime/gear/charset_filter.h>
 
 namespace rime {

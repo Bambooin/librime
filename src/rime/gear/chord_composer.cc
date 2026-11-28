@@ -9,11 +9,11 @@
 #include <rime/config.h>
 #include <rime/context.h>
 #include <rime/engine.h>
-#include <rime/key_event.h>
-#include <rime/schema.h>
 #include <rime/gear/chord_composer.h>
 #include <rime/gear/key_binding_processor.h>
 #include <rime/gear/streaming_chord_processor.h>
+#include <rime/key_event.h>
+#include <rime/schema.h>
 
 namespace rime {
 

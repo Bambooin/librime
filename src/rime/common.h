@@ -9,6 +9,7 @@
 
 #include <rime/build_config.h>
 
+#include <deque>
 #include <filesystem>
 #include <functional>
 #include <list>
@@ -18,7 +19,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <deque>
 
 #include <boost/signals2/connection.hpp>
 #include <boost/signals2/signal.hpp>

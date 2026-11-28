@@ -9,8 +9,8 @@
 
 #include <rime/common.h>
 #include <rime/composition.h>
-#include <rime/context.h>
 #include <rime/config/config_types.h>
+#include <rime/context.h>
 #include <rime/engine.h>
 #include <rime/filter.h>
 #include <rime/formatter.h>
