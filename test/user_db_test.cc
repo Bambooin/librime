@@ -6,8 +6,10 @@
 //
 #include <filesystem>
 #include <fstream>
+
 #include <gtest/gtest.h>
 #include <leveldb/env.h>
+
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/text_db.h>
 #include <rime/dict/user_db.h>

@@ -11,6 +11,7 @@
 #include <mutex>
 #include <queue>
 #include <any>
+
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/messenger.h>

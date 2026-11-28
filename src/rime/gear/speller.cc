@@ -5,6 +5,7 @@
 // 2011-10-27 GONG Chen <chen.sst@gmail.com>
 //
 #include <utility>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/composition.h>

@@ -8,6 +8,7 @@
 #define RIME_CONFIG_TYPES_H_
 
 #include <type_traits>
+
 #include <rime_api.h>
 #include <rime/common.h>
 

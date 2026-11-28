@@ -9,6 +9,7 @@
 #define RIME_VOCABULARY_H_
 
 #include <stdint.h>
+
 #include <rime_api.h>
 #include <rime/common.h>
 

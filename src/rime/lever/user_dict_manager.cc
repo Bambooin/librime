@@ -5,9 +5,13 @@
 // 2012-03-23 GONG Chen <chen.sst@gmail.com>
 //
 #include <fstream>
+
 #include <boost/algorithm/string.hpp>
+
 #include <filesystem>
+
 #include <boost/scope_exit.hpp>
+
 #include <rime/common.h>
 #include <rime/deployer.h>
 #include <rime/algo/utilities.h>

@@ -4,7 +4,9 @@
 //
 #include <algorithm>
 #include <memory>
+
 #include <gtest/gtest.h>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/ticket.h>

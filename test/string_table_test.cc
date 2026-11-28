@@ -2,7 +2,9 @@
 
 #include <cstdint>
 #include <cstring>
+
 #include <gtest/gtest.h>
+
 #include <rime/dict/reverse_lookup_dictionary.h>
 #include <rime/dict/string_table.h>
 #include <rime/dict/table.h>

@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <type_traits>
+
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/config/config_types.h>

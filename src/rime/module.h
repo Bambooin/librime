@@ -8,6 +8,7 @@
 #define RIME_MODULE_H_
 
 #include <unordered_set>
+
 #include <rime/common.h>
 
 struct rime_module_t;

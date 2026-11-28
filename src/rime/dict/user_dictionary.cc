@@ -8,8 +8,10 @@
 #include <cfloat>
 #include <cmath>
 #include <mutex>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/scope_exit.hpp>
+
 #include <rime/common.h>
 #include <rime/language.h>
 #include <rime/schema.h>

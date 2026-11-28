@@ -8,6 +8,7 @@
 //
 #include <algorithm>
 #include <functional>
+
 #include <rime/candidate.h>
 #include <rime/config.h>
 #include <rime/dict/vocabulary.h>

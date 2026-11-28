@@ -7,6 +7,7 @@
 // 2013-10-20 GONG Chen <chen.sst@gmail.com>
 //
 #include <gtest/gtest.h>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/segmentation.h>

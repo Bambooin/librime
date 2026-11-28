@@ -2,7 +2,9 @@
 #include <cctype>
 #include <cstdlib>
 #include <optional>
+
 #include <boost/algorithm/string.hpp>
+
 #include <rime/common.h>
 #include <rime/resource.h>
 #include <rime/config/config_compiler.h>

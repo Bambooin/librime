@@ -5,7 +5,9 @@
 // 2012-01-19 GONG Chen <chen.sst@gmail.com>
 //
 #include <cmath>
+
 #include <gtest/gtest.h>
+
 #include <rime/common.h>
 #include <rime/algo/algebra.h>
 

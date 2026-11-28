@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <string_view>
+
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/dict/compact_entries.h>

@@ -5,7 +5,9 @@
 // 2011-04-07 GONG Chen <chen.sst@gmail.com>
 //
 #include <sstream>
+
 #include <gtest/gtest.h>
+
 #include <rime/key_event.h>
 
 using namespace rime;

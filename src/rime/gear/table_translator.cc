@@ -6,9 +6,12 @@
 //
 #include <boost/algorithm/string.hpp>
 #include <boost/range/adaptor/reversed.hpp>
+
 #include <cmath>
 #include <memory>
+
 #include <utf8.h>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/composition.h>

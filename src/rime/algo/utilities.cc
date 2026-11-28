@@ -6,6 +6,7 @@
 //
 #include <fstream>
 #include <array>
+
 #include <rime/algo/utilities.h>
 
 namespace rime {

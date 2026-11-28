@@ -7,7 +7,9 @@
 #include <algorithm>
 #include <filesystem>
 #include <memory>
+
 #include <gtest/gtest.h>
+
 #include <rime/dict/prism.h>
 #include <rime/algo/algebra.h>
 #include <rime/algo/syllabifier.h>

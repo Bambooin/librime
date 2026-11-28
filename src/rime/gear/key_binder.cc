@@ -6,6 +6,7 @@
 //
 #include <algorithm>
 #include <cctype>
+
 #include <rime/common.h>
 #include <rime/composition.h>
 #include <rime/context.h>

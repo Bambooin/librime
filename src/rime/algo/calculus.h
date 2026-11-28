@@ -9,7 +9,9 @@
 #define RIME_CALCULUS_H_
 
 #include <stdint.h>
+
 #include <boost/regex.hpp>
+
 #include <rime_api.h>
 #include <rime/common.h>
 #include "spelling.h"

@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <string_view>
+
 #include <rime/common.h>
 #include <rime/dict/vocabulary.h>
 

@@ -8,9 +8,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
 #include <rime_api.h>
+
 #include <string>
 #include <vector>
+
 #include "codepage.h"
 #include "completion_catalog.h"
 #include "line_editor.h"

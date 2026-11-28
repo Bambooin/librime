@@ -8,12 +8,17 @@
 #include <rime/build_config.h>
 
 #include <algorithm>
+
 #include <boost/algorithm/string.hpp>
+
 #include <filesystem>
+
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
+
 #include <memory>
+
 #include <rime/common.h>
 #include <rime/resource.h>
 #include <rime/schema.h>

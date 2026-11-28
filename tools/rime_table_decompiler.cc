@@ -7,6 +7,7 @@
 #include <ios>
 #include <iostream>
 #include <string>
+
 #include <rime/dict/table.h>
 #include "codepage.h"
 

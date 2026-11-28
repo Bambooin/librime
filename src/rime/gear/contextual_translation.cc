@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iterator>
+
 #include <rime/gear/contextual_translation.h>
 #include <rime/gear/grammar.h>
 #include <rime/gear/translator_commons.h>

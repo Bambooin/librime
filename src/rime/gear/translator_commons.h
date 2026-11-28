@@ -8,6 +8,7 @@
 #define RIME_TRANSLATOR_COMMONS_H_
 
 #include <boost/regex.hpp>
+
 #include <rime/common.h>
 #include <rime/config.h>
 #include <rime/candidate.h>

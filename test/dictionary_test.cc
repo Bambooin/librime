@@ -5,7 +5,9 @@
 // 2011-07-05 GONG Chen <chen.sst@gmail.com>
 //
 #include <gtest/gtest.h>
+
 #include <memory>
+
 #include <rime/common.h>
 #include <rime/algo/encoder.h>
 #include <rime/algo/syllabifier.h>

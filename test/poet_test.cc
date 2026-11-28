@@ -4,6 +4,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include <rime/gear/poet.h>
 
 #if !defined(_WIN32) || !defined(RIME_IMPORTS)

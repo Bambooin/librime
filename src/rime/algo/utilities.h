@@ -8,7 +8,9 @@
 #define RIME_UTILITIES_H_
 
 #include <stdint.h>
+
 #include <boost/crc.hpp>
+
 #include <rime/common.h>
 
 namespace rime {

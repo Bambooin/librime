@@ -6,6 +6,7 @@
 #define RIME_OPENCC_H_
 
 #include <memory>
+
 #include <rime_api.h>
 #include <rime/common.h>
 

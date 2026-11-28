@@ -9,6 +9,7 @@
 #define RIME_KEY_EVENT_H_
 
 #include <iostream>
+
 #include <rime/common.h>
 #include <rime/key_table.h>
 

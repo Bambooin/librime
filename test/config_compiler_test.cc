@@ -5,7 +5,9 @@
 
 #include <memory>
 #include <sstream>
+
 #include <gtest/gtest.h>
+
 #include <rime/component.h>
 #include <rime/config.h>
 

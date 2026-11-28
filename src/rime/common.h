@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 #include <deque>
+
 #include <boost/signals2/connection.hpp>
 #include <boost/signals2/signal.hpp>
 #include <boost/unordered_map.hpp>

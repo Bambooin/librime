@@ -8,7 +8,9 @@
 #include <algorithm>
 #include <queue>
 #include <string_view>
+
 #include <boost/range/adaptor/reversed.hpp>
+
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/corrector.h>
 #include <rime/dict/prism.h>

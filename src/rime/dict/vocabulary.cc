@@ -8,6 +8,7 @@
 #include <iterator>
 #include <sstream>
 #include <utility>
+
 #include <rime/dict/vocabulary.h>
 
 namespace rime {

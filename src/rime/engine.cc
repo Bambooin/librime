@@ -6,6 +6,7 @@
 //
 #include <cctype>
 #include <chrono>
+
 #include <rime/common.h>
 #include <rime/composition.h>
 #include <rime/context.h>

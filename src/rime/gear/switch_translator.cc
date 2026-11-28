@@ -5,6 +5,7 @@
 // 2013-05-26 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/config.h>

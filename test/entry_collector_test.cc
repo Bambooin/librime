@@ -4,9 +4,11 @@
 //
 #include <filesystem>
 #include <fstream>
+
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <gtest/gtest.h>
+
 #include <rime/dict/dict_settings.h>
 #include <rime/dict/entry_collector.h>
 

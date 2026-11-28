@@ -8,8 +8,10 @@
 #include <fstream>
 #include <memory>
 #include <utility>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/unordered/unordered_flat_set.hpp>
+
 #include <rime/algo/strings.h>
 #include <rime/dict/dict_settings.h>
 #include <rime/dict/entry_collector.h>

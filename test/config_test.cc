@@ -6,10 +6,11 @@
 //
 
 #include <gtest/gtest.h>
-#include <rime/component.h>
-#include <rime/config.h>
 
 #include <memory>
+
+#include <rime/component.h>
+#include <rime/config.h>
 
 using namespace rime;
 

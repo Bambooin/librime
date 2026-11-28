@@ -5,8 +5,11 @@
 // 2013-04-22 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+
 #include <filesystem>
+
 #include <boost/scope_exit.hpp>
+
 #include <rime/deployer.h>
 #include <rime/dict/db.h>
 #include <rime/dict/user_db.h>

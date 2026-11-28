@@ -4,10 +4,15 @@
 //
 
 #include "streaming_chord_processor.h"
+
 #include <cctype>
+
 #include <boost/algorithm/string.hpp>
+
 #include <memory>
+
 #include <utf8.h>
+
 #include <rime/context.h>
 #include <rime/engine.h>
 #include <rime/key_event.h>

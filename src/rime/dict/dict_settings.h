@@ -8,6 +8,7 @@
 #define RIME_DICT_SETTINGS_H_
 
 #include <istream>
+
 #include <rime/common.h>
 #include <rime/config.h>
 

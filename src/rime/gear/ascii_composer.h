@@ -2,6 +2,7 @@
 #define RIME_ASCII_COMPOSER_H_
 
 #include <chrono>
+
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/key_event.h>

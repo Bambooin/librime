@@ -5,7 +5,9 @@
 // 2012-04-22 GONG Chen <chen.sst@gmail.com>
 //
 #include <algorithm>
+
 #include <boost/range/adaptor/reversed.hpp>
+
 #include <rime/config.h>
 #include <rime/schema.h>
 #include <rime/ticket.h>

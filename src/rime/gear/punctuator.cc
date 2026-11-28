@@ -6,6 +6,7 @@
 // 2011-11-21 GONG Chen <chen.sst@gmail.com>
 //
 #include <utf8.h>
+
 #include <rime/commit_history.h>
 #include <rime/common.h>
 #include <rime/composition.h>

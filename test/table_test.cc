@@ -5,9 +5,11 @@
 // 2011-07-03 GONG Chen <chen.sst@gmail.com>
 //
 #include <gtest/gtest.h>
+
 #include <fstream>
 #include <iterator>
 #include <memory>
+
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/table.h>
 

@@ -5,6 +5,7 @@
 #include <map>
 #include <set>
 #include <string>
+
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/processor.h>

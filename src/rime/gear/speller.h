@@ -8,6 +8,7 @@
 #define RIME_SPELLER_H_
 
 #include <boost/regex.hpp>
+
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/processor.h>

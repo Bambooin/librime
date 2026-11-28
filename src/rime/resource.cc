@@ -4,7 +4,9 @@
 //
 
 #include <boost/algorithm/string.hpp>
+
 #include <filesystem>
+
 #include <rime/resource.h>
 
 namespace rime {

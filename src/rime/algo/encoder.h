@@ -9,7 +9,9 @@
 #define RIME_ENCODER_H_
 
 #include <string_view>
+
 #include <boost/regex.hpp>
+
 #include <rime_api.h>
 
 namespace rime {

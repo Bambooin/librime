@@ -5,6 +5,7 @@
 // 2012-07-21 GONG Chen <chen.sst@gmail.com>
 //
 #include <gtest/gtest.h>
+
 #include <rime/common.h>
 #include <rime/config.h>
 #include <rime/algo/encoder.h>

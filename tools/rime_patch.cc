@@ -2,6 +2,7 @@
 // Foodgen <chen.sst@gmail.com>
 //
 #include <iostream>
+
 #include <rime_api.h>
 #include <rime_levers_api.h>
 #include <rime/common.h>

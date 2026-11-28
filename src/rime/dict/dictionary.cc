@@ -5,6 +5,7 @@
 // 2011-07-05 GONG Chen <chen.sst@gmail.com>
 //
 #include <filesystem>
+
 #include <rime/algo/syllabifier.h>
 #include <rime/common.h>
 #include <rime/dict/dictionary.h>
@@ -12,6 +13,7 @@
 #include <rime/schema.h>
 #include <rime/service.h>
 #include <rime/ticket.h>
+
 #include <utility>
 
 namespace rime {

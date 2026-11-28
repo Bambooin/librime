@@ -18,6 +18,7 @@
 #include <rime/component.h>
 #include <rime/dict/user_db.h>
 #include <rime/dict/vocabulary.h>
+
 #include <unordered_map>
 
 namespace rime {

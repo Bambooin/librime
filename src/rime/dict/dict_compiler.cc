@@ -10,6 +10,7 @@
 #include <cmath>
 #include <fstream>
 #include <limits>
+
 #include <rime/algo/algebra.h>
 #include <rime/algo/utilities.h>
 #include <rime/dict/corrector.h>

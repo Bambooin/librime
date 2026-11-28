@@ -6,6 +6,7 @@
 #define RIME_CONFIG_COMPILER_IMPL_H_
 
 #include <ostream>
+
 #include <rime/common.h>
 #include <rime/config/config_compiler.h>
 #include <rime/config/config_types.h>

@@ -9,7 +9,9 @@
 #include <istream>
 #include <sstream>
 #include <streambuf>
+
 #include <marisa/iostream.h>
+
 #include <rime/common.h>
 #include <rime/dict/string_table.h>
 

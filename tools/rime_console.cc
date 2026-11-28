@@ -6,6 +6,7 @@
 //
 #include <cstring>
 #include <iostream>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/composition.h>

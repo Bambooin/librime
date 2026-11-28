@@ -6,9 +6,11 @@
 //
 
 #include "corrector.h"
+
 #include <algorithm>
 #include <numeric>
 #include <queue>
+
 #include <rime/schema.h>
 #include <rime/service.h>
 #include <rime/ticket.h>

@@ -5,6 +5,7 @@
 // 2014-11-19 Chen Gong <chen.sst@gmail.com>
 //
 #include <utf8.h>
+
 #include <rime/candidate.h>
 #include <rime/translation.h>
 #include <rime/gear/single_char_filter.h>

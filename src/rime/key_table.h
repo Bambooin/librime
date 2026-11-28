@@ -9,6 +9,7 @@
 #define RIME_KEY_TABLE_H_
 
 #include <X11/keysym.h>
+
 #include <rime_api.h>
 
 enum RimeModifier {

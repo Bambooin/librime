@@ -1,8 +1,9 @@
 #ifndef RIME_STRINGS_H_
 #define RIME_STRINGS_H_
 
-#include <rime/common.h>
 #include <initializer_list>
+
+#include <rime/common.h>
 
 namespace rime {
 namespace strings {

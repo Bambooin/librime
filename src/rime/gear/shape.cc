@@ -6,6 +6,7 @@
 //
 #include <sstream>
 #include <algorithm>
+
 #include <rime/context.h>
 #include <rime/engine.h>
 #include <rime/key_event.h>

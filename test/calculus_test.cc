@@ -3,7 +3,9 @@
 // Distributed under the BSD License
 //
 #include <cmath>
+
 #include <gtest/gtest.h>
+
 #include <rime/common.h>
 #include <rime/algo/calculus.h>
 

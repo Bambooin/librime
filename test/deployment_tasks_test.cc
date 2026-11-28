@@ -4,12 +4,15 @@
 //
 
 #include <gtest/gtest.h>
+
 #include <rime/component.h>
 #include <rime/deployer.h>
 #include <rime/lever/deployment_tasks.h>
+
 #include <filesystem>
 #include <fstream>
 #include <system_error>
+
 #include "rime/config/config_component.h"
 #include "rime/registry.h"
 

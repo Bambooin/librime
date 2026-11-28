@@ -5,6 +5,7 @@
 // 2013-04-18 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+
 #include <rime/dict/table_db.h>
 #include <rime/dict/user_db.h>
 

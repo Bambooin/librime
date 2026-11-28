@@ -5,6 +5,7 @@
 // 2012-07-07 GONG Chen <chen.sst@gmail.com>
 //
 #include <iostream>
+
 #include <rime/config.h>
 #include <rime/deployer.h>
 #include <rime/service.h>

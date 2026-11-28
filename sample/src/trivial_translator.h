@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+
 #include <rime/common.h>
 #include <rime/translation.h>
 #include <rime/translator.h>

@@ -6,6 +6,7 @@
  */
 #include <cstdio>
 #include <cstring>
+
 #include <rime_api.h>
 
 void print_status(RimeStatus* status) {

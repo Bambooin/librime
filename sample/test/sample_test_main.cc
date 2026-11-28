@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include <rime/setup.h>
 
 static RIME_MODULE_LIST(test_modules, "sample");

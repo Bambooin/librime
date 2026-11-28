@@ -5,7 +5,9 @@
 // 2013-04-14 GONG Chen <chen.sst@gmail.com>
 //
 #include <fstream>
+
 #include <boost/algorithm/string.hpp>
+
 #include <rime/common.h>
 #include <rime/dict/db_utils.h>
 #include <rime/dict/tsv.h>

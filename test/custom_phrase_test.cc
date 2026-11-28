@@ -8,6 +8,7 @@
 // nothing (e.g. zdydu → 自定义短语).
 //
 #include <gtest/gtest.h>
+
 #include <rime/common.h>
 #include <rime/dict/user_dictionary.h>
 

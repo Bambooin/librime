@@ -10,8 +10,10 @@
 #include <memory>
 #include <stack>
 #include <cmath>
+
 #include <boost/algorithm/string/join.hpp>
 #include <boost/range/adaptor/reversed.hpp>
+
 #include <rime/common.h>
 #include <rime/composition.h>
 #include <rime/candidate.h>

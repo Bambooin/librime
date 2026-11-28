@@ -4,9 +4,12 @@
 //
 
 #include <algorithm>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/dll.hpp>
+
 #include <filesystem>
+
 #include <rime/build_config.h>
 #include <rime/common.h>
 #include <rime/component.h>

@@ -8,6 +8,7 @@
 #define RIME_USER_DB_H_
 
 #include <stdint.h>
+
 #include <rime/component.h>
 #include <rime/dict/db.h>
 #include <rime/dict/db_utils.h>

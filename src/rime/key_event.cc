@@ -6,6 +6,7 @@
 //
 #include <sstream>
 #include <iomanip>
+
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 

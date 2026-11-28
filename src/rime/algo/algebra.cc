@@ -6,6 +6,7 @@
 //
 #include <algorithm>
 #include <fstream>
+
 #include <rime/algo/algebra.h>
 #include <rime/algo/calculus.h>
 

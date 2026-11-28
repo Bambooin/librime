@@ -5,7 +5,9 @@
 // 2011-04-06 Zou Xu <zouivex@gmail.com>
 //
 #include <cstdlib>
+
 #include <boost/algorithm/string.hpp>
+
 #include <rime/config/config_data.h>
 #include <rime/config/config_types.h>
 

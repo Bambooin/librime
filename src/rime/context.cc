@@ -6,6 +6,7 @@
 //
 #include <algorithm>
 #include <utility>
+
 #include <rime/candidate.h>
 #include <rime/context.h>
 #include <rime/menu.h>

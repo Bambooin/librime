@@ -6,6 +6,7 @@
 //
 #include <filesystem>
 #include <cstdint>
+
 #include <rime/common.h>
 #include <rime/config.h>
 #include <rime/algo/utilities.h>

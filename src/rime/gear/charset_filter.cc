@@ -5,7 +5,9 @@
 // 2014-03-31 Chongyu Zhu <i@lembacon.com>
 //
 #include <cstdint>  // for uint32_t
+
 #include <utf8.h>
+
 #include <rime/candidate.h>
 #include <rime/common.h>
 #include <rime/context.h>

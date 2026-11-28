@@ -9,6 +9,7 @@
 #include <leveldb/db.h>
 #include <leveldb/env.h>
 #include <leveldb/write_batch.h>
+
 #include <rime/common.h>
 #include <rime/service.h>
 #include <rime/dict/level_db.h>

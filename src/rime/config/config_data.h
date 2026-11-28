@@ -7,6 +7,7 @@
 #define RIME_CONFIG_DATA_H_
 
 #include <iostream>
+
 #include <rime/common.h>
 
 namespace rime {

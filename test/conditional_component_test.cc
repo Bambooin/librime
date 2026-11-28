@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include <rime/config/config_types.h>
 #include <rime/context.h>
 #include <rime/engine.h>

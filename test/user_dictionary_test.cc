@@ -5,7 +5,9 @@
 // Regression tests for UserDictionary cache path.
 //
 #include <gtest/gtest.h>
+
 #include <memory>
+
 #include <rime/common.h>
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/dictionary.h>

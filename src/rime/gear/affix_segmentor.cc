@@ -5,6 +5,7 @@
 // 2013-10-30 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+
 #include <rime/common.h>
 #include <rime/schema.h>
 #include <rime/segmentation.h>

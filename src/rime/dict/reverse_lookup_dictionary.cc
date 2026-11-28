@@ -13,7 +13,9 @@
 #include <memory>
 #include <sstream>
 #include <string_view>
+
 #include <boost/algorithm/string.hpp>
+
 #include <rime/resource.h>
 #include <rime/schema.h>
 #include <rime/service.h>

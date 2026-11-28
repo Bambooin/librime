@@ -6,6 +6,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include <rime/common.h>
 #include <rime/engine.h>
 #include <rime/segmentation.h>

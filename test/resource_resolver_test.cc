@@ -1,6 +1,8 @@
 #include <fstream>
 #include <filesystem>
+
 #include <gtest/gtest.h>
+
 #include <rime/resource.h>
 
 namespace fs = std::filesystem;

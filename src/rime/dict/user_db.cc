@@ -7,7 +7,9 @@
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
+
 #include <boost/algorithm/string.hpp>
+
 #include <rime/service.h>
 #include <rime/algo/dynamics.h>
 #include <rime/dict/text_db.h>

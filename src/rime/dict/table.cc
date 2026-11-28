@@ -11,6 +11,7 @@
 #include <memory>
 #include <queue>
 #include <utility>
+
 #include <rime/common.h>
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/table.h>

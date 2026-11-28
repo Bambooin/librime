@@ -9,6 +9,7 @@
 #include <thread>
 
 #include <gtest/gtest.h>
+
 #include <rime/lever/compile_unit.h>
 
 using namespace rime;

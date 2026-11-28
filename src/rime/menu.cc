@@ -6,6 +6,7 @@
 //
 #include <algorithm>
 #include <iterator>
+
 #include <rime/filter.h>
 #include <rime/menu.h>
 #include <rime/translation.h>

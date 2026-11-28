@@ -8,6 +8,7 @@
 #define RIME_RECOGNIZER_H_
 
 #include <boost/regex.hpp>
+
 #include <rime/common.h>
 #include <rime/processor.h>
 

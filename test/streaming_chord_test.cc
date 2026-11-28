@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
+
 #include <rime/context.h>
 #include <rime/engine.h>
 #include <rime/key_event.h>
 #include <rime/key_table.h>
 #include <rime/schema.h>
 #include <rime/setup.h>
+
 #include <chrono>
 #include <thread>
 

@@ -5,7 +5,9 @@
 // 2011-11-02 GONG Chen <chen.sst@gmail.com>
 //
 #include <boost/algorithm/string.hpp>
+
 #include <filesystem>
+
 #include <rime/common.h>
 #include <rime/resource.h>
 #include <rime/service.h>

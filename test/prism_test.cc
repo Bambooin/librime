@@ -7,7 +7,9 @@
 #include <algorithm>
 #include <memory>
 #include <string_view>
+
 #include <gtest/gtest.h>
+
 #include <rime/dict/prism.h>
 
 using namespace rime;

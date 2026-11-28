@@ -3,7 +3,9 @@
 // Distributed under the BSD License
 //
 #include <filesystem>
+
 #include <gtest/gtest.h>
+
 #include <rime/config.h>
 #include <rime_api.h>
 #include <rime_levers_api.h>
